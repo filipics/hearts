@@ -1,285 +1,155 @@
-/* Estilos Generales */
+/* === Importar estilos base de Hearts (o copiarlos aquí) === */
+/* (Se asume que tienes los estilos de Hearts del ejemplo anterior) */
+/* Puedes copiar y pegar el CSS de Hearts aquí */
+
+/* --- ESTILOS ADICIONALES O MODIFICADOS PARA LA PODRIDA --- */
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1a4d2e; /* Verde oscuro tablero */
-    color: #f5f5f5; /* Texto claro */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden; /* Evitar barras de scroll innecesarias */
+    background-color: #3a2d4a; /* Un tono morado oscuro */
+    color: #e0e0e0;
 }
 
 .game-board {
-    width: 95vw;
-    height: 95vh;
-    max-width: 1200px;
-    max-height: 800px;
-    background-color: #2a6f47; /* Verde un poco más claro */
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-    box-sizing: border-box;
-    position: relative; /* Para posicionar elementos internos */
-}
-
-/* Áreas de Jugadores */
-.player-area {
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background-color: #5c4b74; /* Morado más claro */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 .player-info {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 5px 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 0.9em;
-    text-align: center;
-    min-width: 150px; /* Ancho mínimo para info */
-}
-
-.player-info span {
-    display: block; /* Nombres y puntos en líneas separadas */
-    margin: 2px 0;
-}
-.player-info .player-name {
-    font-weight: bold;
-}
-
-
-.opponent-area {
-    flex: 1; /* Ocupan espacio disponible */
-}
-.opponent-area.top { order: 1; }
-.opponent-area.left { order: 2; }
-.opponent-area.right { order: 3; }
-.human-area.bottom { order: 5; } /* El jugador humano abajo */
-
-.middle-area {
-    order: 4; /* Área central entre oponentes */
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Centra verticalmente el área de juego */
-    flex-grow: 1; /* Ocupa el espacio vertical restante */
-    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .play-area {
-    flex-grow: 1; /* Ocupa el espacio central horizontal */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 200px; /* Altura fija para el área de juego */
-    position: relative;
-    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* Área de Información de Ronda */
+.round-info-area {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 8px 15px;
     border-radius: 10px;
-    margin: 0 20px; /* Espacio a los lados */
+    font-size: 0.95em;
+    z-index: 20;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap; /* Evitar que se rompa en varias líneas fácilmente */
 }
 
-.game-info {
-    margin-bottom: 15px;
-    font-size: 1.1em;
+.round-info-area span {
+    margin: 0 5px;
+}
+
+/* Estilo específico para el palo de triunfo */
+#trump-suit .suit-symbol {
     font-weight: bold;
+    font-size: 1.1em;
+    margin-left: 3px;
+}
+#trump-suit .suit-symbol.heart, #trump-suit .suit-symbol.diamond { color: #ff5a5a; }
+#trump-suit .suit-symbol.club, #trump-suit .suit-symbol.spade { color: #a0e0ff; } /* Un azul claro para destacar */
+#trump-suit .suit-symbol.none { color: #cccccc; font-style: italic;}
+
+
+/* Controles de Canto */
+.bidding-controls {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
     text-align: center;
-    padding: 5px 10px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 5px;
 }
 
-#start-round-button {
+#bid-options button {
+    background-color: #8a7aaf;
+    color: white;
+    border: 1px solid #a89ccf;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#bid-options button:hover {
+    background-color: #a89ccf;
+}
+
+#bid-options button.disabled {
+    background-color: #666;
+    color: #aaa;
+    cursor: not-allowed;
+    border-color: #888;
+}
+
+
+/* Botones de Inicio/Siguiente Ronda */
+#start-game-button, #next-round-button {
     padding: 10px 20px;
     font-size: 1em;
-    background-color: #ffc107; /* Amarillo */
+    background-color: #ffab40; /* Naranja */
     color: #333;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
+    margin-top: 15px;
 }
-#start-round-button:hover {
-    background-color: #e0a800;
-}
-
-/* Manos de Cartas */
-.hand {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* Alinea cartas en la base */
-    min-height: 100px; /* Altura mínima para manos */
-    flex-wrap: wrap; /* Permite que las cartas se envuelvan si no caben */
+#start-game-button:hover, #next-round-button:hover {
+    background-color: #ff8f00;
 }
 
-.human-hand {
-    padding-top: 10px;
-}
-
-.opponent-hand {
-    min-height: 80px; /* Un poco más pequeñas */
-}
-
-/* Estilo de Cartas */
-.card {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #aaa;
-    border-radius: 8px;
-    width: 60px;
-    height: 90px;
-    display: inline-flex; /* Cambiado a inline-flex */
-    flex-direction: column;
-    justify-content: space-between; /* Espacio entre rank y suit */
-    align-items: center;
-    margin: 0 -15px; /* Solapamiento horizontal */
-    padding: 5px;
-    box-sizing: border-box;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    font-size: 1.4em;
-    font-weight: bold;
-    position: relative; /* Para posicionar pseudo-elementos */
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    cursor: default; /* Default cursor */
-}
-
-.human-hand .card {
-    cursor: pointer; /* Solo las cartas del humano son clickables */
-}
-
-.human-hand .card:hover {
-    transform: translateY(-15px) scale(1.05); /* Efecto al pasar el ratón */
-    z-index: 10; /* Traer al frente */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-}
-
-.card.heart, .card.diamond {
-    color: #d90429; /* Rojo */
-}
-
-.card.club, .card.spade {
-    color: #000; /* Negro */
-}
-
-/* Mostrar palo pequeño en esquinas */
-.card::before, .card::after {
-    content: attr(data-suit);
-    position: absolute;
-    font-size: 0.6em;
-    line-height: 1;
-}
-.card::before { top: 5px; left: 5px; }
-.card::after { bottom: 5px; right: 5px; transform: rotate(180deg); }
-
-/* Rango (número/letra) en el centro */
-.card span {
-    font-size: 1.8em; /* Tamaño principal del rango */
-    margin-top: 10px; /* Ajuste para centrar mejor */
-}
-
-
-/* Cartas de Oponentes (Reverso) */
-.opponent-hand .card {
-    background: linear-gradient(135deg, #4a90e2 25%, transparent 25%) -50px 0,
-                linear-gradient(225deg, #4a90e2 25%, transparent 25%) -50px 0,
-                linear-gradient(315deg, #4a90e2 25%, transparent 25%),
-                linear-gradient(45deg, #4a90e2 25%, transparent 25%);
-    background-size: 100px 100px;
-    background-color: #357abd; /* Azul base */
-    color: transparent; /* Ocultar texto */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-    cursor: default;
-}
-.opponent-hand .card::before, .opponent-hand .card::after {
-     content: ''; /* Sin palos en el reverso */
-}
-.opponent-hand .card span {
-    display: none; /* Ocultar el rango */
-}
-
-/* Cartas Jugadas en el Truco */
-.trick {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 110px; /* Espacio para cartas jugadas */
-    width: 100%;
-    position: relative; /* Para posicionar cartas del truco */
-}
-
-.trick .card {
-    position: absolute; /* Posicionamiento absoluto dentro del truco */
-    margin: 0; /* Sin margen de solapamiento aquí */
-    transform: scale(0.9); /* Ligeramente más pequeñas */
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Posicionar cartas jugadas por cada jugador */
-.trick .card[data-player="0"] { bottom: -50px; } /* Jugador */
-.trick .card[data-player="1"] { left: -40px; }   /* Bot Izquierda */
-.trick .card[data-player="2"] { top: -50px; }    /* Bot Arriba */
-.trick .card[data-player="3"] { right: -40px; }  /* Bot Derecha */
-
-
-/* Indicador de Turno Activo */
+/* Resaltado del jugador activo y del que reparte */
 .player-area.active .player-info {
-    outline: 3px solid #ffc107; /* Resaltado amarillo */
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.7);
+    outline: 3px solid #ffeb3b; /* Amarillo para turno activo */
+    box-shadow: 0 0 15px rgba(255, 235, 59, 0.7);
 }
 
-/* Tarjeta no jugable (para validación) */
-.human-hand .card.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important; /* Evitar hover effect */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Resetear sombra */
-}
-.human-hand .card.disabled:hover {
-     transform: none; /* No levantar al hacer hover */
-     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+.player-area.dealer .player-info {
+    border: 2px dotted #a0e0ff; /* Borde punteado azul para el repartidor */
 }
 
-/* Responsividad Simple */
-@media (max-width: 900px) {
-    .card { width: 50px; height: 75px; font-size: 1.1em; margin: 0 -12px; }
-    .card span { font-size: 1.5em; margin-top: 8px; }
-    .card::before, .card::after { font-size: 0.5em; }
-    .opponent-hand { min-height: 60px; }
-    .hand { min-height: 85px; }
-    .play-area { height: 160px; }
-    .trick .card[data-player="0"] { bottom: -40px; }
-    .trick .card[data-player="1"] { left: -30px; }
-    .trick .card[data-player="2"] { top: -40px; }
-    .trick .card[data-player="3"] { right: -30px; }
-    .player-info { font-size: 0.8em; min-width: 120px;}
+/* Ajustes menores para manos con pocas cartas */
+.hand {
+    /* Permitir que las cartas se separen más si son pocas */
+    justify-content: center;
+}
+.card {
+     /* El solapamiento negativo se mantiene, pero el justify-content ayuda */
+     margin: 0 -10px; /* Ajustar solapamiento si es necesario */
 }
 
+/* Responsividad (Ajustar según sea necesario, similar a Hearts) */
+@media (max-width: 768px) {
+    .round-info-area {
+        font-size: 0.85em;
+        padding: 6px 10px;
+    }
+    .card {
+        width: 50px; height: 75px; margin: 0 -12px;
+    }
+     #bid-options button {
+        padding: 4px 8px;
+        margin: 2px;
+    }
+}
 @media (max-width: 600px) {
-    body { font-size: 14px; }
-    .game-board { width: 100vw; height: 100vh; border-radius: 0; padding: 5px; }
-    .card { width: 40px; height: 60px; font-size: 0.9em; margin: 0 -10px; }
-    .card span { font-size: 1.2em; margin-top: 5px; }
-    .card::before, .card::after { font-size: 0.4em; top: 3px; left: 3px; }
-    .card::after { bottom: 3px; right: 3px; }
-    .opponent-hand { min-height: 50px; }
-    .hand { min-height: 70px; }
-    .play-area { height: 140px; margin: 0 5px; }
-    .trick .card[data-player="0"] { bottom: -30px; }
-    .trick .card[data-player="1"] { left: -25px; }
-    .trick .card[data-player="2"] { top: -30px; }
-    .trick .card[data-player="3"] { right: -25px; }
-     .player-info { font-size: 0.7em; min-width: 90px; padding: 3px 6px;}
-     .middle-area { flex-direction: column; align-items: stretch; } /* Apilar en pantallas muy pequeñas */
-     .opponent-area.left, .opponent-area.right { order: 0; flex-direction: row; justify-content: space-around; width: 100%;} /* Mover bots laterales */
-     .opponent-area.left .hand, .opponent-area.right .hand { flex-direction: row; }
-     .play-area { order: 1; margin: 10px 0;}
-     .opponent-area.top { order: 2; }
-     .human-area.bottom { order: 3; }
+     /* Heredar estilos de Hearts para 600px */
+     .round-info-area {
+        position: static; /* Quizás mejor estático en móviles */
+        transform: none;
+        width: 90%;
+        margin: 5px auto;
+        text-align: center;
+        white-space: normal; /* Permitir wrap */
+    }
+    .round-info-area span {
+         display: inline-block; /* Mejor manejo del espacio */
+         margin: 2px 4px;
+    }
+     .card {
+        width: 40px; height: 60px; margin: 0 -10px;
+    }
 }
