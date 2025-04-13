@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Funciones de Utilidad (Copiar de Hearts o adaptar) ---
     function createCard(suit, rank) { /* ... (igual que en Hearts) ... */
-        return { suit, rank, value: RANK_VALUES[rank], id: `<span class="math-inline">\{rank\}</span>{suit.charAt(0).toUpperCase()}` };
+        return { suit, rank, value: RANK_VALUES[rank], id: `${rank}${suit.charAt(0).toUpperCase()}` };
      }
     function createDeck() { /* ... (igual que en Hearts) ... */
          deck = [];
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 for (let i = 0; i < player.hand.length; i++) {
                     // Pasar una carta ficticia para el reverso
-                    const dummyCard = { suit: 'club', rank: '?', value: 0, id: `back-<span class="math-inline">\{index\}\-</span>{i}` };
+                    const dummyCard = { suit: 'club', rank: '?', value: 0, id: `back-${index}-${i}` };
                     const cardElement = renderCard(dummyCard, true);
                     handElement.appendChild(cardElement);
                 }
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderRoundInfo() {
-        roundIndicatorElement.textContent = `Ronda: <span class="math-inline">\{currentRoundData\.roundNumber\}/</span>{TOTAL_ROUNDS}`;
+        roundIndicatorElement.textContent = `Ronda: ${currentRoundData.roundNumber}/${TOTAL_ROUNDS}`;
         cardsPerHandElement.textContent = `Cartas: ${currentRoundData.cardsPerHand}`;
         dealerIndicatorElement.textContent = `Reparte: ${players[currentRoundData.dealerIndex].name}`;
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
              trumpHtml += `<span class="suit-symbol none">${NO_TRUMP_SYMBOL}</span>`;
         } else if (currentRoundData.trumpSuit) {
             const symbol = SUIT_SYMBOLS[currentRoundData.trumpSuit];
-            trumpHtml += `<span class="suit-symbol <span class="math-inline">\{currentRoundData\.trumpSuit\}"\></span>{symbol}</span>`;
+            trumpHtml += `<span class="suit-symbol ${currentRoundData.trumpSuit}">${symbol}</span>`;
         } else {
              trumpHtml += "-";
         }
@@ -469,3 +469,316 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (leadingSuit) {
              // Si tiene el palo líder, DEBE jugarlo
+            if (playerHasLeadingSuit && cardToPlay.suit !== leadingSuit) {
+                //console.log("Validación Fallida: Debe seguir el palo líder", leadingSuit);
+                return false;
+            }
+             // Si NO tiene el palo líder, puede jugar cualquier cosa (triunfo o descarte)
+             if (!playerHasLeadingSuit) {
+                 return true;
+             }
+        }
+
+        // 2. Si está liderando el truco (leadingSuit es null) o si siguió el palo correctamente
+        return true;
+
+        // Nota: No hay restricciones como "no romper corazones" o "no puntos en primera" aquí.
+    }
+
+     function handleHumanPlay(card) {
+        if (currentRoundData.phase !== 'playing' || currentRoundData.currentPlayerIndex !== HUMAN_PLAYER_INDEX) {
+             console.log("No es tu turno o no es fase de juego.");
+             return;
+         }
+
+        const player = players[HUMAN_PLAYER_INDEX];
+
+        if (isValidPlay(card, player.hand, currentRoundData.currentTrick, currentRoundData.trumpSuit)) {
+            playCard(card, HUMAN_PLAYER_INDEX);
+        } else {
+            gameInfoElement.textContent = "Jugada inválida. Debes seguir el palo si puedes.";
+            // Podríamos resetear el mensaje después de un tiempo
+        }
+    }
+
+    function handleBotTurn() {
+        if (currentRoundData.phase !== 'playing' || !players[currentRoundData.currentPlayerIndex].isBot) {
+             return; // No es turno de un bot o no estamos en fase de juego
+         }
+
+        const playerIndex = currentRoundData.currentPlayerIndex;
+        const player = players[playerIndex];
+        const hand = player.hand;
+        const currentBid = currentRoundData.bids[playerIndex];
+        const tricksTaken = currentRoundData.trickTakens[playerIndex];
+        const trump = currentRoundData.trumpSuit;
+        const trick = currentRoundData.currentTrick;
+
+        const playableCards = hand.filter(card => isValidPlay(card, hand, trick, trump));
+
+        if (playableCards.length === 0) {
+             console.error(`¡Error! Bot ${player.name} no tiene cartas jugables.`);
+             if (hand.length > 0) playCard(hand[0], playerIndex); // Fallback muy básico
+             return;
+         }
+
+        // IA de Juego Simple:
+        let cardToPlay = null;
+        const leadingSuit = trick.length > 0 ? trick[0].card.suit : null;
+        const cardsInLeadingSuit = playableCards.filter(c => c.suit === leadingSuit);
+        const canFollowSuit = cardsInLeadingSuit.length > 0;
+
+        // Determinar si necesita ganar o perder bazas
+        const needsToWin = tricksTaken < currentBid;
+
+        if (leadingSuit) { // No está liderando
+            if (canFollowSuit) {
+                 cardsInLeadingSuit.sort((a, b) => a.value - b.value); // Ordenar de menor a mayor
+                 if (needsToWin) {
+                    // Intentar ganar si es posible, jugar la más alta del palo
+                    cardToPlay = cardsInLeadingSuit[cardsInLeadingSuit.length - 1];
+                    // TODO: Podría ser más inteligente y ver si la más alta realmente gana el truco actual
+                 } else {
+                    // Intentar perder, jugar la más baja del palo
+                    cardToPlay = cardsInLeadingSuit[0];
+                 }
+            } else { // No puede seguir el palo
+                const trumpCards = playableCards.filter(c => c.suit === trump);
+                trumpCards.sort((a, b) => a.value - b.value); // Ordenar triunfos
+                const nonTrumpCards = playableCards.filter(c => c.suit !== trump);
+                nonTrumpCards.sort((a, b) => b.value - a.value); // Ordenar descartes (más alto primero)
+
+                 if (needsToWin && trump !== 'none') {
+                     // Intentar ganar con triunfo si puede
+                     if (trumpCards.length > 0) {
+                         // Jugar el triunfo más bajo que gane, o el más alto si no está seguro? Simple: jugar el más alto.
+                          cardToPlay = trumpCards[trumpCards.length - 1];
+                          // TODO: Mejorar: ver si ya hay un triunfo más alto en la mesa
+                     } else {
+                          // No tiene triunfo, descartar la carta más alta (menos valiosa)
+                          cardToPlay = nonTrumpCards[0] || playableCards[0]; // Descartar más alto, o lo que quede
+                     }
+                 } else {
+                     // Intentar perder (no seguir palo)
+                     // Descartar la carta más alta que NO sea triunfo primero
+                     if (nonTrumpCards.length > 0) {
+                         cardToPlay = nonTrumpCards[0];
+                     } else if (trumpCards.length > 0){
+                         // Si solo tiene triunfos, jugar el más bajo
+                         cardToPlay = trumpCards[0];
+                     } else {
+                         cardToPlay = playableCards[0]; // Fallback
+                     }
+                 }
+            }
+        } else { // Está liderando el truco
+             playableCards.sort((a, b) => a.value - b.value); // Ordenar de menor a mayor
+             if (needsToWin) {
+                 // Intentar sacar una baza liderando con carta alta o triunfo
+                 const highCards = playableCards.filter(c => c.value >= RANK_VALUES['K'] || (c.suit === trump && c.value >= RANK_VALUES['J']));
+                 if (highCards.length > 0) {
+                     cardToPlay = highCards[highCards.length - 1]; // Liderar con la más alta 'segura'
+                 } else if (trump !== 'none' && playableCards.some(c => c.suit === trump)) {
+                     // Liderar con triunfo bajo si no tiene cartas altas
+                     cardToPlay = playableCards.find(c => c.suit === trump) || playableCards[playableCards.length-1];
+                 }
+                  else {
+                     cardToPlay = playableCards[playableCards.length - 1]; // Liderar con la más alta que tenga
+                 }
+             } else {
+                 // Intentar perder la baza liderando bajo
+                  // Liderar con la carta más baja que no sea triunfo (si es posible)
+                 const lowNonTrumps = playableCards.filter(c => c.suit !== trump);
+                 if (lowNonTrumps.length > 0) {
+                     cardToPlay = lowNonTrumps[0];
+                 } else {
+                     cardToPlay = playableCards[0]; // Liderar con el triunfo más bajo si solo quedan triunfos
+                 }
+             }
+        }
+
+        // Fallback por si algo falló en la lógica
+        if (!cardToPlay) {
+            console.warn(`Bot ${player.name} no pudo decidir, jugando la primera válida.`);
+             cardToPlay = playableCards[0];
+        }
+
+
+        if (cardToPlay) {
+            setTimeout(() => {
+                playCard(cardToPlay, playerIndex);
+            }, 800 + Math.random() * 500);
+        } else {
+            console.error("El Bot no pudo seleccionar una carta para jugar.");
+        }
+    }
+
+     function playCard(card, playerIndex) {
+        const player = players[playerIndex];
+
+        // Quitar carta de la mano lógica
+        const cardHandIndex = player.hand.findIndex(c => c.id === card.id);
+        if (cardHandIndex === -1) {
+            console.error("Error: Carta no encontrada en la mano!", card, player.hand);
+            return;
+        }
+        player.hand.splice(cardHandIndex, 1);
+
+        // Añadir al truco lógico
+        currentRoundData.currentTrick.push({ card, playerIndex });
+
+        // Actualizar UI
+        renderHands(); // Podría optimizarse para solo actualizar la mano del jugador
+        renderTrickArea();
+
+        // ¿Terminó el truco?
+        if (currentRoundData.currentTrick.length === NUM_PLAYERS) {
+            gameInfoElement.textContent = "Evaluando truco...";
+            setTimeout(finishTrick, 1200); // Pausa para ver el truco
+        } else {
+            // Pasar al siguiente jugador
+            currentRoundData.currentPlayerIndex = (currentRoundData.currentPlayerIndex + 1) % NUM_PLAYERS;
+            gameInfoElement.textContent = `Turno de ${players[currentRoundData.currentPlayerIndex].name}.`;
+            highlightActivePlayer();
+            updatePlayableCardsUI();
+             // Si es bot, llamar a su turno
+             if (players[currentRoundData.currentPlayerIndex].isBot) {
+                 setTimeout(handleBotTurn, 1000);
+             }
+        }
+    }
+
+    function finishTrick() {
+        if (currentRoundData.currentTrick.length !== NUM_PLAYERS) return;
+
+        const trick = currentRoundData.currentTrick;
+        const trump = currentRoundData.trumpSuit;
+        const leadingSuit = trick[0].card.suit;
+
+        let winningCard = trick[0].card;
+        let winnerIndex = trick[0].playerIndex;
+        let highestTrumpValue = -1;
+        let highestLeadingSuitValue = -1;
+
+        // Determinar carta ganadora
+         trick.forEach(played => {
+             const card = played.card;
+             const pIndex = played.playerIndex;
+
+              if (card.suit === trump && trump !== 'none') { // Es un triunfo
+                  if (card.value > highestTrumpValue) {
+                      highestTrumpValue = card.value;
+                      winningCard = card;
+                      winnerIndex = pIndex;
+                  }
+              } else if (card.suit === leadingSuit && highestTrumpValue === -1) { // Es del palo líder y no hay triunfos aún
+                  if (card.value > highestLeadingSuitValue) {
+                       highestLeadingSuitValue = card.value;
+                       winningCard = card;
+                       winnerIndex = pIndex;
+                  }
+              }
+         });
+
+
+        // Asignar baza al ganador
+        currentRoundData.trickTakens[winnerIndex]++;
+        console.log(`${players[winnerIndex].name} gana el truco con ${winningCard.rank}${SUIT_SYMBOLS[winningCard.suit]}. Bazas tomadas: ${currentRoundData.trickTakens[winnerIndex]}`);
+
+        // Limpiar para siguiente truco
+        currentRoundData.currentTrick = [];
+        currentRoundData.trickLeaderIndex = winnerIndex; // El ganador lidera
+        currentRoundData.currentPlayerIndex = winnerIndex;
+
+        // Actualizar UI (puntajes/bazas tomadas)
+        renderScoresAndBids();
+        renderTrickArea(); // Limpiar área
+
+        // ¿Terminó la ronda (se jugaron todas las cartas)?
+        const tricksPlayed = currentRoundData.trickTakens.reduce((a, b) => a + b, 0);
+        // console.log("Tricks played:", tricksPlayed, "Expected:", currentRoundData.cardsPerHand);
+        if (tricksPlayed === currentRoundData.cardsPerHand) {
+            currentRoundData.phase = 'scoring';
+            gameInfoElement.textContent = "Ronda terminada. Calculando puntajes...";
+            setTimeout(finishRound, 1500);
+        } else {
+            // Iniciar siguiente truco
+            gameInfoElement.textContent = `Turno de ${players[currentRoundData.currentPlayerIndex].name} para liderar.`;
+            highlightActivePlayer();
+            updatePlayableCardsUI();
+             if (players[currentRoundData.currentPlayerIndex].isBot) {
+                 setTimeout(handleBotTurn, 1000);
+             }
+        }
+    }
+
+     // --- Puntuación y Fin de Juego ---
+
+    function finishRound() {
+        console.log("--- Calculando Puntajes Ronda", currentRoundData.roundNumber, "---");
+        let roundSummary = [];
+
+        players.forEach((player, index) => {
+            const bid = currentRoundData.bids[index];
+            const taken = currentRoundData.trickTakens[index];
+            let roundScore = 0;
+
+            if (bid === taken) {
+                roundScore = 10 + bid; // 10 puntos base + 1 por cada baza acertada
+                console.log(`${player.name}: Acertó! (Cantó ${bid}, Tomó ${taken}) +${roundScore} puntos.`);
+            } else {
+                roundScore = 0; // Sin puntos si falla (se pudrió)
+                console.log(`${player.name}: Falló! (Cantó ${bid}, Tomó ${taken}) +${roundScore} puntos.`);
+                 // Alternativa: restar puntos? Ej: roundScore = -10;
+            }
+            player.totalScore += roundScore;
+            roundSummary.push(`${player.name}: ${roundScore} pts (Total: ${player.totalScore})`);
+        });
+
+        renderScoresAndBids(); // Actualizar puntajes totales
+
+        // Mostrar resumen o preparar siguiente ronda
+        gameInfoElement.innerHTML = `Fin Ronda ${currentRoundData.roundNumber}.<br>Resultados: ${roundSummary.join(', ')}`;
+
+        // Comprobar fin de juego
+        if (currentRoundData.roundNumber >= TOTAL_ROUNDS) {
+            setTimeout(endGame, 2000);
+        } else {
+            nextRoundButton.style.display = 'block'; // Mostrar botón para continuar
+        }
+    }
+
+    function endGame() {
+        currentRoundData.phase = 'gameOver';
+        console.log("--- Fin del Juego ---");
+        console.log("Puntajes Finales:", players.map(p => ({ name: p.name, score: p.totalScore })));
+
+        // Encontrar al ganador (el que tiene MÁS puntos)
+        let maxScore = -Infinity;
+        let winners = [];
+        players.forEach(player => {
+            if (player.totalScore > maxScore) {
+                maxScore = player.totalScore;
+                winners = [player.name];
+            } else if (player.totalScore === maxScore) {
+                winners.push(player.name);
+            }
+        });
+
+        let gameOverMessage = `¡Fin del Juego!<br>Puntajes Finales:<br>`;
+        players.forEach(p => gameOverMessage += `${p.name}: ${p.totalScore} pts<br>`);
+        gameOverMessage += `<br>Ganador(es): ${winners.join(' y ')} con ${maxScore} puntos!`;
+
+        gameInfoElement.innerHTML = gameOverMessage;
+        nextRoundButton.style.display = 'none';
+        // Opcional: Mostrar botón "Jugar de Nuevo" que llame a initializeGame()
+         startGameButton.textContent = "Jugar de Nuevo";
+         startGameButton.style.display = 'block';
+
+    }
+
+    // --- Inicialización ---
+    startGameButton.addEventListener('click', initializeGame);
+    nextRoundButton.addEventListener('click', startNextRound);
+
+}); // Fin DOMContentLoaded
