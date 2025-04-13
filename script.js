@@ -4,258 +4,195 @@ document.addEventListener('DOMContentLoaded', () => {
     const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
     const RANK_VALUES = { "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "T": 10, "J": 11, "Q": 12, "K": 13, "A": 14 };
     const SUIT_SYMBOLS = { heart: "♥", diamond: "♦", club: "♣", spade: "♠" };
-    const QUEEN_OF_SPADES = { rank: "Q", suit: "spade" };
-    const TWO_OF_CLUBS = { rank: "2", suit: "club" };
+    const NO_TRUMP_SYMBOL = 'NT';
 
     const NUM_PLAYERS = 4;
     const HUMAN_PLAYER_INDEX = 0;
+    const MAX_CARDS_PER_HAND = Math.floor(52 / NUM_PLAYERS); // 13 para 4 jugadores
+    const SCORE_TO_WIN = -1; // El juego termina después de todas las rondas definidas
+
+    // Secuencia de cartas por ronda: 1-10-1 para 4 jugadores (19 rondas)
+    const CARDS_PER_ROUND_SEQUENCE = [];
+    for(let i = 1; i <= 10; i++) CARDS_PER_ROUND_SEQUENCE.push(i);
+    for(let i = 9; i >= 1; i--) CARDS_PER_ROUND_SEQUENCE.push(i);
+    const TOTAL_ROUNDS = CARDS_PER_ROUND_SEQUENCE.length;
 
     let deck = [];
-    let players = []; // Array de objetos { id, name, hand, score, takenCards, isBot }
-    let currentTrick = []; // Cartas jugadas en el truco actual { card, playerIndex }
-    let trickLeaderIndex = -1;
-    let currentPlayerIndex = -1;
-    let heartsBroken = false;
-    let currentRoundTrickCount = 0; // Contador de trucos en la ronda actual
-    let gameScores = [0, 0, 0, 0]; // Puntajes acumulados
+    let players = []; // { id, name, hand, totalScore, isBot }
+    let currentRoundData = {
+        roundNumber: 0,
+        cardsPerHand: 0,
+        trumpSuit: null, // 'heart', 'diamond', 'club', 'spade', or 'none'
+        dealerIndex: -1,
+        bids: [], // [bidP0, bidP1, bidP2, bidP3]
+        trickTakens: [], // [takenP0, takenP1, takenP2, takenP3]
+        currentTrick: [], // { card, playerIndex }
+        trickLeaderIndex: -1,
+        currentPlayerIndex: -1,
+        bidderIndex: -1,
+        phase: 'setup', // setup, bidding, playing, scoring, gameOver
+        bidsTotal: 0,
+        isPudricion enforced: false // Si la regla de podrida está activa para el último cantor
+    };
 
     // --- Referencias a Elementos del DOM ---
-    const playerHandElements = [
-        document.getElementById('hand-0'),
-        document.getElementById('hand-1'),
-        document.getElementById('hand-2'),
-        document.getElementById('hand-3')
-    ];
-    const playerScoreElements = [
-        document.getElementById('score-0'),
-        document.getElementById('score-1'),
-        document.getElementById('score-2'),
-        document.getElementById('score-3')
-    ];
-    const playerTakenCardsElements = [
-         document.getElementById('taken-0'),
-         document.getElementById('taken-1'),
-         document.getElementById('taken-2'),
-         document.getElementById('taken-3')
-    ];
+    const playerHandElements = Array.from({ length: NUM_PLAYERS }, (_, i) => document.getElementById(`hand-${i}`));
+    const playerScoreElements = Array.from({ length: NUM_PLAYERS }, (_, i) => document.getElementById(`score-${i}`));
+    const playerBidTakenElements = Array.from({ length: NUM_PLAYERS }, (_, i) => document.getElementById(`bid-taken-${i}`));
     const playerAreaElements = document.querySelectorAll('.player-area');
     const trickAreaElement = document.getElementById('trick-area');
     const gameInfoElement = document.getElementById('game-info');
-    const startRoundButton = document.getElementById('start-round-button');
+    const biddingControlsElement = document.getElementById('bidding-controls');
+    const bidOptionsElement = document.getElementById('bid-options');
+    const maxBidElement = document.getElementById('max-bid');
+    const bidRuleInfoElement = document.getElementById('bid-rule-info');
+    const startGameButton = document.getElementById('start-game-button');
+    const nextRoundButton = document.getElementById('next-round-button');
+    const roundIndicatorElement = document.getElementById('round-indicator');
+    const cardsPerHandElement = document.getElementById('cards-per-hand');
+    const trumpSuitElement = document.getElementById('trump-suit');
+    const dealerIndicatorElement = document.getElementById('dealer-indicator');
 
-    // --- Funciones del Juego ---
 
-    function createCard(suit, rank) {
-        return {
-            suit: suit,
-            rank: rank,
-            value: RANK_VALUES[rank],
-            id: `${rank}${suit.charAt(0).toUpperCase()}` // e.g., "QH", "2C"
-        };
-    }
-
-    function createDeck() {
-        deck = [];
+    // --- Funciones de Utilidad (Copiar de Hearts o adaptar) ---
+    function createCard(suit, rank) { /* ... (igual que en Hearts) ... */
+        return { suit, rank, value: RANK_VALUES[rank], id: `<span class="math-inline">\{rank\}</span>{suit.charAt(0).toUpperCase()}` };
+     }
+    function createDeck() { /* ... (igual que en Hearts) ... */
+         deck = [];
         for (const suit of SUITS) {
             for (const rank of RANKS) {
                 deck.push(createCard(suit, rank));
             }
         }
-    }
-
-    function shuffleDeck() {
+     }
+    function shuffleDeck() { /* ... (igual que en Hearts) ... */
         for (let i = deck.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]]; // Swap
+            [deck[i], deck[j]] = [deck[j], deck[i]];
         }
-    }
-
-    function dealCards() {
-        let playerIndex = 0;
-        players.forEach(p => p.hand = []); // Limpiar manos
-        while (deck.length > 0) {
-            players[playerIndex % NUM_PLAYERS].hand.push(deck.pop());
-            playerIndex++;
-        }
-        // Ordenar la mano del jugador humano para mejor visualización
-        sortHand(players[HUMAN_PLAYER_INDEX].hand);
-        // (Opcional) Ordenar manos de bots si fuera necesario para su lógica
-    }
-
-    function sortHand(hand) {
-        hand.sort((a, b) => {
+     }
+    function sortHand(hand) { /* ... (igual que en Hearts) ... */
+         hand.sort((a, b) => {
             const suitOrder = SUITS.indexOf(a.suit) - SUITS.indexOf(b.suit);
             if (suitOrder !== 0) return suitOrder;
-            return a.value - b.value; // Ordenar por valor dentro del mismo palo
+            return b.value - a.value; // Ordenar por valor descendente dentro del palo
         });
-    }
-
-    function renderCard(card, isHuman = true, isOpponentBack = false) {
+     }
+    function renderCard(card, isOpponentBack = false) { /* ... (adaptado para no necesitar isHuman) ... */
         const cardElement = document.createElement('div');
         cardElement.classList.add('card', card.suit);
-        cardElement.dataset.id = card.id; // Identificador único
-        cardElement.dataset.suit = SUIT_SYMBOLS[card.suit]; // Para los ::before/::after en CSS
+        cardElement.dataset.id = card.id;
+        cardElement.dataset.suit = SUIT_SYMBOLS[card.suit];
 
         if (isOpponentBack) {
-            // No necesita contenido visible, el CSS se encarga del reverso
+             cardElement.innerHTML = '<span></span>'; // Asegurar que tiene span para CSS
+             cardElement.classList.add('back'); // Añadir clase específica si se necesita diferenciar más
         } else {
              const rankSpan = document.createElement('span');
-             rankSpan.textContent = card.rank === 'T' ? '10' : card.rank; // Mostrar '10' en vez de 'T'
+             rankSpan.textContent = card.rank === 'T' ? '10' : card.rank;
              cardElement.appendChild(rankSpan);
-             // Los símbolos de palo se manejan con ::before y ::after en CSS
         }
-
         return cardElement;
     }
 
+    // --- Funciones de Renderizado (UI) ---
     function renderHands() {
         players.forEach((player, index) => {
             const handElement = playerHandElements[index];
-            handElement.innerHTML = ''; // Limpiar mano anterior
+            handElement.innerHTML = '';
+            sortHand(player.hand); // Ordenar siempre
             if (index === HUMAN_PLAYER_INDEX) {
                 player.hand.forEach(card => {
-                    const cardElement = renderCard(card, true, false);
+                    const cardElement = renderCard(card, false);
                     cardElement.addEventListener('click', () => handleHumanPlay(card));
                     handElement.appendChild(cardElement);
                 });
             } else {
-                // Mostrar N cartas de reverso para los bots
                 for (let i = 0; i < player.hand.length; i++) {
-                     // Pasamos un objeto card simulado solo para la clase de palo si es necesario, o genérico
-                    const dummyCard = { suit: 'club', rank: '?', value: 0, id: `back-${index}-${i}` };
-                    const cardElement = renderCard(dummyCard, false, true);
+                    // Pasar una carta ficticia para el reverso
+                    const dummyCard = { suit: 'club', rank: '?', value: 0, id: `back-<span class="math-inline">\{index\}\-</span>{i}` };
+                    const cardElement = renderCard(dummyCard, true);
                     handElement.appendChild(cardElement);
                 }
             }
         });
-        updatePlayableCardsUI(); // Marcar cartas jugables/no jugables
+         updatePlayableCardsUI(); // Marcar cartas jugables/no jugables
     }
 
-     function renderScores() {
+    function renderScoresAndBids() {
          players.forEach((player, index) => {
-             playerScoreElements[index].textContent = `Puntos: ${gameScores[index]}`;
-             // Mostrar puntos tomados en la ronda actual
-             const roundPoints = calculateRoundPoints(player.takenCards);
-             playerTakenCardsElements[index].textContent = `Tomadas (Ronda): ${roundPoints}`;
+            playerScoreElements[index].textContent = `Total: ${player.totalScore}`;
+            const bidText = currentRoundData.bids[index] !== undefined ? currentRoundData.bids[index] : "-";
+            const takenText = currentRoundData.trickTakens[index] !== undefined ? currentRoundData.trickTakens[index] : "-";
+            playerBidTakenElements[index].textContent = `Canto: ${bidText} / Tomadas: ${takenText}`;
          });
-     }
+    }
 
-    function renderTrickArea() {
-        trickAreaElement.innerHTML = ''; // Limpiar área del truco
-        currentTrick.forEach(playedCard => {
-            const cardElement = renderCard(playedCard.card, false, false); // Mostrar carta real jugada
-            cardElement.dataset.player = playedCard.playerIndex; // Para posicionar con CSS
+     function renderTrickArea() {
+        trickAreaElement.innerHTML = '';
+        currentRoundData.currentTrick.forEach(playedCard => {
+            const cardElement = renderCard(playedCard.card, false);
+            cardElement.dataset.player = playedCard.playerIndex;
+            // Aplicar estilo basado en dataset.player como en Hearts
+            // Posicionamiento absoluto dentro del área .trick
+            const angle = (playedCard.playerIndex - currentRoundData.trickLeaderIndex + NUM_PLAYERS) % NUM_PLAYERS; // 0=leader, 1=next, etc.
+            let offsetX = 0, offsetY = 0;
+            const distance = 35; // Distancia del centro
+            switch(playedCard.playerIndex) { // Posicionamiento simple fijo
+                 case 0: offsetY = distance; break;  // Abajo
+                 case 1: offsetX = -distance; break; // Izquierda
+                 case 2: offsetY = -distance; break; // Arriba
+                 case 3: offsetX = distance; break;  // Derecha
+            }
+             cardElement.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.9)`;
+             cardElement.style.position = 'absolute'; // Asegurar posicionamiento absoluto
+
+
             trickAreaElement.appendChild(cardElement);
         });
     }
 
-    function findTwoOfClubsOwner() {
-        return players.findIndex(player =>
-            player.hand.some(card => card.rank === TWO_OF_CLUBS.rank && card.suit === TWO_OF_CLUBS.suit)
-        );
+    function renderRoundInfo() {
+        roundIndicatorElement.textContent = `Ronda: <span class="math-inline">\{currentRoundData\.roundNumber\}/</span>{TOTAL_ROUNDS}`;
+        cardsPerHandElement.textContent = `Cartas: ${currentRoundData.cardsPerHand}`;
+        dealerIndicatorElement.textContent = `Reparte: ${players[currentRoundData.dealerIndex].name}`;
+
+        let trumpHtml = "Triunfo: ";
+        if (currentRoundData.trumpSuit === 'none') {
+             trumpHtml += `<span class="suit-symbol none">${NO_TRUMP_SYMBOL}</span>`;
+        } else if (currentRoundData.trumpSuit) {
+            const symbol = SUIT_SYMBOLS[currentRoundData.trumpSuit];
+            trumpHtml += `<span class="suit-symbol <span class="math-inline">\{currentRoundData\.trumpSuit\}"\></span>{symbol}</span>`;
+        } else {
+             trumpHtml += "-";
+        }
+        trumpSuitElement.innerHTML = trumpHtml;
     }
 
-    function initializeRound() {
-        createDeck();
-        shuffleDeck();
-        players.forEach(p => {
-            p.hand = [];
-            p.takenCards = []; // Reiniciar cartas tomadas para la ronda
-        });
-        dealCards();
-        heartsBroken = false;
-        currentRoundTrickCount = 0;
-        currentTrick = [];
-        trickLeaderIndex = findTwoOfClubsOwner(); // Quien tenga el 2 de tréboles empieza
-        currentPlayerIndex = trickLeaderIndex;
-
-        gameInfoElement.textContent = `Ronda ${Math.floor(gameScores.reduce((a, b) => a + b, 0) / 26) + 1}. Empieza ${players[currentPlayerIndex].name}.`;
-        renderHands();
-        renderScores(); // Actualiza puntos acumulados y resetea 'Tomadas (Ronda)'
-        renderTrickArea();
-        highlightActivePlayer();
-        startRoundButton.style.display = 'none'; // Ocultar botón al iniciar
-
-        // Si el primer jugador es un bot, iniciar su turno
-        if (players[currentPlayerIndex].isBot) {
-            setTimeout(handleBotTurn, 1000); // Dar tiempo para ver la mano inicial
-        }
-    }
-
-    function initializeGame() {
-        players = [];
-        gameScores = [0, 0, 0, 0];
-        for (let i = 0; i < NUM_PLAYERS; i++) {
-            players.push({
-                id: i,
-                name: i === HUMAN_PLAYER_INDEX ? "Tú" : `Bot ${i}`,
-                hand: [],
-                takenCards: [],
-                isBot: i !== HUMAN_PLAYER_INDEX
-            });
-        }
-         startRoundButton.addEventListener('click', initializeRound);
-         startRoundButton.style.display = 'block'; // Mostrar botón para iniciar la primera ronda
-         gameInfoElement.textContent = "¡Bienvenido a Corazones! Presiona 'Iniciar Nueva Ronda'";
-         // Limpiar áreas visuales iniciales
-         playerHandElements.forEach(el => el.innerHTML = '');
-         trickAreaElement.innerHTML = '';
-         renderScores(); // Mostrar puntajes iniciales (0)
-    }
-
-    // --- Lógica de Juego ---
-
-    function isValidPlay(cardToPlay, playerHand, currentTrick, isFirstTrick) {
-        const leadingSuit = currentTrick.length > 0 ? currentTrick[0].card.suit : null;
-        const playerHasLeadingSuit = playerHand.some(card => card.suit === leadingSuit);
-
-        // 1. Regla del 2 de Tréboles: Debe jugarse en el primer truco si se tiene
-        if (isFirstTrick && currentTrick.length === 0) {
-             const hasTwoOfClubs = playerHand.some(c => c.rank === TWO_OF_CLUBS.rank && c.suit === TWO_OF_CLUBS.suit);
-             if (hasTwoOfClubs && (cardToPlay.rank !== TWO_OF_CLUBS.rank || cardToPlay.suit !== TWO_OF_CLUBS.suit)) {
-                 console.log("Validación: Debes jugar el 2 de Tréboles.");
-                 return false; // Debe jugar el 2 de tréboles
-             }
-              if (!hasTwoOfClubs && cardToPlay.rank === TWO_OF_CLUBS.rank && cardToPlay.suit === TWO_OF_CLUBS.suit) {
-                 return true; // Si no lo tiene otro, es válido que lo juegue si lo tiene
-             }
-        }
-
-         // 2. Seguir el palo
-        if (leadingSuit && playerHasLeadingSuit && cardToPlay.suit !== leadingSuit) {
-            console.log(`Validación: Debes seguir el palo (${leadingSuit}).`);
-            return false; // Tiene cartas del palo líder pero intenta jugar otra cosa
-        }
-
-        // 3. Romper Corazones
-        if (leadingSuit === null) { // Está liderando el truco
-             if (cardToPlay.suit === 'heart' && !heartsBroken) {
-                 // Solo puede liderar con corazón si solo tiene corazones
-                 const hasOnlyHearts = playerHand.every(card => card.suit === 'heart');
-                 if (!hasOnlyHearts) {
-                    console.log("Validación: No puedes liderar con Corazones hasta que se rompan.");
-                    return false;
-                 }
-             }
-        }
-
-        // 4. No puntos en el primer truco (si es posible)
-        if (isFirstTrick && (cardToPlay.suit === 'heart' || (cardToPlay.rank === QUEEN_OF_SPADES.rank && cardToPlay.suit === QUEEN_OF_SPADES.suit))) {
-            // Se puede jugar una carta de puntos en el primer truco SÓLO si no se tiene otra opción
-            const hasOnlyPoints = playerHand.every(card => card.suit === 'heart' || (card.rank === QUEEN_OF_SPADES.rank && card.suit === QUEEN_OF_SPADES.suit));
-            if (!hasOnlyPoints) {
-                console.log("Validación: No puedes jugar cartas de puntos en el primer truco si tienes otras opciones.");
-                return false;
+    function highlightActivePlayer() {
+        playerAreaElements.forEach((area, index) => {
+            area.classList.remove('active', 'dealer'); // Limpiar clases
+            if (index === currentRoundData.currentPlayerIndex && currentRoundData.phase === 'playing') {
+                area.classList.add('active');
             }
-        }
-
-        // Si pasa todas las validaciones
-        return true;
+             if (index === currentRoundData.bidderIndex && currentRoundData.phase === 'bidding') {
+                 area.classList.add('active'); // También resaltar durante el canto
+             }
+            if (index === currentRoundData.dealerIndex) {
+                area.classList.add('dealer');
+            }
+        });
     }
 
     function updatePlayableCardsUI() {
+        if (currentRoundData.phase !== 'playing' || currentRoundData.currentPlayerIndex !== HUMAN_PLAYER_INDEX) {
+             // Deshabilitar todas las cartas si no es el turno del humano o no estamos jugando
+             playerHandElements[HUMAN_PLAYER_INDEX].querySelectorAll('.card').forEach(el => el.classList.add('disabled'));
+             return;
+         }
+
         const humanPlayer = players[HUMAN_PLAYER_INDEX];
-        const isFirstTrick = currentRoundTrickCount === 0;
         const handElement = playerHandElements[HUMAN_PLAYER_INDEX];
         const cardElements = handElement.querySelectorAll('.card');
 
@@ -263,267 +200,272 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardId = cardElement.dataset.id;
             const card = humanPlayer.hand.find(c => c.id === cardId);
             if (card) {
-                 // Solo validar si es el turno del jugador humano
-                 if (currentPlayerIndex === HUMAN_PLAYER_INDEX) {
-                    if (isValidPlay(card, humanPlayer.hand, currentTrick, isFirstTrick)) {
-                        cardElement.classList.remove('disabled');
-                    } else {
-                        cardElement.classList.add('disabled');
-                    }
-                 } else {
-                     // Si no es turno del humano, deshabilitar todas visualmente
-                     cardElement.classList.add('disabled');
-                 }
-            }
-        });
-    }
-
-    function handleHumanPlay(card) {
-        if (currentPlayerIndex !== HUMAN_PLAYER_INDEX) {
-            console.log("No es tu turno.");
-            return;
-        }
-
-        const player = players[HUMAN_PLAYER_INDEX];
-        const isFirstTrick = currentRoundTrickCount === 0;
-
-        if (isValidPlay(card, player.hand, currentTrick, isFirstTrick)) {
-            playCard(card, HUMAN_PLAYER_INDEX);
-        } else {
-            // Opcional: Mostrar un mensaje de error más visual
-            gameInfoElement.textContent = "Jugada inválida. Revisa las reglas.";
-            setTimeout(() => {
-                // Restaurar mensaje anterior si es necesario o dejar el de turno
-                gameInfoElement.textContent = `Es tu turno. Palo líder: ${currentTrick.length > 0 ? SUIT_SYMBOLS[currentTrick[0].card.suit] : 'Ninguno'}`;
-            }, 2000);
-        }
-    }
-
-    function handleBotTurn() {
-        if (currentPlayerIndex === HUMAN_PLAYER_INDEX || currentTrick.length === NUM_PLAYERS) {
-            return; // No es turno de un bot o el truco ya terminó
-        }
-
-        const player = players[currentPlayerIndex];
-        const hand = player.hand;
-        const isFirstTrick = currentRoundTrickCount === 0;
-        let cardToPlay = null;
-
-        // Lógica de IA (Muy Simple)
-        const leadingSuit = currentTrick.length > 0 ? currentTrick[0].card.suit : null;
-        const playableCards = hand.filter(card => isValidPlay(card, hand, currentTrick, isFirstTrick));
-
-        if (playableCards.length === 0) {
-             console.error(`¡Error! El bot ${player.name} no tiene cartas jugables. Mano:`, hand, "Truco:", currentTrick, "Corazones Rotos:", heartsBroken, "Primer Truco:", isFirstTrick);
-             // Fallback: Jugar la primera carta de la mano (esto no debería pasar con lógica isValidPlay correcta)
-             if (hand.length > 0) cardToPlay = hand[0];
-             else return; // No hay cartas en la mano? Error grave.
-        } else {
-             // Estrategia simple:
-             if (leadingSuit) { // Seguir palo
-                 const cardsInSuit = playableCards.filter(c => c.suit === leadingSuit);
-                 if (cardsInSuit.length > 0) {
-                     // Jugar la carta más baja del palo para evitar ganar (simple)
-                     cardsInSuit.sort((a, b) => a.value - b.value);
-                     cardToPlay = cardsInSuit[0];
-                 } else { // No puede seguir palo, descartar
-                     // Priorizar descartar Q♠️, luego Corazón alto, luego carta más alta
-                     playableCards.sort((a, b) => {
-                         const scoreA = getCardScore(a);
-                         const scoreB = getCardScore(b);
-                         if (scoreA !== scoreB) return scoreB - scoreA; // Más puntos primero
-                         return b.value - a.value; // Si no hay puntos, la más alta
-                     });
-                     cardToPlay = playableCards[0];
-                 }
-             } else { // Liderar el truco
-                 // Liderar con la carta más baja que no sea Corazón (si es posible)
-                 const nonHearts = playableCards.filter(c => c.suit !== 'heart');
-                 if (nonHearts.length > 0) {
-                     nonHearts.sort((a, b) => a.value - b.value);
-                     cardToPlay = nonHearts[0];
-                 } else { // Solo tiene corazones (o solo le quedan corazones jugables)
-                     playableCards.sort((a, b) => a.value - b.value);
-                     cardToPlay = playableCards[0]; // Liderar con el corazón más bajo
-                 }
-             }
-        }
-
-
-        if (cardToPlay) {
-             // Simular un pequeño retraso para el bot
-             setTimeout(() => {
-                 playCard(cardToPlay, currentPlayerIndex);
-             }, 800 + Math.random() * 500); // Retraso entre 0.8s y 1.3s
-        } else {
-             console.error("El Bot no pudo seleccionar una carta para jugar.");
-             // Aquí podría haber un problema de lógica si llega a este punto.
-        }
-    }
-
-
-    function playCard(card, playerIndex) {
-        const player = players[playerIndex];
-
-        // Quitar carta de la mano del jugador
-        const cardIndex = player.hand.findIndex(c => c.id === card.id);
-        if (cardIndex === -1) {
-            console.error("Error: La carta no está en la mano del jugador.", card, player.hand);
-            return;
-        }
-        player.hand.splice(cardIndex, 1);
-
-        // Añadir carta al truco actual
-        currentTrick.push({ card, playerIndex });
-
-        // Actualizar estado si se juega un corazón o la Q de Picas
-        if (card.suit === 'heart') {
-            heartsBroken = true;
-            console.log("--- ¡Corazones Rotos! ---");
-        }
-        // (La Q♠️ no rompe corazones, solo da puntos)
-
-        // Actualizar UI
-        renderHands(); // Actualizar mano del jugador (quitar carta) y posiblemente reversos de bots
-        renderTrickArea(); // Mostrar la carta jugada en el centro
-
-        // Pasar al siguiente jugador o finalizar truco
-        if (currentTrick.length < NUM_PLAYERS) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % NUM_PLAYERS;
-            highlightActivePlayer();
-             gameInfoElement.textContent = `Turno de ${players[currentPlayerIndex].name}. ${leadingSuitMessage()}`;
-             updatePlayableCardsUI(); // Actualizar jugabilidad para el humano si es su turno
-            // Si el siguiente es un bot, llamar a su turno
-            if (players[currentPlayerIndex].isBot) {
-                handleBotTurn();
-            }
-        } else {
-            // Truco completado
-            gameInfoElement.textContent = "Calculando ganador del truco...";
-            setTimeout(finishTrick, 1500); // Pausa para ver las cartas jugadas
-        }
-    }
-
-    function leadingSuitMessage() {
-         if (currentTrick.length > 0) {
-              const leadCard = currentTrick[0].card;
-              return ` Palo líder: ${SUIT_SYMBOLS[leadCard.suit]}`;
-         }
-         return "";
-    }
-
-
-    function finishTrick() {
-        if (currentTrick.length !== NUM_PLAYERS) return; // Asegurarse de que el truco esté completo
-
-        const leadingSuit = currentTrick[0].card.suit;
-        let winningCard = currentTrick[0].card;
-        let winnerIndex = currentTrick[0].playerIndex;
-
-        // Determinar quién ganó el truco (carta más alta del palo líder)
-        for (let i = 1; i < currentTrick.length; i++) {
-            const played = currentTrick[i];
-            if (played.card.suit === leadingSuit && played.card.value > winningCard.value) {
-                winningCard = played.card;
-                winnerIndex = played.playerIndex;
-            }
-        }
-
-        // Asignar cartas del truco al ganador
-        const trickCards = currentTrick.map(item => item.card);
-        players[winnerIndex].takenCards.push(...trickCards);
-        console.log(`${players[winnerIndex].name} ganó el truco con ${winningCard.rank}${SUIT_SYMBOLS[winningCard.suit]} y toma ${trickCards.length} cartas.`);
-        //console.log("Cartas tomadas:", trickCards.map(c => `${c.rank}${SUIT_SYMBOLS[c.suit]}`));
-
-        // Limpiar para el siguiente truco
-        currentTrick = [];
-        trickLeaderIndex = winnerIndex; // El ganador del truco lidera el siguiente
-        currentPlayerIndex = winnerIndex;
-        currentRoundTrickCount++;
-
-        // Actualizar UI de cartas tomadas (puntos de la ronda)
-        renderScores();
-        renderTrickArea(); // Limpiar área de juego
-
-        // Verificar si la ronda terminó (13 trucos)
-        if (currentRoundTrickCount === 13) {
-            gameInfoElement.textContent = "Ronda terminada. Calculando puntajes...";
-            setTimeout(finishRound, 1500);
-        } else {
-            gameInfoElement.textContent = `Turno de ${players[currentPlayerIndex].name} para liderar el siguiente truco.`;
-            highlightActivePlayer();
-            updatePlayableCardsUI();
-            // Si el líder del nuevo truco es un bot, iniciar su turno
-            if (players[currentPlayerIndex].isBot) {
-                setTimeout(handleBotTurn, 1000);
-            }
-        }
-    }
-
-     function getCardScore(card) {
-        if (card.suit === 'heart') {
-            return 1;
-        }
-        if (card.suit === QUEEN_OF_SPADES.suit && card.rank === QUEEN_OF_SPADES.rank) {
-            return 13;
-        }
-        return 0;
-    }
-
-    function calculateRoundPoints(takenCards) {
-         return takenCards.reduce((total, card) => total + getCardScore(card), 0);
-    }
-
-
-    function finishRound() {
-        console.log("--- Fin de la Ronda ---");
-        let roundScores = [0, 0, 0, 0];
-
-        // Calcular puntos para cada jugador basado en las cartas tomadas
-        players.forEach((player, index) => {
-            const points = calculateRoundPoints(player.takenCards);
-            roundScores[index] = points;
-            console.log(`${player.name} tomó ${player.takenCards.length} cartas. Puntos esta ronda: ${points}`);
-        });
-
-        // TODO: Implementar "Shoot the Moon"
-        // Aquí iría la lógica para detectar si alguien tomó los 26 puntos
-        // y ajustar los roundScores apropiadamente (0 para él, 26 para los demás)
-
-        // Actualizar puntajes globales
-        roundScores.forEach((score, index) => {
-            gameScores[index] += score;
-        });
-
-        renderScores(); // Mostrar puntajes actualizados globales
-
-        // Comprobar si alguien ha superado el límite (ej. 100 puntos)
-        const gameOver = gameScores.some(score => score >= 100);
-
-        if (gameOver) {
-            const winner = players[gameScores.indexOf(Math.min(...gameScores))]; // El que tiene MENOS puntos gana
-            gameInfoElement.textContent = `¡Fin del Juego! Ganador: ${winner.name} con ${Math.min(...gameScores)} puntos.`;
-            startRoundButton.style.display = 'none'; // No más rondas
-            console.log("--- Fin del Juego ---");
-            console.log("Puntajes finales:", gameScores);
-             // Podrías ofrecer un botón "Jugar de Nuevo" que llame a initializeGame()
-        } else {
-            gameInfoElement.textContent = "Ronda finalizada. ¡Prepara la siguiente!";
-            startRoundButton.style.display = 'block'; // Mostrar botón para la siguiente ronda
-        }
-    }
-
-    function highlightActivePlayer() {
-        playerAreaElements.forEach((area, index) => {
-            if (index === currentPlayerIndex) {
-                area.classList.add('active');
+                if (isValidPlay(card, humanPlayer.hand, currentRoundData.currentTrick, currentRoundData.trumpSuit)) {
+                    cardElement.classList.remove('disabled');
+                } else {
+                    cardElement.classList.add('disabled');
+                }
             } else {
-                area.classList.remove('active');
+                 cardElement.classList.add('disabled'); // Carta no encontrada (error?)
             }
         });
     }
 
-    // --- Iniciar el Juego ---
-    initializeGame();
+    // --- Lógica Principal del Juego ---
 
-}); // Fin del DOMContentLoaded
+    function initializeGame() {
+        console.log("Initializing game...");
+        players = [];
+        for (let i = 0; i < NUM_PLAYERS; i++) {
+            players.push({
+                id: i,
+                name: i === HUMAN_PLAYER_INDEX ? "Tú" : `Bot ${i}`,
+                hand: [],
+                totalScore: 0,
+                isBot: i !== HUMAN_PLAYER_INDEX
+            });
+        }
+        currentRoundData.roundNumber = 0; // Se incrementará a 1 en startNextRound
+        currentRoundData.dealerIndex = Math.floor(Math.random() * NUM_PLAYERS); // Repartidor inicial aleatorio
+
+        startGameButton.style.display = 'none';
+        nextRoundButton.style.display = 'none';
+        gameInfoElement.textContent = "Preparando la primera ronda...";
+
+        setTimeout(startNextRound, 500);
+    }
+
+    function startNextRound() {
+        currentRoundData.roundNumber++;
+        if (currentRoundData.roundNumber > TOTAL_ROUNDS) {
+            endGame();
+            return;
+        }
+
+        currentRoundData.phase = 'setup';
+        currentRoundData.cardsPerHand = CARDS_PER_ROUND_SEQUENCE[currentRoundData.roundNumber - 1];
+        currentRoundData.dealerIndex = (currentRoundData.dealerIndex + 1) % NUM_PLAYERS;
+        currentRoundData.bids = Array(NUM_PLAYERS).fill(undefined);
+        currentRoundData.trickTakens = Array(NUM_PLAYERS).fill(0);
+        currentRoundData.currentTrick = [];
+        currentRoundData.bidsTotal = 0;
+        currentRoundData.isPudricionEnforced = false;
+
+        players.forEach(p => p.hand = []); // Limpiar manos
+
+        createDeck();
+        shuffleDeck();
+
+        // Repartir cartas
+        for (let i = 0; i < currentRoundData.cardsPerHand; i++) {
+            for (let j = 0; j < NUM_PLAYERS; j++) {
+                const playerIndex = (currentRoundData.dealerIndex + 1 + j) % NUM_PLAYERS; // Empieza a repartir a la izquierda del repartidor
+                 if (deck.length > 0) {
+                    players[playerIndex].hand.push(deck.pop());
+                 }
+            }
+        }
+
+        // Determinar triunfo (voltear la siguiente carta, si quedan)
+        if (deck.length > 0) {
+            const trumpCard = deck.pop();
+            currentRoundData.trumpSuit = trumpCard.suit;
+             // Opcional: Dejar la carta de triunfo visible en algún lugar? Por ahora solo guardamos el palo.
+        } else {
+            // Si no quedan cartas (manos máximas), se juega sin triunfo
+            currentRoundData.trumpSuit = 'none';
+        }
+
+        console.log(`--- Ronda ${currentRoundData.roundNumber} ---`);
+        console.log(`Cartas: ${currentRoundData.cardsPerHand}, Triunfo: ${currentRoundData.trumpSuit}, Reparte: ${players[currentRoundData.dealerIndex].name}`);
+
+        renderHands();
+        renderScoresAndBids();
+        renderRoundInfo();
+        trickAreaElement.innerHTML = ''; // Limpiar área de truco
+        nextRoundButton.style.display = 'none';
+
+        // Iniciar fase de Canto (Bidding)
+        currentRoundData.phase = 'bidding';
+        currentRoundData.bidderIndex = (currentRoundData.dealerIndex + 1) % NUM_PLAYERS; // Empieza a cantar a la izquierda del repartidor
+        gameInfoElement.textContent = `Fase de Canto. Empieza ${players[currentRoundData.bidderIndex].name}.`;
+        highlightActivePlayer();
+        proceedBidding();
+    }
+
+    // --- Lógica de Canto (Bidding) ---
+
+    function proceedBidding() {
+        if (currentRoundData.bidderIndex === undefined) {
+            console.error("Error: bidderIndex no definido en proceedBidding");
+            return;
+        }
+
+        const currentPlayer = players[currentRoundData.bidderIndex];
+        highlightActivePlayer();
+
+         // Verificar si es el último jugador en cantar
+        const biddersRemaining = currentRoundData.bids.filter(b => b === undefined).length;
+        currentRoundData.isPudricionEnforced = (biddersRemaining === 1);
+
+
+        if (currentPlayer.isBot) {
+            gameInfoElement.textContent = `Esperando canto de ${currentPlayer.name}...`;
+            setTimeout(() => {
+                 handleBotBid(currentPlayer.id);
+                 advanceBidder();
+            }, 1000 + Math.random() * 800);
+        } else {
+            // Es el turno del jugador humano
+            promptHumanBid();
+        }
+    }
+
+     function promptHumanBid() {
+         gameInfoElement.textContent = "Tu turno para cantar.";
+         biddingControlsElement.style.display = 'block';
+         bidOptionsElement.innerHTML = ''; // Limpiar opciones anteriores
+         maxBidElement.textContent = currentRoundData.cardsPerHand;
+
+         const forbiddenBid = calculateForbiddenBid();
+          bidRuleInfoElement.textContent = ''; // Limpiar info de regla
+
+         for (let i = 0; i <= currentRoundData.cardsPerHand; i++) {
+             const bidButton = document.createElement('button');
+             bidButton.textContent = i;
+             bidButton.dataset.bid = i;
+
+             // Deshabilitar el botón si es la puja prohibida para el último jugador
+             if (currentRoundData.isPudricionEnforced && i === forbiddenBid) {
+                 bidButton.disabled = true;
+                 bidButton.classList.add('disabled');
+                 bidButton.title = `No puedes cantar ${i} (Regla de Podrida)`;
+                 bidRuleInfoElement.textContent = `La suma de cantos no puede ser ${currentRoundData.cardsPerHand}. Puja prohibida: ${forbiddenBid}.`;
+             }
+
+             bidButton.addEventListener('click', () => handleHumanBid(i));
+             bidOptionsElement.appendChild(bidButton);
+         }
+     }
+
+     function calculateForbiddenBid() {
+          if (!currentRoundData.isPudricionEnforced) return -1; // No aplica si no es el último
+
+         const currentBidsSum = currentRoundData.bids.reduce((sum, bid) => sum + (bid !== undefined ? bid : 0), 0);
+         const forbidden = currentRoundData.cardsPerHand - currentBidsSum;
+         return forbidden;
+     }
+
+    function handleHumanBid(bid) {
+        if (currentRoundData.phase !== 'bidding' || currentRoundData.bidderIndex !== HUMAN_PLAYER_INDEX) return;
+
+        const forbiddenBid = calculateForbiddenBid();
+        if (currentRoundData.isPudricionEnforced && bid === forbiddenBid) {
+            console.warn("Intento de canto prohibido.");
+            // Podríamos mostrar un mensaje más claro aquí
+            return; // No permitir el canto
+        }
+
+        console.log(`Jugador Humano canta: ${bid}`);
+        currentRoundData.bids[HUMAN_PLAYER_INDEX] = bid;
+        currentRoundData.bidsTotal += bid;
+        biddingControlsElement.style.display = 'none'; // Ocultar controles
+        renderScoresAndBids(); // Actualizar UI con el canto
+        advanceBidder();
+    }
+
+    function handleBotBid(botIndex) {
+         const player = players[botIndex];
+         const hand = player.hand;
+         const numCards = currentRoundData.cardsPerHand;
+         const trump = currentRoundData.trumpSuit;
+
+         // IA de Canto Simple: Contar cartas altas y triunfos
+         let estimatedTricks = 0;
+         hand.forEach(card => {
+             if (card.suit === trump) {
+                 if (card.value >= RANK_VALUES['K']) estimatedTricks += 1; // A, K de triunfo valen 1
+                 else if (card.value >= RANK_VALUES['T']) estimatedTricks += 0.5; // Q, J, T de triunfo valen 0.5
+             } else {
+                 if (card.value === RANK_VALUES['A']) estimatedTricks += 0.75; // As no triunfo ~0.75
+                 else if (card.value === RANK_VALUES['K']) estimatedTricks += 0.4; // Rey no triunfo ~0.4
+             }
+         });
+
+         let bid = Math.round(estimatedTricks);
+         bid = Math.max(0, Math.min(numCards, bid)); // Asegurar que el canto esté entre 0 y numCards
+
+         // Aplicar regla de la "Podrida" si es el último
+         const forbiddenBid = calculateForbiddenBid();
+         if (currentRoundData.isPudricionEnforced && bid === forbiddenBid) {
+            // Si el canto estimado es el prohibido, elegir el más cercano válido
+            if (bid > 0 && bid - 1 !== forbiddenBid) {
+                bid--;
+            } else if (bid < numCards && bid + 1 !== forbiddenBid) {
+                bid++;
+            } else {
+                // Caso raro: si 0 y 1 son prohibidos (mano de 1 carta), o max y max-1... forzar uno válido
+                 bid = (bid === 0) ? 1 : 0; // Simple toggle, puede no ser óptimo
+                 if(bid === forbiddenBid) { // Si sigue prohibido, buscar otro
+                     for(let i=0; i<=numCards; i++) {
+                         if (i !== forbiddenBid) { bid = i; break;}
+                     }
+                 }
+            }
+             console.log(`Bot ${player.name} ajustó canto por regla de podrida a: ${bid}`);
+         }
+
+         console.log(`Bot ${player.name} canta: ${bid}`);
+         currentRoundData.bids[botIndex] = bid;
+         currentRoundData.bidsTotal += bid;
+         renderScoresAndBids(); // Actualizar UI
+    }
+
+    function advanceBidder() {
+        const nextBidderIndex = (currentRoundData.bidderIndex + 1) % NUM_PLAYERS;
+
+        // Si hemos vuelto al primer cantor, la fase de canto terminó
+        if (nextBidderIndex === (currentRoundData.dealerIndex + 1) % NUM_PLAYERS) {
+            finishBiddingPhase();
+        } else {
+            currentRoundData.bidderIndex = nextBidderIndex;
+            proceedBidding();
+        }
+    }
+
+    function finishBiddingPhase() {
+        console.log("Fase de Canto terminada. Cantos:", currentRoundData.bids);
+        // Doble chequeo de la regla de podrida (debería ser innecesario si la lógica es correcta)
+        const finalSum = currentRoundData.bids.reduce((a, b) => a + b, 0);
+        if (finalSum === currentRoundData.cardsPerHand) {
+             console.error("¡ERROR! La suma de cantos es igual al número de cartas. Arreglando...");
+             // Aquí se podría forzar un cambio en el último canto o reiniciar canto, pero idealmente no debería pasar.
+             // Por simplicidad, lo dejaremos pasar por ahora si ocurre un bug.
+        }
+
+        currentRoundData.phase = 'playing';
+        // El jugador a la izquierda del repartidor lidera el primer truco
+        currentRoundData.currentPlayerIndex = (currentRoundData.dealerIndex + 1) % NUM_PLAYERS;
+        currentRoundData.trickLeaderIndex = currentRoundData.currentPlayerIndex; // Quién empieza el primer truco
+        gameInfoElement.textContent = `¡A jugar! Empieza ${players[currentRoundData.currentPlayerIndex].name}.`;
+        highlightActivePlayer();
+        updatePlayableCardsUI();
+
+        // Si el primer jugador es un bot, iniciar su turno
+        if (players[currentRoundData.currentPlayerIndex].isBot) {
+            setTimeout(handleBotTurn, 1000);
+        }
+    }
+
+
+    // --- Lógica de Juego (Playing) ---
+
+     function isValidPlay(cardToPlay, playerHand, currentTrick, trumpSuit) {
+        const leadingCard = currentTrick.length > 0 ? currentTrick[0].card : null;
+        const leadingSuit = leadingCard ? leadingCard.suit : null;
+
+        // 1. ¿Tiene el palo líder?
+        const playerHasLeadingSuit = playerHand.some(card => card.suit === leadingSuit);
+
+        if (leadingSuit) {
+             // Si tiene el palo líder, DEBE jugarlo
