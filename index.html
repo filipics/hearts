@@ -3,55 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Corazones</title>
+    <title>La Podrida</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-board">
-        <div class="player-area opponent-area top">
+        <div class="round-info-area">
+            <span id="round-indicator">Ronda: -</span> |
+            <span id="cards-per-hand">Cartas: -</span> |
+            <span id="trump-suit">Triunfo: -</span> |
+            <span id="dealer-indicator">Reparte: -</span>
+        </div>
+
+        <div class="player-area opponent-area top" id="player-area-2">
             <div class="player-info">
                 <span class="player-name">Bot 2</span>
-                <span class="player-score" id="score-2">Puntos: 0</span>
-                 <span class="taken-cards" id="taken-2">Tomadas: 0</span>
+                <span class="player-bid-taken" id="bid-taken-2">Canto: - / Tomadas: -</span>
+                <span class="player-score" id="score-2">Total: 0</span>
             </div>
-            <div class="hand opponent-hand" id="hand-2">
-                </div>
+            <div class="hand opponent-hand" id="hand-2"></div>
         </div>
 
         <div class="middle-area">
-            <div class="player-area opponent-area left">
+            <div class="player-area opponent-area left" id="player-area-1">
                  <div class="player-info">
                     <span class="player-name">Bot 1</span>
-                    <span class="player-score" id="score-1">Puntos: 0</span>
-                     <span class="taken-cards" id="taken-1">Tomadas: 0</span>
+                    <span class="player-bid-taken" id="bid-taken-1">Canto: - / Tomadas: -</span>
+                    <span class="player-score" id="score-1">Total: 0</span>
                 </div>
                 <div class="hand opponent-hand" id="hand-1"></div>
             </div>
 
             <div class="play-area" id="play-area">
+                <div class="game-info" id="game-info">Iniciando juego...</div>
+                <div class="bidding-controls" id="bidding-controls" style="display: none;">
+                    <span>Tu Canto (0-<span id="max-bid"></span>):</span>
+                    <div id="bid-options"></div>
+                    <p id="bid-rule-info" style="font-size: 0.8em; margin-top: 5px;"></p>
+                </div>
                 <div class="trick" id="trick-area">
                     </div>
-                 <div class="game-info" id="game-info">Iniciando juego...</div>
-                 <button id="start-round-button" style="display: none;">Iniciar Nueva Ronda</button>
+                 <button id="start-game-button">Iniciar Juego</button>
+                 <button id="next-round-button" style="display: none;">Siguiente Ronda</button>
             </div>
 
-            <div class="player-area opponent-area right">
+            <div class="player-area opponent-area right" id="player-area-3">
                  <div class="player-info">
                     <span class="player-name">Bot 3</span>
-                    <span class="player-score" id="score-3">Puntos: 0</span>
-                    <span class="taken-cards" id="taken-3">Tomadas: 0</span>
+                    <span class="player-bid-taken" id="bid-taken-3">Canto: - / Tomadas: -</span>
+                    <span class="player-score" id="score-3">Total: 0</span>
                 </div>
                 <div class="hand opponent-hand" id="hand-3"></div>
             </div>
         </div>
 
-        <div class="player-area human-area bottom">
-            <div class="hand human-hand" id="hand-0">
-                </div>
+        <div class="player-area human-area bottom" id="player-area-0">
+            <div class="hand human-hand" id="hand-0"></div>
              <div class="player-info">
                 <span class="player-name">Tú</span>
-                <span class="player-score" id="score-0">Puntos: 0</span>
-                <span class="taken-cards" id="taken-0">Tomadas: 0</span>
+                <span class="player-bid-taken" id="bid-taken-0">Canto: - / Tomadas: -</span>
+                <span class="player-score" id="score-0">Total: 0</span>
             </div>
         </div>
     </div>
