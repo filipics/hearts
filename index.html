@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Corazones</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-board">
+        <div class="player-area opponent-area top">
+            <div class="player-info">
+                <span class="player-name">Bot 2</span>
+                <span class="player-score" id="score-2">Puntos: 0</span>
+                 <span class="taken-cards" id="taken-2">Tomadas: 0</span>
+            </div>
+            <div class="hand opponent-hand" id="hand-2">
+                </div>
+        </div>
+
+        <div class="middle-area">
+            <div class="player-area opponent-area left">
+                 <div class="player-info">
+                    <span class="player-name">Bot 1</span>
+                    <span class="player-score" id="score-1">Puntos: 0</span>
+                     <span class="taken-cards" id="taken-1">Tomadas: 0</span>
+                </div>
+                <div class="hand opponent-hand" id="hand-1"></div>
+            </div>
+
+            <div class="play-area" id="play-area">
+                <div class="trick" id="trick-area">
+                    </div>
+                 <div class="game-info" id="game-info">Iniciando juego...</div>
+                 <button id="start-round-button" style="display: none;">Iniciar Nueva Ronda</button>
+            </div>
+
+            <div class="player-area opponent-area right">
+                 <div class="player-info">
+                    <span class="player-name">Bot 3</span>
+                    <span class="player-score" id="score-3">Puntos: 0</span>
+                    <span class="taken-cards" id="taken-3">Tomadas: 0</span>
+                </div>
+                <div class="hand opponent-hand" id="hand-3"></div>
+            </div>
+        </div>
+
+        <div class="player-area human-area bottom">
+            <div class="hand human-hand" id="hand-0">
+                </div>
+             <div class="player-info">
+                <span class="player-name">Tú</span>
+                <span class="player-score" id="score-0">Puntos: 0</span>
+                <span class="taken-cards" id="taken-0">Tomadas: 0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
