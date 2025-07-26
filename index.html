@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truco - Puntuador</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="score-board">
+            <div class="team">
+                <h2>Nosotros</h2>
+                <div class="sticks-container" id="sticks1">
+                    <!-- Los palitos se agregarán dinámicamente -->
+                </div>
+                <div class="score">0</div>
+            </div>
+            
+            <div class="vs">VS</div>
+            
+            <div class="team">
+                <h2>Ellos</h2>
+                <div class="sticks-container" id="sticks2">
+                    <!-- Los palitos se agregarán dinámicamente -->
+                </div>
+                <div class="score">0</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="add-btn" id="addBtn">+1 Punto</button>
+            <button class="reset-btn" id="resetBtn">Reiniciar</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
