@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #4a5568;
+    font-weight: 700;
+}
+
+.dice-container {
+    perspective: 1000px;
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.dice {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-out;
+}
+
+.face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border: 2px solid #d1d5db;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4a5568;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.front { transform: translateZ(50px); }
+.back { transform: rotateY(180deg) translateZ(50px); }
+.right { transform: rotateY(90deg) translateZ(50px); }
+.left { transform: rotateY(-90deg) translateZ(50px); }
+.top { transform: rotateX(90deg) translateZ(50px); }
+.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+.controls {
+    margin: 2rem 0;
+}
+
+.roll-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+    font-family: 'Poppins', sans-serif;
+}
+
+.roll-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+}
+
+.roll-btn:active {
+    transform: translateY(0);
+}
+
+.result {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4a5568;
+    min-height: 2rem;
+}
+
+.history {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.history h3 {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.history-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f7fafc;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+}
+
+.history-number {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.history-time {
+    color: #718096;
+    font-size: 0.8rem;
+}
+
+/* Animation for dice rolling */
+@keyframes roll {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    25% { transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg); }
+    50% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
+    75% { transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg); }
+    100% { transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg); }
+}
+
+.rolling {
+    animation: roll 1s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .dice {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .face {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+    }
+    
+    .front { transform: translateZ(40px); }
+    .back { transform: rotateY(180deg) translateZ(40px); }
+    .right { transform: rotateY(90deg) translateZ(40px); }
+    .left { transform: rotateY(-90deg) translateZ(40px); }
+    .top { transform: rotateX(90deg) translateZ(40px); }
+    .bottom { transform: rotateX(-90deg) translateZ(40px); }
+}

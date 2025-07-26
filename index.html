@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dado Virtual</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Dado Virtual</h1>
+        
+        <div class="dice-container">
+            <div class="dice" id="dice">
+                <div class="face front">1</div>
+                <div class="face back">6</div>
+                <div class="face right">2</div>
+                <div class="face left">5</div>
+                <div class="face top">3</div>
+                <div class="face bottom">4</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="rollBtn" class="roll-btn">🎲 Tirar Dado</button>
+            <div class="result" id="result"></div>
+        </div>
+        
+        <div class="history">
+            <h3>Historial</h3>
+            <div class="history-list" id="historyList"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
