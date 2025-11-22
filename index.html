@@ -1,21 +1,154 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>letterrush</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="manifest" href="/manifest.json" />
-<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fletterrush2825back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebExpress | Sitios Web que Venden</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div class="dhiwise-code" id="root"></div>
-  <script type="module" src="/src/index.jsx"></script>
-</body>
 
+    <nav class="navbar">
+        <div class="logo">WebExpress<span>.ar</span></div>
+        <ul class="nav-links">
+            <li><a href="#ventajas">Por qué tener web</a></li>
+            <li><a href="#metodo">Cómo trabajo</a></li>
+            <li><a href="#precios">Planes</a></li>
+            <li><a href="#contacto" class="btn-nav">Contacto</a></li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Tu negocio necesita clientes, no código.</h1>
+            <p>Diseñamos sitios web modernos, optimizados para vender por WhatsApp y pagables en cuotas fijas en pesos.</p>
+            <div class="hero-buttons">
+                <a href="#metodo" class="btn-primary">Quiero mi Preview Gratis</a>
+                <a href="#precios" class="btn-secondary">Ver Precios</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="ventajas" class="features">
+        <h2>¿Por qué invertir en una web hoy?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fab fa-whatsapp"></i>
+                <h3>Ventas Directas</h3>
+                <p>Olvidate de responder precios por DM. Tu web filtra y envía clientes listos para comprar directo a tu WhatsApp.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>100% Celular</h3>
+                <p>Diseños pensados primero para el móvil, que es donde están tus clientes el 90% del tiempo.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Soporte Técnico</h3>
+                <p>Nosotros nos ocupamos de que la página no se caiga. Vos ocupate de tu negocio.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodo" class="methodology">
+        <div class="method-text">
+            <h2>No compres a ciegas.</h2>
+            <h3>El Método "Vista Previa"</h3>
+            <p>La mayoría de las agencias te cobran y luego te muestran el diseño. Nosotros lo hacemos al revés.</p>
+            <ul class="steps">
+                <li><strong>1.</strong> Me contás sobre tu negocio.</li>
+                <li><strong>2.</strong> Te armo un video mostrando cómo quedaría tu web <b>sin costo</b>.</li>
+                <li><strong>3.</strong> Si te gusta, la activamos y pagás en cuotas. Si no, amigos como siempre.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="precios" class="pricing">
+        <h2>Planes a tu medida</h2>
+        <p class="subtitle">Precios en pesos argentinos y financiación disponible.</p>
+        
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="header-card">
+                    <h3>Emprendedor</h3>
+                    <p>Ideal Instagram / Showrooms</p>
+                </div>
+                <div class="price">
+                    <span class="amount">$120k</span>
+                    <span class="period">Pago Único (Setup)</span>
+                </div>
+                <p class="maintenance">+ $15.000/mes de mantenimiento</p>
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i> Landing Page (1 Página)</li>
+                    <li><i class="fas fa-check"></i> Botón a WhatsApp</li>
+                    <li><i class="fas fa-check"></i> Enlaces a Redes</li>
+                    <li><i class="fas fa-check"></i> Hosting Incluido</li>
+                </ul>
+                <a href="https://wa.me/5491100000000?text=Hola, me interesa el Plan Emprendedor" class="btn-price" target="_blank">Solicitar Demo</a>
+            </div>
+
+            <div class="price-card popular">
+                <div class="badge">Más Vendido</div>
+                <div class="header-card">
+                    <h3>Profesional</h3>
+                    <p>Abogados / Contadores / Servicios</p>
+                </div>
+                <div class="price">
+                    <span class="amount">$180k</span>
+                    <span class="period">Pago Único (Setup)</span>
+                </div>
+                <p class="maintenance">+ $20.000/mes de mantenimiento</p>
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i> Web Institucional</li>
+                    <li><i class="fas fa-check"></i> Sección "Servicios"</li>
+                    <li><i class="fas fa-check"></i> Formulario de Contacto</li>
+                    <li><i class="fas fa-check"></i> Ubicación (Google Maps)</li>
+                    <li><i class="fas fa-check"></i> Dominio .com.ar incluido</li>
+                </ul>
+                <a href="https://wa.me/5491100000000?text=Hola, me interesa el Plan Profesional" class="btn-price primary" target="_blank">Solicitar Demo</a>
+            </div>
+
+            <div class="price-card">
+                <div class="header-card">
+                    <h3>Gastronomía</h3>
+                    <p>Bares / Pizzerías / Delivery</p>
+                </div>
+                <div class="price">
+                    <span class="amount">$220k</span>
+                    <span class="period">Pago Único (Setup)</span>
+                </div>
+                <p class="maintenance">+ $25.000/mes de mantenimiento</p>
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i> Menú Digital QR</li>
+                    <li><i class="fas fa-check"></i> Pedidos directo a WhatsApp</li>
+                    <li><i class="fas fa-check"></i> Sin comisiones por venta</li>
+                    <li><i class="fas fa-check"></i> Actualización de precios</li>
+                </ul>
+                <a href="https://wa.me/5491100000000?text=Hola, me interesa el Plan Gastronomía" class="btn-price" target="_blank">Solicitar Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="footer-content">
+            <h3>WebExpress.ar</h3>
+            <p>Ayudamos a negocios argentinos a digitalizarse sin romper el chanchito.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="far fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 WebExpress. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
