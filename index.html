@@ -3,456 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EuroTrip 2026 | App Edition</title>
+    <title>EuroTrip 2026 | Ultimate Guide</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* --- 1. VARIABLES & RESET --- */
         :root {
-            --primary: #0f172a;
-            --accent: #3b82f6;
-            --gold: #fbbf24;
-            --success: #10b981;
-            --bg-light: #f8fafc;
-            --white: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --radius: 16px;
+            --primary: #0A2540;      /* Azul Profundo elegante */
+            --accent: #00D4FF;       /* Cyan Vibrante para acciones */
+            --gold: #FFD700;         /* Dorado para estrellas/premium */
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --bg-card: #ffffff;
+            --text-main: #1A202C;
+            --text-light: #718096;
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.15);
+            --radius: 24px;
+            
+            /* Fondos Dinámicos */
+            --bg-paris: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1000&auto=format&fit=crop');
+            --bg-london: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1000&auto=format&fit=crop');
+            --bg-brussels: url('https://images.unsplash.com/photo-1569369409321-31d08676f9b6?q=80&w=1000&auto=format&fit=crop');
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-light);
-            color: #334155;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-paris) no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-image 0.8s ease-in-out;
+            padding-bottom: 100px; /* Espacio para el botón flotante */
         }
 
-        /* --- 1. SIDEBAR (SOLO PC) --- */
+        /* Overlay oscuro para que se lea el texto */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.05); /* Muy sutil */
+            z-index: -1;
+            backdrop-filter: blur(3px);
+        }
+
+        /* --- 2. HEADER & HAMBURGER MENU --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+        }
+
+        .logo h1 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary); letter-spacing: -0.5px; }
+        .logo span { font-size: 0.8rem; color: var(--text-light); display: block; font-family: 'DM Sans', sans-serif;}
+
+        .hamburger { font-size: 1.5rem; color: var(--primary); cursor: pointer; padding: 5px; }
+
+        /* SIDEBAR (Menú Lateral) */
         .sidebar {
-            position: fixed; top: 0; left: 0; width: 260px; height: 100vh;
-            background: var(--white); border-right: 1px solid #e2e8f0;
-            padding: 30px 20px; z-index: 1000;
-            display: flex; flex-direction: column;
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100vh;
+            background: white; z-index: 2000;
+            padding: 30px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 0 50px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; gap: 10px;
         }
+        .sidebar.active { left: 0; }
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: rgba(0,0,0,0.5); z-index: 1999;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-        .logo { 
-            font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary); 
-            margin-bottom: 40px; display: flex; align-items: center; gap: 10px;
+        .menu-item {
+            padding: 15px; border-radius: 12px;
+            color: var(--text-main); text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; gap: 15px;
+            transition: 0.2s;
         }
-
-        .nav-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px 15px; margin-bottom: 5px;
-            border-radius: 10px; color: #64748b; text-decoration: none;
-            font-weight: 600; transition: 0.2s; cursor: pointer;
-        }
-        .nav-item:hover { background: #f1f5f9; color: var(--primary); }
-        .nav-item.active { background: var(--primary); color: var(--white); }
+        .menu-item i { width: 20px; color: var(--accent); }
+        .menu-item.active { background: #F7FAFC; color: var(--primary); border-left: 4px solid var(--accent); }
         
-        .nav-section-title {
-            font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; 
-            margin: 20px 0 10px 10px; letter-spacing: 1px; font-weight: 700;
-        }
-
-        /* --- 2. LAYOUT MÓVIL --- */
-        .mobile-header, .mobile-days-grid { display: none; } /* Oculto en PC */
-        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; display:none; }
-        .overlay.active { display:block; }
+        .close-menu { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
 
         /* --- 3. CONTENIDO PRINCIPAL --- */
-        .main-content {
-            margin-left: 260px; /* Espacio Sidebar */
-            padding: 40px;
-            max-width: 1000px;
+        .main-container {
+            margin-top: 100px; /* Header height + gap */
+            padding: 0 20px;
+            max-width: 800px; margin-left: auto; margin-right: auto;
         }
 
-        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section { display: none; animation: slideUp 0.5s ease; }
         .section.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 4. MEDIA QUERY (MÓVIL) --- */
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; width: 85%; max-width: 300px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
-            .sidebar.active { transform: translateX(0); }
-            
-            .main-content { margin-left: 0; padding: 20px; padding-top: 140px; /* Espacio Header + Grid */ }
-
-            /* Header Móvil */
-            .mobile-header {
-                display: flex; justify-content: space-between; align-items: center;
-                position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-                background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-                padding: 0 20px; z-index: 900; border-bottom: 1px solid #e2e8f0;
-            }
-
-            /* Grid de Días (3 arriba, 2 abajo) */
-            .mobile-days-grid {
-                display: flex; flex-wrap: wrap; gap: 8px;
-                position: fixed; top: 60px; left: 0; width: 100%;
-                background: #fff; padding: 10px 15px; z-index: 899;
-                border-bottom: 1px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            }
-            .day-btn {
-                flex: 1 1 30%; /* Ocupa 30% aprox (3 por fila) */
-                background: #f1f5f9; border: 1px solid #e2e8f0;
-                border-radius: 8px; padding: 8px 0;
-                text-align: center; font-size: 0.8rem; font-weight: 700;
-                color: #64748b; cursor: pointer; transition: 0.2s;
-            }
-            /* Los últimos 2 botones ocupan 48% (2 por fila) */
-            .day-btn:nth-child(4), .day-btn:nth-child(5) { flex: 1 1 45%; }
-            
-            .day-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        }
-
-        /* --- 5. COMPONENTES (UI) --- */
-        
-        /* Tarjetas de Hotel */
-        .hotel-card {
-            background: var(--white); border-radius: var(--radius);
-            box-shadow: var(--shadow); overflow: hidden; margin-bottom: 25px;
-            display: flex; flex-direction: column;
-            transition: transform 0.2s;
-        }
-        @media (min-width: 768px) { .hotel-card { flex-direction: row; height: 200px; } }
-        
-        .hotel-img {
-            height: 200px; background-size: cover; background-position: center; position: relative;
-        }
-        @media (min-width: 768px) { .hotel-img { width: 40%; height: 100%; } }
-
-        .badge-safe {
-            position: absolute; top: 15px; left: 15px;
-            background: var(--success); color: white;
-            padding: 4px 10px; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 5px;
-        }
-
-        .hotel-info { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .price-tag { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-
-        /* Timeline Actividades */
-        .timeline-item {
-            background: var(--white); padding: 20px; border-radius: var(--radius);
-            margin-bottom: 15px; box-shadow: var(--shadow);
-            border-left: 4px solid var(--accent); display: flex; gap: 15px;
-        }
-        .time-box { font-weight: 800; color: var(--accent); min-width: 50px; }
-        
-        /* Botones Acción */
-        .btn-action {
-            display: inline-block; background: var(--white); border: 1px solid #cbd5e1;
-            padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
-            color: var(--primary); text-decoration: none; margin-top: 10px; cursor: pointer;
-        }
-        .btn-action:hover { background: #f8fafc; border-color: var(--primary); }
-
-        /* Gastos Dashboard */
-        .budget-card {
-            background: var(--primary); color: white; padding: 30px; border-radius: 20px;
-            text-align: center; margin-bottom: 30px;
-            background-image: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        /* --- 4. TARJETAS DE HOTELES (ESTILO AIRBNB) --- */
+        .card-hotel {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 25px;
+            position: relative;
         }
         
-        /* Floating Action Button (FAB) */
-        .fab {
-            position: fixed; bottom: 25px; right: 25px;
-            width: 56px; height: 56px; background: var(--accent); color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; cursor: pointer; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-            z-index: 1000; transition: transform 0.2s;
+        .card-image {
+            height: 200px; width: 100%;
+            background-size: cover; background-position: center;
+            position: relative;
         }
-        .fab:hover { transform: scale(1.1); }
-
-        /* Modal Notas */
-        .notes-panel {
-            position: fixed; bottom: 90px; right: 25px; width: 320px; height: 400px;
-            background: var(--white); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            z-index: 999; display: none; flex-direction: column; overflow: hidden;
-            animation: slideUp 0.3s; border: 1px solid #e2e8f0;
+        
+        .price-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 16px; border-radius: 50px;
+            font-weight: 800; color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .note-bubble { background: #f1f5f9; padding: 10px; border-radius: 10px; border-bottom-right-radius: 0; margin-bottom: 8px; font-size: 0.9rem; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .card-content { padding: 20px; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 5px; }
+        .card-location { font-size: 0.9rem; color: var(--text-light); display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
+        .card-features { display: flex; gap: 10px; margin-bottom: 15px; }
+        .feature-tag { background: #EDF2F7; padding: 5px 10px; border-radius: 8px; font-size: 0.8rem; color: #4A5568; }
 
-        /* Modo Lluvia Styles */
-        body.raining .timeline-item.outdoor { opacity: 0.5; filter: grayscale(100%); text-decoration: line-through; }
-        body.raining .rain-plan { display: block !important; color: #0284c7; font-weight: 600; margin-top: 5px; }
-        .rain-plan { display: none; }
+        .btn-map {
+            width: 100%; padding: 12px;
+            background: var(--primary); color: white;
+            border: none; border-radius: 12px;
+            font-weight: 600; cursor: pointer;
+            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px;
+            transition: 0.3s;
+        }
+        .btn-map:active { transform: scale(0.98); }
+
+        /* --- 5. TARJETAS DE ACTIVIDADES (Timeline) --- */
+        .day-header {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            padding: 20px; border-radius: 20px; margin-bottom: 20px;
+            text-align: center; border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .activity-card {
+            background: white; border-radius: 18px;
+            padding: 15px; margin-bottom: 15px;
+            display: flex; gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            border-left: 5px solid var(--accent);
+        }
+        .activity-img {
+            width: 80px; height: 80px; border-radius: 12px;
+            background-size: cover; background-position: center;
+            flex-shrink: 0;
+        }
+        .activity-info { flex-grow: 1; }
+        .activity-time { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+        .activity-title { font-weight: 700; font-size: 1.1rem; margin: 3px 0; }
+        .activity-price { font-size: 0.9rem; color: var(--text-light); font-weight: 500; }
+        
+        /* MODO LLUVIA VISUAL */
+        body.raining .activity-card.outdoor { opacity: 0.4; filter: grayscale(1); }
+        body.raining .rain-option { display: flex !important; }
+
+        .rain-option {
+            display: none; margin-top: 10px; padding: 10px;
+            background: #EBF8FF; border-radius: 10px;
+            color: #2B6CB0; font-size: 0.9rem; align-items: center; gap: 10px;
+            border: 1px solid #BEE3F8;
+        }
+
+        /* --- 6. BURBUJA DE NOTAS (FAB) --- */
+        .fab-container {
+            position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+        }
+        .fab-btn {
+            width: 60px; height: 60px;
+            background: var(--accent); color: white;
+            border-radius: 50%; border: none;
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+            font-size: 1.5rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .fab-btn:active { transform: scale(0.9); }
+
+        /* MODAL DE NOTAS */
+        .notes-modal {
+            position: fixed; bottom: 100px; right: 25px;
+            width: 300px; height: 400px;
+            background: white; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            z-index: 999; display: none;
+            flex-direction: column; overflow: hidden;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .notes-header { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between;}
+        .notes-body { flex-grow: 1; overflow-y: auto; padding: 15px; background: #F7FAFC; display: flex; flex-direction: column; gap: 10px;}
+        .note-bubble { background: white; padding: 10px; border-radius: 10px; border-bottom-right-radius: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.9rem; align-self: flex-end; max-width: 90%; }
+        .notes-input-area { padding: 10px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .notes-input { flex-grow: 1; border: 1px solid #eee; padding: 8px; border-radius: 20px; outline: none; }
+
+        /* --- 7. RESUMEN GASTOS TOTAL --- */
+        .budget-dashboard {
+            background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px;
+            box-shadow: var(--shadow-soft); text-align: center;
+        }
+        .total-price { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0; font-family: 'DM Sans'; }
+        .progress-container { width: 100%; height: 10px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 10px;}
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--primary)); width: 0%; transition: 1s; }
+
+        /* UTILS */
+        .tag-price { background: #e6fffa; color: #2c7a7b; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; border: 1px solid #b2f5ea; }
+        
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
     </style>
 </head>
 <body>
 
-    <div class="overlay" onclick="closeSidebar()"></div>
+    <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 style="font-family:'Playfair Display'; color:var(--primary);">Menú</h2>
+            <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+        </div>
 
-    <div class="mobile-header">
-        <div style="font-size:1.5rem; cursor:pointer;" onclick="openSidebar()"><i class="fas fa-bars"></i></div>
-        <div style="font-weight:700; color:var(--primary);">EUROTRIP 2026</div>
-        <div style="width:24px"></div>
+        <a href="#" class="menu-item active" onclick="navTo('home', 'paris')"><i class="fas fa-home"></i> Inicio</a>
+        <a href="#" class="menu-item" onclick="navTo('docs', 'paris')"><i class="fas fa-passport"></i> Documentos</a>
+        <a href="#" class="menu-item" onclick="navTo('gastos', 'paris')"><i class="fas fa-wallet"></i> Mis Gastos</a>
+        
+        <div style="border-top: 1px solid #eee; margin: 10px 0;"></div>
+        <p style="font-size:0.8rem; color:#aaa; margin-left:15px; margin-bottom:5px;">ITINERARIO</p>
+        
+        <a href="#" class="menu-item" onclick="navTo('day1', 'paris')"><i class="fas fa-map-pin"></i> Día 1: París</a>
+        <a href="#" class="menu-item" onclick="navTo('day2', 'paris')"><i class="fas fa-landmark"></i> Día 2: París</a>
+        <a href="#" class="menu-item" onclick="navTo('day3', 'london')"><i class="fas fa-crown"></i> Día 3: Londres</a>
+        <a href="#" class="menu-item" onclick="navTo('day4', 'london')"><i class="fas fa-subway"></i> Día 4: Lon/Bru</a>
+        <a href="#" class="menu-item" onclick="navTo('day5', 'brussels')"><i class="fas fa-cookie-bite"></i> Día 5: Bruselas</a>
+        
+        <div style="margin-top:auto; padding: 15px; background: #f0f9ff; border-radius: 12px;">
+            <p style="font-size:0.8rem; color:var(--primary);"><strong>Modo Lluvia</strong></p>
+            <div style="display:flex; align-items:center; gap:10px; margin-top:5px;">
+                <input type="checkbox" id="rainSwitch" onchange="toggleRainMode()">
+                <label for="rainSwitch" style="font-size:0.9rem;">Activar planes techados</label>
+            </div>
+        </div>
     </div>
 
-    <div class="mobile-days-grid">
-        <div class="day-btn" onclick="navTo('day1')">Día 1</div>
-        <div class="day-btn" onclick="navTo('day2')">Día 2</div>
-        <div class="day-btn" onclick="navTo('day3')">Día 3</div>
-        <div class="day-btn" onclick="navTo('day4')">Día 4</div>
-        <div class="day-btn" onclick="navTo('day5')">Día 5</div>
-        </div>
-
-    <nav class="sidebar" id="sidebar">
+    <header>
+        <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         <div class="logo">
-            <i class="fas fa-paper-plane" style="color:var(--accent)"></i> EuroTrip
+            <h1>EUROTRIP</h1>
+            <span>Enero 2026</span>
         </div>
+        <div style="width: 30px;"></div> </header>
 
-        <div class="nav-section-title">Principal</div>
-        <a class="nav-item active" onclick="navTo('home')"><i class="fas fa-home"></i> Resumen & Hoteles</a>
-        <a class="nav-item" onclick="navTo('docs')"><i class="fas fa-passport"></i> Documentos</a>
-        <a class="nav-item" onclick="navTo('budget')"><i class="fas fa-wallet"></i> Control Gastos</a>
-
-        <div class="nav-section-title">Itinerario PC</div>
-        <a class="nav-item" onclick="navTo('day1')">🇫🇷 Día 1: París</a>
-        <a class="nav-item" onclick="navTo('day2')">🇫🇷 Día 2: París</a>
-        <a class="nav-item" onclick="navTo('day3')">🇬🇧 Día 3: Londres</a>
-        <a class="nav-item" onclick="navTo('day4')">🇧🇪 Día 4: Lon/Bru</a>
-        <a class="nav-item" onclick="navTo('day5')">🇧🇪 Día 5: Bruselas</a>
-        <a class="nav-item" onclick="navTo('day6')">✈️ Día 6: Regreso</a>
-
-        <div style="margin-top:auto; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <p style="font-size:0.8rem; font-weight:700; color:#64748b;">Clima</p>
-            <label style="display:flex; align-items:center; gap:10px; font-size:0.85rem; margin-top:5px; cursor:pointer;">
-                <input type="checkbox" id="rainCheck" onchange="toggleRain()"> Activar Modo Lluvia
-            </label>
-        </div>
-    </nav>
-
-    <div class="main-content">
+    <div class="main-container">
 
         <div id="home" class="section active">
-            <h1 style="font-family:'Playfair Display'; font-size:2rem; margin-bottom:10px;">Tu Alojamiento Seguro</h1>
-            <p style="margin-bottom:30px; color:#64748b;">Selección curada por seguridad y cercanía a trenes.</p>
+            <div style="text-align:center; padding: 40px 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem;">Bienvenue</h2>
+                <p>Faltan <span id="countdown">...</span> días para la aventura.</p>
+            </div>
 
-            <div class="hotel-card">
-                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80');">
-                    <div class="badge-safe"><i class="fas fa-shield-alt"></i> Seguridad 24h</div>
+            <div class="card-hotel">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1557335200-a65f7f032602?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="price-badge">~145€/noche</div>
                 </div>
-                <div class="hotel-info">
-                    <h3>Hotel Whistler (París)</h3>
-                    <div class="price-tag">~145€</div>
-                    <p style="font-size:0.9rem; color:#64748b; margin:10px 0;">Situado entre Gare du Nord y Gare de l'Est. Interior de diseño. Zona vigilada.</p>
-                    <a href="https://goo.gl/maps/xyz" target="_blank" class="btn-action"><i class="fas fa-map-pin"></i> Ver Ubicación</a>
+                <div class="card-content">
+                    <h3 class="card-title">Hotel Whistler</h3>
+                    <div class="card-location"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Gare du Nord, París</div>
+                    <div class="card-features">
+                        <span class="feature-tag">⭐ 4.5</span>
+                        <span class="feature-tag">🚇 Frente a Estación</span>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Whistler+Paris" target="_blank" class="btn-map">Ver Ubicación</a>
                 </div>
             </div>
 
-            <div class="hotel-card">
-                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80');">
-                    <div class="badge-safe"><i class="fas fa-check-circle"></i> Zona Renovada</div>
+            <div class="card-hotel">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="price-badge">~£110/noche</div>
                 </div>
-                <div class="hotel-info">
-                    <h3>Point A King's Cross (Londres)</h3>
-                    <div class="price-tag">~£110</div>
-                    <p style="font-size:0.9rem; color:#64748b; margin:10px 0;">A pasos de St Pancras. Barrio moderno y seguro para caminar de noche.</p>
-                    <a href="https://goo.gl/maps/abc" target="_blank" class="btn-action"><i class="fas fa-map-pin"></i> Ver Ubicación</a>
-                </div>
-            </div>
-
-             <div class="hotel-card">
-                <div class="hotel-img" style="background-image: url('https://images.unsplash.com/photo-1596716618580-e8835848529b?auto=format&fit=crop&w=800&q=80');">
-                    <div class="badge-safe" style="background:#f59e0b;"><i class="fas fa-exclamation-triangle"></i> Cambio Seguro</div>
-                </div>
-                <div class="hotel-info">
-                    <h3>Motel One (Grand Place)</h3>
-                    <div class="price-tag">~120€</div>
-                    <p style="font-size:0.9rem; color:#64748b; margin:10px 0;"><strong>Importante:</strong> Evitamos dormir en estación Midi (insegura). Este hotel es céntrico y seguro.</p>
-                    <a href="https://goo.gl/maps/def" target="_blank" class="btn-action"><i class="fas fa-map-pin"></i> Ver Ubicación</a>
+                <div class="card-content">
+                    <h3 class="card-title">Point A King's Cross</h3>
+                    <div class="card-location"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Londres, UK</div>
+                    <div class="card-features">
+                        <span class="feature-tag">⭐ 4.2</span>
+                        <span class="feature-tag">🚇 Económico</span>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Point+A+Hotel+London+Kings+Cross" target="_blank" class="btn-map">Ver Ubicación</a>
                 </div>
             </div>
         </div>
 
-        <div id="budget" class="section">
-            <div class="budget-card">
-                <p style="text-transform:uppercase; font-size:0.8rem; opacity:0.8;">Total Gastado</p>
-                <h2 style="font-size:3rem; margin:10px 0;" id="totalDisplay">0 €</h2>
-                <button onclick="clearBudget()" style="background:rgba(255,255,255,0.2); color:white; border:none; padding:5px 15px; border-radius:20px; font-size:0.8rem; cursor:pointer;">Reiniciar</button>
+        <div id="gastos" class="section">
+            <div class="budget-dashboard">
+                <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Gasto Total Estimado</p>
+                <div class="total-price" id="totalAmount">0 €</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 10px; color: #888;">Incluye hoteles, entradas y comidas añadidas.</p>
             </div>
             
-            <div style="background:white; padding:20px; border-radius:16px; box-shadow:var(--shadow);">
-                <div style="display:flex; gap:10px; margin-bottom:20px;">
-                    <input type="text" id="expDesc" placeholder="Ej: Cena" style="flex:1; padding:12px; border:1px solid #e2e8f0; border-radius:10px;">
-                    <input type="number" id="expVal" placeholder="€" style="width:80px; padding:12px; border:1px solid #e2e8f0; border-radius:10px;">
-                    <button onclick="addExp()" style="background:var(--primary); color:white; border:none; width:45px; border-radius:10px;"><i class="fas fa-plus"></i></button>
+            <div style="background:white; border-radius:20px; padding:20px; box-shadow:var(--shadow-soft);">
+                <h3><i class="fas fa-plus-circle" style="color:var(--accent)"></i> Agregar Gasto</h3>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <input type="text" id="expenseDesc" placeholder="Ej: Café" style="flex:1; padding:10px; border:1px solid #eee; border-radius:10px;">
+                    <input type="number" id="expenseValue" placeholder="€" style="width:80px; padding:10px; border:1px solid #eee; border-radius:10px;">
+                    <button onclick="addExpense()" style="background:var(--primary); color:white; border:none; padding:10px 15px; border-radius:10px;"><i class="fas fa-check"></i></button>
                 </div>
-                <div id="expList"></div>
+                <div id="expenseList" style="margin-top:20px;"></div>
             </div>
         </div>
 
         <div id="day1" class="section">
-            <h2 style="margin-bottom:20px;">Día 1: París Medieval</h2>
-            
-            <div class="timeline-item">
-                <div class="time-box">14:00</div>
-                <div>
-                    <h4>Check-in Hotel</h4>
-                    <p style="font-size:0.9rem; color:#64748b;">Dejar maletas. El hotel guarda equipaje gratis.</p>
-                </div>
+            <div class="day-header">
+                <h2>🇫🇷 Miércoles 7</h2>
+                <p>Llegada, Île de la Cité & Louvre</p>
             </div>
 
-            <div class="timeline-item outdoor">
-                <div class="time-box">14:30</div>
-                <div>
-                    <h4>Caminata Notre Dame</h4>
-                    <p style="font-size:0.9rem; color:#64748b;">Ver fachada y orilla del Sena.</p>
-                    <div class="rain-plan"><i class="fas fa-umbrella"></i> Lluvia: Ir directo a Sainte-Chapelle.</div>
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1478391679964-b80418ee3f72?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">14:30</div>
+                    <div class="activity-title">Notre Dame Walk</div>
+                    <div class="activity-price"><span class="tag-price">Gratis</span></div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Ir directo a Sainte-Chapelle</div>
                 </div>
+                <a href="https://maps.google.com/?q=Notre+Dame" target="_blank" style="position:absolute; right:15px; top:15px; color:var(--primary)"><i class="fas fa-location-arrow"></i></a>
             </div>
 
-            <div class="timeline-item">
-                <div class="time-box">15:00</div>
-                <div>
-                    <h4>Sainte-Chapelle</h4>
-                    <p style="font-size:0.9rem; color:#64748b;">Entrada reservada. Vitrales increíbles.</p>
-                    <a href="https://maps.google.com" target="_blank" class="btn-action">Ver Mapa</a>
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1490232490013-1b99cb84f668?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">19:00</div>
+                    <div class="activity-title">Museo Louvre (Noche)</div>
+                    <div class="activity-price"><span class="tag-price">22€</span> <span style="font-size:0.7rem; color:red">Reserva!</span></div>
                 </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="time-box">19:30</div>
-                <div>
-                    <h4>Louvre Nocturno</h4>
-                    <p style="font-size:0.9rem; color:#64748b;">Abierto hasta 21:45. Menos gente.</p>
-                </div>
+                 <a href="https://maps.google.com/?q=Louvre+Museum" target="_blank" style="position:absolute; right:15px; top:15px; color:var(--primary)"><i class="fas fa-location-arrow"></i></a>
             </div>
         </div>
-
-        <div id="day2" class="section"><h2>Día 2: París</h2><p>Museo d'Orsay, Torre Eiffel...</p></div>
-        <div id="day3" class="section"><h2>Día 3: Londres</h2><p>Big Ben, Westminster...</p></div>
-        <div id="day4" class="section"><h2>Día 4: Lon ➔ Bru</h2><p>Torre de Londres, Tren...</p></div>
-        <div id="day5" class="section"><h2>Día 5: Bruselas</h2><p>Grand Place, Waffles...</p></div>
-        <div id="day6" class="section"><h2>Día 6: Regreso</h2><p>Aeropuerto CDG...</p></div>
         
         <div id="docs" class="section">
-            <h2>Documentación</h2>
-            <div style="background:#fee2e2; color:#991b1b; padding:15px; border-radius:10px; margin-top:15px; border-left:4px solid #ef4444;">
-                <strong>⚠️ ETA Reino Unido</strong><br>
-                Trámite obligatorio online (£10). Sin esto no viajas.
-            </div>
-            <div style="background:#eff6ff; color:#1e40af; padding:15px; border-radius:10px; margin-top:10px; border-left:4px solid #3b82f6;">
-                <strong>Trenes Eurostar</strong><br>
-                Lleva los PDFs descargados en el celular.
+             <div class="budget-dashboard" style="text-align:left;">
+                <h3><i class="fas fa-file-alt" style="color:var(--accent)"></i> Documentación</h3>
+                <div style="margin-top:20px; border-left:4px solid #F56565; padding-left:15px;">
+                    <h4 style="color:#F56565">ETA Reino Unido (£10)</h4>
+                    <p style="font-size:0.9rem;">Obligatorio. Tramitar antes de viajar.</p>
+                    <a href="https://www.gov.uk/electronic-travel-authorisation" style="color:blue; font-size:0.8rem;">Link Oficial</a>
+                </div>
+                <div style="margin-top:20px; border-left:4px solid var(--accent); padding-left:15px;">
+                    <h4>Eurostar Tickets</h4>
+                    <p style="font-size:0.9rem;">Llevar impresos o en Apple Wallet.</p>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <div class="fab" onclick="toggleNotes()"><i class="fas fa-pen"></i></div>
-    
-    <div class="notes-panel" id="notesPanel">
-        <div style="background:var(--primary); color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;">
-            <span>Notas Rápidas</span>
-            <i class="fas fa-times" onclick="toggleNotes()" style="cursor:pointer;"></i>
+    <div class="fab-container">
+        <button class="fab-btn" onclick="toggleNotes()"><i class="fas fa-pen"></i></button>
+    </div>
+
+    <div class="notes-modal" id="notesModal">
+        <div class="notes-header">
+            <span>Notas de Viaje</span>
+            <i class="fas fa-times" style="cursor:pointer;" onclick="toggleNotes()"></i>
         </div>
-        <div id="notesList" style="flex:1; padding:15px; overflow-y:auto; background:#f8fafc;"></div>
-        <div style="padding:10px; border-top:1px solid #e2e8f0; display:flex; gap:5px;">
-            <input type="text" id="noteIn" placeholder="Escribir..." style="flex:1; padding:8px; border:1px solid #e2e8f0; border-radius:20px; outline:none;">
-            <button onclick="addNote()" style="background:var(--accent); color:white; border:none; width:35px; border-radius:50%; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+        <div class="notes-body" id="notesList">
+            <div style="text-align:center; color:#ccc; font-size:0.8rem; margin-top:20px;">Escribe algo...</div>
+        </div>
+        <div class="notes-input-area">
+            <input type="text" id="noteInput" class="notes-input" placeholder="Ej: Comprar adaptador...">
+            <button onclick="addNote()" style="background:var(--primary); color:white; border:none; width:35px; border-radius:50%; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <script>
-        // --- LÓGICA DE NAVEGACIÓN ---
+        // --- 1. NAVEGACIÓN Y MENÚ ---
         const sidebar = document.getElementById('sidebar');
-        const overlay = document.querySelector('.overlay');
+        const overlay = document.getElementById('overlay');
+        const sections = document.querySelectorAll('.section');
+        const bgImages = {
+            'paris': 'var(--bg-paris)',
+            'london': 'var(--bg-london)',
+            'brussels': 'var(--bg-brussels)'
+        };
 
-        function openSidebar() {
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-        }
-        function closeSidebar() {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
         }
 
-        function navTo(id) {
-            // Ocultar todo
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            // Mostrar target
-            document.getElementById(id).classList.add('active');
+        function navTo(sectionId, cityKey) {
+            // Ocultar todas las secciones
+            sections.forEach(s => s.classList.remove('active'));
+            // Mostrar la elegida
+            document.getElementById(sectionId).classList.add('active');
             
-            // Actualizar botones menú (PC y Móvil)
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
-            
-            // Marcar activos (intento genérico)
-            // En un app real, haríamos match por ID, aquí simple limpieza visual.
-            
+            // Cambiar fondo
+            document.documentElement.style.setProperty('--current-bg', bgImages[cityKey]);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            closeSidebar();
+            
+            // Cerrar menú
+            toggleMenu();
+            
+            // Actualizar items activos
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
-        // --- GASTOS ---
-        function loadExp() {
-            const ex = JSON.parse(localStorage.getItem('tripEx')) || [];
-            const list = document.getElementById('expList');
-            let tot = 0; list.innerHTML = '';
-            ex.forEach((e, i) => {
-                tot += parseFloat(e.val);
-                list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f1f5f9;"><span>${e.desc}</span><span>${e.val}€ <i class="fas fa-times" style="color:#ef4444; margin-left:10px; cursor:pointer;" onclick="delExp(${i})"></i></span></div>`;
-            });
-            document.getElementById('totalDisplay').innerText = tot + " €";
+        // --- 2. CUENTA REGRESIVA ---
+        const tripDate = new Date("January 7, 2026").getTime();
+        const now = new Date().getTime();
+        const diff = Math.ceil((tripDate - now) / (1000 * 60 * 60 * 24));
+        document.getElementById('countdown').innerText = diff > 0 ? diff : 0;
+
+        // --- 3. MODO LLUVIA ---
+        function toggleRainMode() {
+            const isChecked = document.getElementById('rainSwitch').checked;
+            if(isChecked) document.body.classList.add('raining');
+            else document.body.classList.remove('raining');
         }
-        function addExp() {
-            const desc = document.getElementById('expDesc').value;
-            const val = document.getElementById('expVal').value;
+
+        // --- 4. GESTOR DE GASTOS ---
+        // Costos Fijos (Estimados)
+        const fixedCosts = 145*3 + 110 + 90 + 200; // Hoteles + Trenes (aprox)
+        
+        function loadExpenses() {
+            const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+            const list = document.getElementById('expenseList');
+            let userTotal = 0;
+            
+            list.innerHTML = '';
+            expenses.forEach((item, index) => {
+                userTotal += parseFloat(item.value);
+                list.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
+                        <span>${item.desc}</span>
+                        <span><strong>${item.value}€</strong> <i class="fas fa-trash" style="color:red; margin-left:10px; cursor:pointer;" onclick="deleteExpense(${index})"></i></span>
+                    </div>`;
+            });
+
+            const grandTotal = fixedCosts + userTotal;
+            document.getElementById('totalAmount').innerText = grandTotal + " €";
+            
+            // Barra de progreso (simulada sobre un presupuesto de 2000€)
+            const percentage = Math.min((grandTotal / 2000) * 100, 100);
+            document.getElementById('progressBar').style.width = percentage + "%";
+        }
+
+        function addExpense() {
+            const desc = document.getElementById('expenseDesc').value;
+            const val = document.getElementById('expenseValue').value;
             if(desc && val) {
-                const ex = JSON.parse(localStorage.getItem('tripEx')) || [];
-                ex.push({desc, val});
-                localStorage.setItem('tripEx', JSON.stringify(ex));
-                document.getElementById('expDesc').value = ''; document.getElementById('expVal').value = '';
-                loadExp();
+                const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+                expenses.push({desc, value: val});
+                localStorage.setItem('ultraExpenses', JSON.stringify(expenses));
+                document.getElementById('expenseDesc').value = '';
+                document.getElementById('expenseValue').value = '';
+                loadExpenses();
             }
         }
-        function delExp(i) {
-            const ex = JSON.parse(localStorage.getItem('tripEx')) || [];
-            ex.splice(i, 1);
-            localStorage.setItem('tripEx', JSON.stringify(ex));
-            loadExp();
-        }
-        function clearBudget() {
-            if(confirm('Borrar todo?')) { localStorage.removeItem('tripEx'); loadExp(); }
+        
+        function deleteExpense(index) {
+            const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+            expenses.splice(index, 1);
+            localStorage.setItem('ultraExpenses', JSON.stringify(expenses));
+            loadExpenses();
         }
 
-        // --- NOTAS ---
+        // --- 5. NOTAS (BUBBLE) ---
         function toggleNotes() {
-            const p = document.getElementById('notesPanel');
-            p.style.display = p.style.display === 'flex' ? 'none' : 'flex';
-        }
-        function loadNotes() {
-            const n = JSON.parse(localStorage.getItem('tripNotes')) || [];
-            const l = document.getElementById('notesList'); l.innerHTML = '';
-            n.forEach(txt => l.innerHTML += `<div class="note-bubble">${txt}</div>`);
-            l.scrollTop = l.scrollHeight;
-        }
-        function addNote() {
-            const txt = document.getElementById('noteIn').value;
-            if(txt) {
-                const n = JSON.parse(localStorage.getItem('tripNotes')) || [];
-                n.push(txt);
-                localStorage.setItem('tripNotes', JSON.stringify(n));
-                document.getElementById('noteIn').value = '';
+            const modal = document.getElementById('notesModal');
+            if(modal.style.display === 'flex') modal.style.display = 'none';
+            else {
+                modal.style.display = 'flex';
                 loadNotes();
             }
         }
 
-        // --- CLIMA ---
-        function toggleRain() {
-            document.body.classList.toggle('raining');
+        function loadNotes() {
+            const notes = JSON.parse(localStorage.getItem('ultraNotes')) || [];
+            const list = document.getElementById('notesList');
+            list.innerHTML = '';
+            notes.forEach(note => {
+                const div = document.createElement('div');
+                div.className = 'note-bubble';
+                div.innerText = note;
+                list.appendChild(div);
+            });
+            // Scroll al fondo
+            list.scrollTop = list.scrollHeight;
+        }
+
+        function addNote() {
+            const input = document.getElementById('noteInput');
+            const text = input.value;
+            if(text) {
+                const notes = JSON.parse(localStorage.getItem('ultraNotes')) || [];
+                notes.push(text);
+                localStorage.setItem('ultraNotes', JSON.stringify(notes));
+                input.value = '';
+                loadNotes();
+            }
         }
 
         // Init
-        loadExp();
-        loadNotes();
+        loadExpenses();
+
     </script>
 </body>
 </html>
