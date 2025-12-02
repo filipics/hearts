@@ -2,171 +2,545 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan de Negocio | Agencia Web 2025</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EuroTrip 2026 | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg-glass: rgba(255, 255, 255, 0.92);
+            --bg-paris: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop');
+            --bg-london: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=2070&auto=format&fit=crop');
+            --bg-brussels: url('https://images.unsplash.com/photo-1569369409321-31d08676f9b6?q=80&w=2070&auto=format&fit=crop');
+            --current-bg: var(--bg-paris);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--current-bg) no-repeat center center fixed;
+            background-size: cover;
+            color: #334155;
+            min-height: 100vh;
+            padding-bottom: 80px; /* Espacio para widget flotante */
+            transition: background-image 0.6s ease-in-out;
+        }
+
+        /* Capa oscura para legibilidad */
+        body::after {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.3); z-index: -1; pointer-events: none;
+            transition: background 0.5s;
+        }
+
+        /* --- MODO LLUVIA VISUAL --- */
+        body.raining::after {
+            background: rgba(15, 23, 42, 0.7); /* Más oscuro */
+            backdrop-filter: grayscale(80%) blur(2px); /* Efecto gris y borroso */
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 100;
+        }
+
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; letter-spacing: 1px; color: var(--accent); }
+        .trip-dates { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
+
+        /* --- MENU DE NAVEGACIÓN (Scroll Horizontal) --- */
+        .nav-scroller {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 5px 0;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .nav-scroller::-webkit-scrollbar { display: none; }
+
+        .nav-btn {
+            background: none; border: none;
+            padding: 15px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        .nav-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        /* --- CONTENEDORES --- */
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- TARJETAS --- */
+        .card {
+            background: var(--bg-glass);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- TIMELINE DE EVENTOS --- */
+        .event {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 30px;
+            border-left: 3px solid #e2e8f0;
+        }
+
+        .event::before {
+            content: ''; position: absolute; left: -9px; top: 0;
+            width: 15px; height: 15px; background: var(--primary);
+            border-radius: 50%; border: 3px solid white;
+        }
+
+        .time-badge { 
+            background: var(--secondary); color: white; 
+            padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 800;
+            display: inline-block; margin-bottom: 8px;
+        }
+
+        .event-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; color: var(--secondary); }
+        .event-desc { font-size: 0.95rem; color: #475569; line-height: 1.5; margin-bottom: 10px;}
+
+        /* --- BOTONES DE ACCIÓN --- */
+        .action-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none;
+            background: white; border: 1px solid #e2e8f0;
+            color: var(--primary); font-weight: 600; font-size: 0.85rem;
+            padding: 8px 16px; border-radius: 50px;
+            transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .action-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+
+        /* --- MODOS ESPECIALES --- */
+        .rain-alert {
+            display: none;
+            background: #eff6ff; border: 1px solid #bfdbfe;
+            color: #1e40af; padding: 12px; border-radius: 12px;
+            margin-top: 10px; font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Lógica Visual Lluvia */
+        body.raining .outdoor .event-title,
+        body.raining .outdoor .event-desc { text-decoration: line-through; opacity: 0.5; }
+        body.raining .rain-alert { display: flex; align-items: center; gap: 10px; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* --- CALCULADORA DE GASTOS --- */
+        .budget-grid { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 20px; }
+        .budget-input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: inherit; }
+        .budget-total { font-size: 2rem; font-weight: 800; color: var(--success); text-align: center; margin: 20px 0; }
+        .expense-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #f1f5f9; }
+
+        /* --- FLOATING WIDGETS --- */
+        .floating-bar {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--secondary); padding: 10px 20px; border-radius: 50px;
+            display: flex; gap: 20px; z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .float-btn {
+            background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;
+            position: relative;
+        }
+        .float-btn::after { content: attr(data-label); font-size: 0.6rem; display: block; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); white-space: nowrap; opacity: 0.7; }
+
+        /* --- MODAL FRASES --- */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 20px; max-width: 90%; width: 400px;
+            position: relative; animation: slideUp 0.3s;
+        }
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+        .phrase-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .fr-text { font-weight: 800; color: var(--primary); }
+
+    </style>
 </head>
 <body>
 
+    <header>
+        <h1>EUROTRIP 2026</h1>
+        <div class="trip-dates">7 Enero — 12 Enero</div>
+        <div style="margin-top: 15px;">
+            <button onclick="toggleRain()" id="rainBtn" class="action-btn" style="border:none; box-shadow:none; background: rgba(255,255,255,0.2); color: white;">
+                <i class="fas fa-cloud-sun"></i> <span>Activar Modo Lluvia</span>
+            </button>
+        </div>
+    </header>
+
+    <nav class="nav-scroller">
+        <button class="nav-btn active" onclick="showSection('docs', 'paris')">📑 Docs</button>
+        <button class="nav-btn" onclick="showSection('budget', 'paris')">💸 Gastos</button>
+        <button class="nav-btn" onclick="showSection('day1', 'paris')">Día 1: Par</button>
+        <button class="nav-btn" onclick="showSection('day2', 'paris')">Día 2: Par</button>
+        <button class="nav-btn" onclick="showSection('day3', 'london')">Día 3: Lon</button>
+        <button class="nav-btn" onclick="showSection('day4', 'london')">Día 4: Lon/Bru</button>
+        <button class="nav-btn" onclick="showSection('day5', 'brussels')">Día 5: Bru</button>
+        <button class="nav-btn" onclick="showSection('day6', 'paris')">Día 6: Bye</button>
+    </nav>
+
     <div class="container">
-        <aside class="sidebar">
-            <div class="brand">
-                <h2>🚀 Proyecto<br>WebExpress</h2>
+
+        <div id="docs" class="section active">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; color: var(--secondary);">⚠️ Checklist Crítico</h2>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div style="background:#fef2f2; color:#991b1b; padding:15px; border-radius:10px; border-left: 5px solid #ef4444;">
+                        <strong>ETA Reino Unido</strong><br>
+                        <span style="font-size:0.9rem">Obligatorio para el 9 de Enero. Costo £10.</span>
+                        <br><a href="https://www.gov.uk/electronic-travel-authorisation" target="_blank" style="color:#ef4444; font-weight:bold; font-size:0.8rem; margin-top:5px; display:inline-block;">Tramitar Aquí &rarr;</a>
+                    </div>
+                    <div style="background:#eff6ff; color:#1e40af; padding:15px; border-radius:10px; border-left: 5px solid #3b82f6;">
+                        <strong>Trenes Eurostar</strong><br>
+                        <span style="font-size:0.9rem">París ➔ Londres ➔ Bruselas. Imprimir PDFs.</span>
+                    </div>
+                </div>
             </div>
-            <nav>
-                <a href="#vision" class="active"><i class="fas fa-lightbulb"></i> La Visión</a>
-                <a href="#clientes"><i class="fas fa-users"></i> El Cliente (Target)</a>
-                <a href="#modelo"><i class="fas fa-money-bill-wave"></i> Modelo ($)</a>
-                <a href="#estrategia"><i class="fas fa-chess-knight"></i> Estrategia de Venta</a>
-                <a href="#competencia"><i class="fas fa-fist-raised"></i> Competencia</a>
-            </nav>
-        </aside>
 
-        <main class="content">
-            
-            <section id="vision">
-                <header>
-                    <h1>Resumen Ejecutivo</h1>
-                    <p>Oportunidad de mercado en Argentina 2025</p>
-                </header>
-                <div class="card-grid">
-                    <div class="card highlight">
-                        <h3>El Problema</h3>
-                        <p>Las PyMEs argentinas pierden ventas por no tener presencia digital profesional o depender solo de Instagram. Las agencias actuales son caras (USD) o lentas.</p>
-                    </div>
-                    <div class="card highlight-blue">
-                        <h3>La Solución</h3>
-                        <p>Vender <strong>soluciones de venta</strong> (no código). Webs rápidas, enfocadas en WhatsApp, pagables en cuotas y con mantenimiento mensual accesible.</p>
-                    </div>
+            <div class="card">
+                <h3 style="margin-bottom:15px;">🏨 Tus Alojamientos</h3>
+                <div class="event" style="border-left-color: var(--accent);">
+                    <div class="time-badge">París</div>
+                    <div class="event-title">Hotel Whistler</div>
+                    <p class="event-desc">Frente a Gare du Nord. Temático.</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Whistler+Paris" target="_blank" class="action-btn"><i class="fas fa-map-marker-alt"></i> Ver Mapa</a>
                 </div>
-            </section>
-
-            <hr>
-
-            <section id="clientes">
-                <h2>🎯 Nuestros 3 Perfiles de Cliente</h2>
-                <div class="profiles-container">
-                    <div class="profile-card">
-                        <div class="icon">💅</div>
-                        <h3>El Emprendedor</h3>
-                        <p class="sub">Showrooms, Estética, Oficios</p>
-                        <ul>
-                            <li><strong>Dolor:</strong> Pierde tiempo contestando precios en IG.</li>
-                            <li><strong>Solución:</strong> Landing page con botón a WhatsApp.</li>
-                        </ul>
-                    </div>
-                    <div class="profile-card">
-                        <div class="icon">⚖️</div>
-                        <h3>El Profesional</h3>
-                        <p class="sub">Abogados, Contadores, Médicos</p>
-                        <ul>
-                            <li><strong>Dolor:</strong> Falta de credibilidad/status.</li>
-                            <li><strong>Solución:</strong> Web institucional "One Page" seria.</li>
-                        </ul>
-                    </div>
-                    <div class="profile-card">
-                        <div class="icon">🍔</div>
-                        <h3>Gastronomía</h3>
-                        <p class="sub">Pizzerías, Hamburgueserías</p>
-                        <ul>
-                            <li><strong>Dolor:</strong> Comisiones altas de PedidosYa.</li>
-                            <li><strong>Solución:</strong> Menú digital propio sin comisiones.</li>
-                        </ul>
-                    </div>
+                <div class="event" style="border-left-color: var(--accent);">
+                    <div class="time-badge">Londres</div>
+                    <div class="event-title">Point A King's Cross</div>
+                    <p class="event-desc">Económico y moderno.</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Point+A+Hotel+London+Kings+Cross" target="_blank" class="action-btn"><i class="fas fa-map-marker-alt"></i> Ver Mapa</a>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <hr>
-
-            <section id="modelo">
-                <h2>💰 Modelo de Ingresos (Pesificado)</h2>
-                <div class="revenue-model">
-                    <div class="revenue-box setup">
-                        <h4>1. SETUP FEE (Pago Único)</h4>
-                        <div class="price-tag">$100k - $200k ARS</div>
-                        <p>Ingreso inmediato por diseño y configuración.</p>
-                        <span class="tag">Gancho: 3 Cuotas</span>
-                    </div>
-                    <div class="plus">+</div>
-                    <div class="revenue-box recurring">
-                        <h4>2. MANTENIMIENTO (Mensual)</h4>
-                        <div class="price-tag">$15k - $25k ARS</div>
-                        <p>La verdadera ganancia. Ingreso residual acumulativo.</p>
-                        <span class="tag">Seguridad + Cambios menores</span>
-                    </div>
-                </div>
+        <div id="budget" class="section">
+            <div class="card">
+                <h2 style="text-align:center; color:#64748b; font-size:1rem;">GASTO TOTAL ACUMULADO</h2>
+                <div class="budget-total" id="totalAmount">0 €</div>
                 
-                <div class="proyeccion">
-                    <h3>Proyección Simple</h3>
-                    <p>Con solo <strong>20 clientes</strong> abonados:</p>
-                    <div class="math">
-                        20 clientes x $15.000 = <strong>$300.000 ARS / mes</strong> (Ingreso Pasivo Base)
-                    </div>
+                <div class="budget-grid">
+                    <input type="text" id="expenseDesc" class="budget-input" placeholder="Ej: Café Louvre">
+                    <input type="number" id="expenseValue" class="budget-input" placeholder="€">
+                    <button onclick="addExpense()" style="background:var(--secondary); color:white; border:none; border-radius:10px; width:50px; cursor:pointer;"><i class="fas fa-plus"></i></button>
                 </div>
-            </section>
 
-            <hr>
-
-            <section id="estrategia">
-                <h2>🚀 Estrategia "Venta por Demo"</h2>
-                <p>Cómo vamos a cerrar clientes sin gastar en publicidad masiva.</p>
+                <div id="expenseList" style="margin-top:20px;">
+                    </div>
                 
-                <div class="timeline">
-                    <div class="step">
-                        <span class="step-number">1</span>
-                        <h4>Búsqueda en Frío</h4>
-                        <p>Google Maps: Buscar negocios sin web o webs rotas.</p>
-                    </div>
-                    <div class="step">
-                        <span class="step-number">2</span>
-                        <h4>El "Preview" (15 min)</h4>
-                        <p>Armar solo la portada de la web con su logo. No programar nada, solo diseño visual.</p>
-                    </div>
-                    <div class="step">
-                        <span class="step-number">3</span>
-                        <h4>El Contacto</h4>
-                        <p>Video corto por WhatsApp: "Hola, vi que les falta web, les diseñé esto gratis. ¿Lo quieren ver?"</p>
-                    </div>
+                <button onclick="clearBudget()" style="width:100%; margin-top:20px; background:none; border:1px solid #cbd5e1; padding:10px; border-radius:10px; color:#94a3b8; font-size:0.8rem;">Reiniciar Gastos</button>
+            </div>
+        </div>
+
+        <div id="day1" class="section">
+            <div class="card">
+                <h2>🇫🇷 Miércoles 7: Llegada</h2>
+                <p style="color:#64748b; margin-bottom:20px;">Historia medieval y museo nocturno.</p>
+
+                <div class="event outdoor">
+                    <div class="time-badge">14:30</div>
+                    <div class="event-title">Notre Dame & Île de la Cité</div>
+                    <div class="event-desc">Caminata por la orilla del Sena.</div>
+                    <div class="rain-alert"><i class="fas fa-umbrella"></i> Ir directo a Sainte-Chapelle.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Notre+Dame+Paris" target="_blank" class="action-btn"><i class="fas fa-location-arrow"></i> Ir Ahora</a>
                 </div>
-            </section>
 
-            <hr>
+                <div class="event">
+                    <div class="time-badge">15:00</div>
+                    <div class="event-title">Sainte-Chapelle</div>
+                    <div class="event-desc">Interior. Vitrales increíbles. Requiere reserva.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Sainte+Chapelle+Paris" target="_blank" class="action-btn"><i class="fas fa-ticket-alt"></i> Ubicación</a>
+                </div>
 
-            <section id="competencia">
-                <h2>⚔️ Análisis de Competencia</h2>
-                <table class="comp-table">
-                    <thead>
-                        <tr>
-                            <th>Competidor</th>
-                            <th>Su Debilidad</th>
-                            <th>Nuestra Ventaja</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>"El Sobrino"</strong></td>
-                            <td>Informal, abandona proyectos.</td>
-                            <td>Contrato, soporte real y rapidez.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Agencias Grandes</strong></td>
-                            <td>Caras (USD), lentas, burocráticas.</td>
-                            <td>Precios en pesos, trato directo.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TiendaNube</strong></td>
-                            <td>El cliente debe configurarlo solo.</td>
-                            <td>Les ofrecemos "Llave en mano".</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                 <div class="event">
+                    <div class="time-badge">19:30</div>
+                    <div class="event-title">Louvre Nocturno</div>
+                    <div class="event-desc">Entrar por Carrusel. Ver Ala Denon.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Louvre+Museum" target="_blank" class="action-btn"><i class="fas fa-university"></i> Ubicación</a>
+                </div>
+            </div>
+        </div>
 
-        </main>
+        <div id="day2" class="section">
+            <div class="card">
+                <h2>🇫🇷 Jueves 8: Iconos</h2>
+                
+                <div class="event">
+                    <div class="time-badge">09:00</div>
+                    <div class="event-title">Museo d'Orsay</div>
+                    <div class="event-desc">Antigua estación. Impresionismo (Van Gogh).</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Musee+d'Orsay" target="_blank" class="action-btn"><i class="fas fa-location-arrow"></i> Ir Ahora</a>
+                </div>
+
+                <div class="event outdoor">
+                    <div class="time-badge">17:00</div>
+                    <div class="event-title">Torre Eiffel (Trocadero)</div>
+                    <div class="event-desc">Vista desde la plaza de enfrente.</div>
+                    <div class="rain-alert"><i class="fas fa-umbrella"></i> Opción B: Galerías Lafayette (Techado).</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Trocadero+Paris" target="_blank" class="action-btn"><i class="fas fa-camera"></i> Punto Foto</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="day3" class="section">
+            <div class="card">
+                <h2>🇬🇧 Viernes 9: London Calling</h2>
+                
+                <div class="event">
+                    <div class="time-badge" style="background:#dc2626">07:13 AM</div>
+                    <div class="event-title">Tren Eurostar</div>
+                    <div class="event-desc">Salida Gare du Nord. Llegar 1h antes.</div>
+                </div>
+
+                <div class="event outdoor">
+                    <div class="time-badge">10:00</div>
+                    <div class="event-title">Westminster Walk</div>
+                    <div class="event-desc">Big Ben, Abadía y Palacio de Buckingham.</div>
+                    <div class="rain-alert"><i class="fas fa-umbrella"></i> Entrar a Churchill War Rooms.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Big+Ben+London" target="_blank" class="action-btn"><i class="fas fa-map"></i> Ruta</a>
+                </div>
+
+                <div class="event">
+                    <div class="time-badge">19:00</div>
+                    <div class="event-title">Cena: Dishoom Covent Garden</div>
+                    <div class="event-desc">Comida india famosa en zona techada.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Dishoom+Covent+Garden" target="_blank" class="action-btn"><i class="fas fa-utensils"></i> Navegar</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="day4" class="section">
+            <div class="card">
+                <h2>🇬🇧 ➔ 🇧🇪 Sábado 10</h2>
+                <div class="event">
+                    <div class="time-badge">09:00</div>
+                    <div class="event-title">Torre de Londres</div>
+                    <div class="event-desc">Joyas de la corona.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Tower+of+London" target="_blank" class="action-btn"><i class="fas fa-location-arrow"></i> Ir Ahora</a>
+                </div>
+                <div class="event">
+                    <div class="time-badge">14:00</div>
+                    <div class="event-title">British Museum</div>
+                    <div class="event-desc">Piedra Rosetta. Gratis.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=British+Museum" target="_blank" class="action-btn"><i class="fas fa-location-arrow"></i> Ir Ahora</a>
+                </div>
+                 <div class="event">
+                    <div class="time-badge">19:30</div>
+                    <div class="event-title">Tren a Bruselas</div>
+                    <div class="event-desc">Salida St Pancras. Llegada Midi.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day5" class="section">
+             <div class="card">
+                <h2>🇧🇪 Domingo 11: Waffles</h2>
+                <div class="event outdoor">
+                    <div class="time-badge">09:00</div>
+                    <div class="event-title">Grand Place</div>
+                    <div class="event-desc">Plaza central y Manneken Pis cerca.</div>
+                    <div class="rain-alert"><i class="fas fa-umbrella"></i> Museo del Cacao y Chocolate.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Grand+Place+Brussels" target="_blank" class="action-btn"><i class="fas fa-map-marker-alt"></i> Ir</a>
+                </div>
+                <div class="event">
+                    <div class="time-badge">13:00</div>
+                    <div class="event-title">Comer: Chez Léon</div>
+                    <div class="event-desc">Mejillones clásicos.</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Chez+Leon+Brussels" target="_blank" class="action-btn"><i class="fas fa-utensils"></i> Ir</a>
+                </div>
+                <div class="event">
+                    <div class="time-badge">19:30</div>
+                    <div class="event-title">Regreso a París</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day6" class="section">
+             <div class="card">
+                <h2>🇫🇷 Lunes 12: Adiós</h2>
+                <div class="event">
+                    <div class="time-badge">10:00</div>
+                    <div class="event-title">RER B a Aeropuerto</div>
+                    <div class="event-desc">Salida hacia CDG.</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script src="script.js"></script>
+    <div class="floating-bar">
+        <button class="float-btn" onclick="openModal('langModal')" data-label="Frases"><i class="fas fa-comment-dots"></i></button>
+        <button class="float-btn" onclick="showSection('budget', 'paris')" data-label="Gastos"><i class="fas fa-wallet"></i></button>
+        <button class="float-btn" onclick="showSection('docs', 'paris')" data-label="Docs"><i class="fas fa-passport"></i></button>
+    </div>
+
+    <div id="langModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('langModal')">&times;</span>
+            <h3 style="color:var(--primary); margin-bottom:20px;">🇫🇷 Supervivencia</h3>
+            
+            <div class="phrase-row">
+                <span>Hola</span><span class="fr-text">Bonjour</span>
+            </div>
+            <div class="phrase-row">
+                <span>Gracias</span><span class="fr-text">Merci</span>
+            </div>
+            <div class="phrase-row">
+                <span>Por favor</span><span class="fr-text">S'il vous plaît</span>
+            </div>
+            <div class="phrase-row">
+                <span>La cuenta</span><span class="fr-text">L'addition</span>
+            </div>
+            <div class="phrase-row">
+                <span>Agua</span><span class="fr-text">L'eau (Lo)</span>
+            </div>
+            <div class="phrase-row">
+                <span>¿Habla español?</span><span class="fr-text">Parlez-vous espagnol?</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. NAVEGACIÓN Y FONDOS ---
+        const bgImages = {
+            'paris': 'var(--bg-paris)',
+            'london': 'var(--bg-london)',
+            'brussels': 'var(--bg-brussels)'
+        };
+
+        function showSection(sectionId, cityKey) {
+            // Ocultar todo
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            // Mostrar selección
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Encontrar botón activo (simple match)
+            event.target.classList.add('active'); // Ojo: funciona mejor si se pasa 'this' en el onclick, pero esto sirve para el demo.
+
+            // Cambiar fondo
+            document.documentElement.style.setProperty('--current-bg', bgImages[cityKey]);
+            
+            // Scroll arriba suave
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- 2. MODO LLUVIA ---
+        function toggleRain() {
+            document.body.classList.toggle("raining");
+            const btn = document.getElementById("rainBtn");
+            const icon = btn.querySelector("i");
+            const text = btn.querySelector("span");
+
+            if(document.body.classList.contains("raining")) {
+                icon.className = "fas fa-sun";
+                text.innerText = "Desactivar Lluvia";
+                btn.style.background = "var(--accent)";
+            } else {
+                icon.className = "fas fa-cloud-sun";
+                text.innerText = "Activar Modo Lluvia";
+                btn.style.background = "rgba(255,255,255,0.2)";
+            }
+        }
+
+        // --- 3. CALCULADORA DE GASTOS (LocalStorage) ---
+        function loadExpenses() {
+            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
+            const list = document.getElementById('expenseList');
+            let total = 0;
+            
+            list.innerHTML = '';
+            
+            expenses.forEach((item, index) => {
+                total += parseFloat(item.value);
+                list.innerHTML += `
+                    <div class="expense-item">
+                        <span>${item.desc}</span>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <span style="font-weight:bold;">${item.value}€</span>
+                            <i class="fas fa-trash" style="color:#ef4444; font-size:0.8rem; cursor:pointer;" onclick="deleteExpense(${index})"></i>
+                        </div>
+                    </div>`;
+            });
+
+            document.getElementById('totalAmount').innerText = total + " €";
+        }
+
+        function addExpense() {
+            const desc = document.getElementById('expenseDesc').value;
+            const val = document.getElementById('expenseValue').value;
+            
+            if(desc && val) {
+                const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
+                expenses.push({ desc: desc, value: val });
+                localStorage.setItem('euroExpenses', JSON.stringify(expenses));
+                
+                document.getElementById('expenseDesc').value = '';
+                document.getElementById('expenseValue').value = '';
+                loadExpenses();
+            }
+        }
+
+        function deleteExpense(index) {
+            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
+            expenses.splice(index, 1);
+            localStorage.setItem('euroExpenses', JSON.stringify(expenses));
+            loadExpenses();
+        }
+
+        function clearBudget() {
+            if(confirm("¿Borrar todos los gastos?")) {
+                localStorage.removeItem('euroExpenses');
+                loadExpenses();
+            }
+        }
+
+        // --- 4. MODALES ---
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Init
+        loadExpenses();
+
+    </script>
 </body>
 </html>
