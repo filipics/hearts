@@ -11,17 +11,19 @@
     <style>
         /* --- 1. VARIABLES & RESET --- */
         :root {
-            --primary: #0A2540;      /* Azul Profundo elegante */
-            --accent: #00D4FF;       /* Cyan Vibrante para acciones */
-            --gold: #FFD700;         /* Dorado para estrellas/premium */
+            --primary: #0A2540;
+            --accent: #00D4FF;
+            --gold: #FFD700;
+            --success: #22C55E;
+            --warning: #F59E0B;
             --bg-glass: rgba(255, 255, 255, 0.85);
             --bg-card: #ffffff;
             --text-main: #1A202C;
             --text-light: #718096;
             --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.15);
             --radius: 24px;
+            --sidebar-width: 280px;
             
-            /* Fondos Dinámicos */
             --bg-paris: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1000&auto=format&fit=crop');
             --bg-london: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1000&auto=format&fit=crop');
             --bg-brussels: url('https://images.unsplash.com/photo-1569369409321-31d08676f9b6?q=80&w=1000&auto=format&fit=crop');
@@ -37,75 +39,323 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: background-image 0.8s ease-in-out;
-            padding-bottom: 100px; /* Espacio para el botón flotante */
         }
 
-        /* Overlay oscuro para que se lea el texto */
         body::before {
             content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.05); /* Muy sutil */
+            background: rgba(0, 0, 0, 0.05);
             z-index: -1;
             backdrop-filter: blur(3px);
         }
 
-        /* --- 2. HEADER & HAMBURGER MENU --- */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(15px);
-            padding: 15px 20px;
-            z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+        /* --- 2. DESKTOP: SIDEBAR SIEMPRE VISIBLE --- */
+        @media (min-width: 769px) {
+            .desktop-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: var(--sidebar-width);
+                height: 100vh;
+                background: rgba(255,255,255,0.97);
+                backdrop-filter: blur(20px);
+                padding: 30px 20px;
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                box-shadow: 4px 0 30px rgba(0,0,0,0.1);
+                overflow-y: auto;
+            }
+
+            .desktop-sidebar .logo-section {
+                text-align: center;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 10px;
+            }
+
+            .desktop-sidebar .logo-section h1 {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.8rem;
+                color: var(--primary);
+                letter-spacing: -0.5px;
+            }
+
+            .desktop-sidebar .logo-section span {
+                font-size: 0.85rem;
+                color: var(--text-light);
+            }
+
+            .main-container {
+                margin-left: var(--sidebar-width);
+                padding: 30px 40px 100px 40px;
+                max-width: calc(100% - var(--sidebar-width));
+            }
+
+            header { display: none !important; }
+            .mobile-days-nav { display: none !important; }
+            .sidebar { display: none !important; }
+            .sidebar-overlay { display: none !important; }
+            .hamburger { display: none !important; }
         }
 
-        .logo h1 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--primary); letter-spacing: -0.5px; }
-        .logo span { font-size: 0.8rem; color: var(--text-light); display: block; font-family: 'DM Sans', sans-serif;}
+        /* Desktop Menu Items */
+        .desktop-menu-item {
+            padding: 14px 18px;
+            border-radius: 14px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.25s ease;
+            font-size: 0.95rem;
+        }
 
-        .hamburger { font-size: 1.5rem; color: var(--primary); cursor: pointer; padding: 5px; }
+        .desktop-menu-item:hover {
+            background: #F0F9FF;
+            transform: translateX(5px);
+        }
 
-        /* SIDEBAR (Menú Lateral) */
+        .desktop-menu-item i {
+            width: 22px;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .desktop-menu-item.active {
+            background: linear-gradient(135deg, #E0F7FF 0%, #F0F9FF 100%);
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+        }
+
+        .menu-section-title {
+            font-size: 0.75rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 15px 0 8px 18px;
+            font-weight: 700;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #eee, transparent);
+            margin: 10px 0;
+        }
+
+        .rain-toggle-box {
+            margin-top: auto;
+            padding: 18px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
+            border-radius: 16px;
+            border: 1px solid #b2ebf2;
+        }
+
+        .rain-toggle-box p {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .rain-toggle-box label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* --- 3. MOBILE HEADER CON DÍAS --- */
+        @media (max-width: 768px) {
+            .desktop-sidebar { display: none !important; }
+
+            header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.95);
+                backdrop-filter: blur(15px);
+                padding: 12px 15px;
+                z-index: 1000;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            }
+
+            .logo h1 {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.1rem;
+                color: var(--primary);
+            }
+
+            .logo span {
+                font-size: 0.75rem;
+                color: var(--text-light);
+                display: block;
+            }
+
+            .hamburger {
+                font-size: 1.4rem;
+                color: var(--primary);
+                cursor: pointer;
+                padding: 8px;
+                background: #f0f9ff;
+                border-radius: 10px;
+            }
+
+            /* MOBILE DAYS NAV - 3 arriba, 2 abajo */
+            .mobile-days-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255,255,255,0.95);
+                backdrop-filter: blur(15px);
+                padding: 10px 15px 12px;
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            }
+
+            .days-row {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .day-btn {
+                flex: 1;
+                max-width: 110px;
+                padding: 10px 8px;
+                background: white;
+                border: 2px solid #E2E8F0;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                color: var(--text-main);
+                cursor: pointer;
+                transition: all 0.2s ease;
+                text-align: center;
+            }
+
+            .day-btn .day-num {
+                display: block;
+                font-size: 0.9rem;
+                margin-bottom: 2px;
+            }
+
+            .day-btn .day-city {
+                display: block;
+                font-size: 0.65rem;
+                color: var(--text-light);
+                font-weight: 500;
+            }
+
+            .day-btn.active {
+                background: var(--primary);
+                border-color: var(--primary);
+                color: white;
+                transform: scale(1.02);
+            }
+
+            .day-btn.active .day-city {
+                color: rgba(255,255,255,0.8);
+            }
+
+            .day-btn:active {
+                transform: scale(0.95);
+            }
+
+            .main-container {
+                margin-top: 195px;
+                padding: 0 15px 120px;
+            }
+        }
+
+        /* SIDEBAR MÓVIL (Menú hamburguesa) */
         .sidebar {
-            position: fixed; top: 0; left: -100%; width: 280px; height: 100vh;
-            background: white; z-index: 2000;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            z-index: 2000;
             padding: 30px;
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 10px 0 50px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
         }
+
         .sidebar.active { left: 0; }
+
         .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(0,0,0,0.5); z-index: 1999;
-            opacity: 0; pointer-events: none; transition: 0.3s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
             backdrop-filter: blur(4px);
         }
-        .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         .menu-item {
-            padding: 15px; border-radius: 12px;
-            color: var(--text-main); text-decoration: none; font-weight: 600;
-            display: flex; align-items: center; gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             transition: 0.2s;
         }
+
         .menu-item i { width: 20px; color: var(--accent); }
         .menu-item.active { background: #F7FAFC; color: var(--primary); border-left: 4px solid var(--accent); }
-        
-        .close-menu { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
 
-        /* --- 3. CONTENIDO PRINCIPAL --- */
-        .main-container {
-            margin-top: 100px; /* Header height + gap */
-            padding: 0 20px;
-            max-width: 800px; margin-left: auto; margin-right: auto;
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
         }
 
+        @media (min-width: 769px) {
+            .sidebar, .sidebar-overlay { display: none !important; }
+        }
+
+        /* --- 4. CONTENIDO PRINCIPAL --- */
         .section { display: none; animation: slideUp 0.5s ease; }
         .section.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 4. TARJETAS DE HOTELES (ESTILO AIRBNB) --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 5. TARJETAS DE HOTELES --- */
         .card-hotel {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -114,122 +364,970 @@
             margin-bottom: 25px;
             position: relative;
         }
-        
+
         .card-image {
-            height: 200px; width: 100%;
-            background-size: cover; background-position: center;
+            height: 200px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
             position: relative;
         }
-        
+
         .price-badge {
-            position: absolute; top: 15px; right: 15px;
+            position: absolute;
+            top: 15px;
+            right: 15px;
             background: rgba(255,255,255,0.95);
-            padding: 8px 16px; border-radius: 50px;
-            font-weight: 800; color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 800;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .safety-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(34, 197, 94, 0.95);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .card-content { padding: 20px; }
-        .card-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 5px; }
-        .card-location { font-size: 0.9rem; color: var(--text-light); display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
-        .card-features { display: flex; gap: 10px; margin-bottom: 15px; }
-        .feature-tag { background: #EDF2F7; padding: 5px 10px; border-radius: 8px; font-size: 0.8rem; color: #4A5568; }
+        
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .card-location {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .safety-info {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #A7F3D0;
+        }
+
+        .safety-info p {
+            font-size: 0.85rem;
+            color: #065F46;
+            line-height: 1.4;
+        }
+
+        .safety-info i {
+            color: var(--success);
+            margin-right: 5px;
+        }
+
+        .card-features {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: #EDF2F7;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #4A5568;
+        }
 
         .btn-map {
-            width: 100%; padding: 12px;
-            background: var(--primary); color: white;
-            border: none; border-radius: 12px;
-            font-weight: 600; cursor: pointer;
-            text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
             transition: 0.3s;
         }
+
         .btn-map:active { transform: scale(0.98); }
 
-        /* --- 5. TARJETAS DE ACTIVIDADES (Timeline) --- */
+        .btn-book {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), #0099CC);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        /* --- 6. TARJETAS DE ACTIVIDADES --- */
         .day-header {
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
-            padding: 20px; border-radius: 20px; margin-bottom: 20px;
-            text-align: center; border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .day-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .day-header p {
+            color: var(--text-light);
         }
 
         .activity-card {
-            background: white; border-radius: 18px;
-            padding: 15px; margin-bottom: 15px;
-            display: flex; gap: 15px;
+            background: white;
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             position: relative;
             border-left: 5px solid var(--accent);
         }
+
         .activity-img {
-            width: 80px; height: 80px; border-radius: 12px;
-            background-size: cover; background-position: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
             flex-shrink: 0;
         }
+
         .activity-info { flex-grow: 1; }
-        .activity-time { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
-        .activity-title { font-weight: 700; font-size: 1.1rem; margin: 3px 0; }
-        .activity-price { font-size: 0.9rem; color: var(--text-light); font-weight: 500; }
-        
-        /* MODO LLUVIA VISUAL */
+
+        .activity-time {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 3px 0;
+        }
+
+        .activity-price {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .activity-link {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* MODO LLUVIA */
         body.raining .activity-card.outdoor { opacity: 0.4; filter: grayscale(1); }
         body.raining .rain-option { display: flex !important; }
 
         .rain-option {
-            display: none; margin-top: 10px; padding: 10px;
-            background: #EBF8FF; border-radius: 10px;
-            color: #2B6CB0; font-size: 0.9rem; align-items: center; gap: 10px;
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #EBF8FF;
+            border-radius: 10px;
+            color: #2B6CB0;
+            font-size: 0.9rem;
+            align-items: center;
+            gap: 10px;
             border: 1px solid #BEE3F8;
         }
 
-        /* --- 6. BURBUJA DE NOTAS (FAB) --- */
+        /* --- 7. FAB & NOTAS --- */
         .fab-container {
-            position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
         }
+
         .fab-btn {
-            width: 60px; height: 60px;
-            background: var(--accent); color: white;
-            border-radius: 50%; border: none;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            border: none;
             box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
-            font-size: 1.5rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: 0.3s;
         }
+
         .fab-btn:active { transform: scale(0.9); }
 
-        /* MODAL DE NOTAS */
         .notes-modal {
-            position: fixed; bottom: 100px; right: 25px;
-            width: 300px; height: 400px;
-            background: white; border-radius: 20px;
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 320px;
+            height: 420px;
+            background: white;
+            border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            z-index: 999; display: none;
-            flex-direction: column; overflow: hidden;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .notes-header { background: var(--primary); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between;}
-        .notes-body { flex-grow: 1; overflow-y: auto; padding: 15px; background: #F7FAFC; display: flex; flex-direction: column; gap: 10px;}
-        .note-bubble { background: white; padding: 10px; border-radius: 10px; border-bottom-right-radius: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 0.9rem; align-self: flex-end; max-width: 90%; }
-        .notes-input-area { padding: 10px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
-        .notes-input { flex-grow: 1; border: 1px solid #eee; padding: 8px; border-radius: 20px; outline: none; }
 
-        /* --- 7. RESUMEN GASTOS TOTAL --- */
-        .budget-dashboard {
-            background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px;
-            box-shadow: var(--shadow-soft); text-align: center;
+        .notes-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
         }
-        .total-price { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0; font-family: 'DM Sans'; }
-        .progress-container { width: 100%; height: 10px; background: #eee; border-radius: 10px; overflow: hidden; margin-top: 10px;}
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--primary)); width: 0%; transition: 1s; }
+
+        .notes-body {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #F7FAFC;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .note-bubble {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+            align-self: flex-end;
+            max-width: 90%;
+        }
+
+        .notes-input-area {
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .notes-input {
+            flex-grow: 1;
+            border: 1px solid #eee;
+            padding: 10px 15px;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        /* --- 8. BUDGET DASHBOARD --- */
+        .budget-dashboard {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+        }
+
+        .total-price {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 10px 0;
+            font-family: 'DM Sans';
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            width: 0%;
+            transition: 1s;
+        }
 
         /* UTILS */
-        .tag-price { background: #e6fffa; color: #2c7a7b; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; border: 1px solid #b2f5ea; }
-        
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .tag-price {
+            background: #e6fffa;
+            color: #2c7a7b;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 1px solid #b2f5ea;
+        }
+
+        .tag-free {
+            background: #ECFDF5;
+            color: #059669;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 1px solid #A7F3D0;
+        }
+
+        .tag-reserve {
+            background: #FEF2F2;
+            color: #DC2626;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #FCD34D;
+        }
+
+        .tip-box h4 {
+            color: #B45309;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .tip-box p {
+            color: #92400E;
+            font-size: 0.85rem;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Welcome Hero */
+        .welcome-hero {
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+        }
+
+        .welcome-hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-hero .countdown-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            margin-top: 15px;
+        }
+
+        .welcome-hero .countdown-num {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        /* Hotels Grid for Desktop */
+        @media (min-width: 769px) {
+            .hotels-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .card-hotel { margin-bottom: 0; }
+        }
+
+        /* Rain Toggle en cada día */
+        .day-rain-toggle {
+            background: linear-gradient(135deg, #EBF8FF 0%, #E0F7FA 100%);
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #B2EBF2;
+        }
+
+        .day-rain-toggle label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .day-rain-toggle i {
+            color: #0288D1;
+        }
+
+        .rain-switch {
+            width: 50px;
+            height: 26px;
+            background: #CBD5E0;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .rain-switch.active {
+            background: var(--accent);
+        }
+
+        .rain-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .rain-switch.active::after {
+            left: 26px;
+        }
+
+        /* Cost Breakdown */
+        .cost-breakdown {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .cost-breakdown h4 {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .cost-item {
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cost-item:hover {
+            border-color: var(--accent);
+        }
+
+        .cost-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            cursor: pointer;
+            background: #FAFAFA;
+            transition: background 0.2s;
+        }
+
+        .cost-item-header:hover {
+            background: #F0F9FF;
+        }
+
+        .cost-item .cost-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cost-item .cost-label .cost-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .cost-item .cost-prices {
+            text-align: right;
+        }
+
+        .cost-item .cost-per-person {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .cost-item .cost-total {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .cost-item .expand-icon {
+            color: var(--text-light);
+            transition: transform 0.3s;
+            margin-left: 10px;
+        }
+
+        .cost-item.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .cost-item-details {
+            display: none;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .cost-item.expanded .cost-item-details {
+            display: block;
+        }
+
+        .cost-item-details ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .cost-item-details li {
+            margin-bottom: 5px;
+        }
+
+        .cost-item-details a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .cost-summary {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a365d 100%);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .cost-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cost-summary-row:last-child {
+            border-bottom: none;
+            padding-top: 15px;
+            font-size: 1.2rem;
+        }
+
+        .cost-summary-row.highlight {
+            background: rgba(255,255,255,0.1);
+            margin: 0 -20px;
+            padding: 12px 20px;
+            border-radius: 10px;
+        }
+
+        /* Hotel Comparison */
+        .hotel-comparison {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hotel-comparison h3 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table th {
+            background: #F7FAFC;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .comparison-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .hotel-name {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .comparison-table .pros {
+            color: #059669;
+        }
+
+        .comparison-table .cons {
+            color: #DC2626;
+        }
+
+        .comparison-table .pros li, .comparison-table .cons li {
+            margin-bottom: 4px;
+            list-style: none;
+        }
+
+        .comparison-table .pros li::before {
+            content: "✓ ";
+            font-weight: bold;
+        }
+
+        .comparison-table .cons li::before {
+            content: "✗ ";
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Document Cards */
+        .doc-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .doc-card-header {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .doc-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .doc-card-title h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .doc-card-title p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .doc-card-content {
+            padding: 0 20px 20px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .doc-card-content ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        .doc-card-content li {
+            margin-bottom: 8px;
+        }
+
+        .doc-card-content .doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        .doc-card-content .doc-link:hover {
+            opacity: 0.9;
+        }
+
+        .doc-warning {
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 10px 0;
+            color: #991B1B;
+            font-size: 0.85rem;
+        }
+
+        .doc-tip {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 10px 0;
+            color: #065F46;
+            font-size: 0.85rem;
+        }
+
+        /* Checklist Styles */
+        .checklist-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .checklist-section h3 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-section h3 i {
+            color: var(--accent);
+        }
+
+        .checklist-category {
+            margin-bottom: 25px;
+        }
+
+        .checklist-category h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: #F7FAFC;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:hover {
+            background: #EDF2F7;
+        }
+
+        .checklist-item.completed {
+            background: #ECFDF5;
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+
+        .checklist-item.completed .check-circle {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checklist-item.completed .check-circle i {
+            display: block;
+        }
+
+        .check-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #CBD5E0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .check-circle i {
+            display: none;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .checklist-item-text {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .checklist-item-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .tag-before { background: #FEF3C7; color: #B45309; }
+        .tag-day1 { background: #DBEAFE; color: #1D4ED8; }
+        .tag-day2 { background: #E0E7FF; color: #4338CA; }
+        .tag-day3 { background: #FCE7F3; color: #BE185D; }
+        .tag-day4 { background: #FEE2E2; color: #DC2626; }
+        .tag-day5 { background: #D1FAE5; color: #059669; }
+
+        .checklist-progress {
+            background: #F7FAFC;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .checklist-progress-bar {
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .checklist-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #10B981);
+            transition: width 0.5s ease;
+        }
 
     </style>
 </head>
 <body>
 
+    <!-- ============ DESKTOP SIDEBAR (SIEMPRE VISIBLE EN PC) ============ -->
+    <nav class="desktop-sidebar">
+        <div class="logo-section">
+            <h1>EUROTRIP</h1>
+            <span>Enero 2026 ✈️</span>
+        </div>
+
+        <a href="#" class="desktop-menu-item active" onclick="navTo('home', 'paris', this)">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('docs', 'paris', this)">
+            <i class="fas fa-passport"></i> Documentos
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('gastos', 'paris', this)">
+            <i class="fas fa-wallet"></i> Mis Gastos
+        </a>
+
+        <div class="menu-divider"></div>
+        <p class="menu-section-title">Itinerario</p>
+
+        <a href="#" class="desktop-menu-item" onclick="navTo('day1', 'paris', this)">
+            <i class="fas fa-map-pin"></i> Día 1: París (Llegada)
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('day2', 'paris', this)">
+            <i class="fas fa-landmark"></i> Día 2: París (Full)
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('day3', 'london', this)">
+            <i class="fas fa-crown"></i> Día 3: Londres
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('day4', 'london', this)">
+            <i class="fas fa-train"></i> Día 4: Lon → Bruselas
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('day5', 'brussels', this)">
+            <i class="fas fa-cookie-bite"></i> Día 5: Bruselas
+        </a>
+
+        <div class="menu-divider"></div>
+
+        <a href="#" class="desktop-menu-item" onclick="navTo('checklist', 'paris', this)">
+            <i class="fas fa-tasks"></i> Mi Checklist
+        </a>
+    </nav>
+
+    <!-- ============ MOBILE OVERLAY & SIDEBAR ============ -->
     <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
@@ -237,161 +1335,1402 @@
             <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
         </div>
 
-        <a href="#" class="menu-item active" onclick="navTo('home', 'paris')"><i class="fas fa-home"></i> Inicio</a>
-        <a href="#" class="menu-item" onclick="navTo('docs', 'paris')"><i class="fas fa-passport"></i> Documentos</a>
-        <a href="#" class="menu-item" onclick="navTo('gastos', 'paris')"><i class="fas fa-wallet"></i> Mis Gastos</a>
-        
-        <div style="border-top: 1px solid #eee; margin: 10px 0;"></div>
-        <p style="font-size:0.8rem; color:#aaa; margin-left:15px; margin-bottom:5px;">ITINERARIO</p>
-        
-        <a href="#" class="menu-item" onclick="navTo('day1', 'paris')"><i class="fas fa-map-pin"></i> Día 1: París</a>
-        <a href="#" class="menu-item" onclick="navTo('day2', 'paris')"><i class="fas fa-landmark"></i> Día 2: París</a>
-        <a href="#" class="menu-item" onclick="navTo('day3', 'london')"><i class="fas fa-crown"></i> Día 3: Londres</a>
-        <a href="#" class="menu-item" onclick="navTo('day4', 'london')"><i class="fas fa-subway"></i> Día 4: Lon/Bru</a>
-        <a href="#" class="menu-item" onclick="navTo('day5', 'brussels')"><i class="fas fa-cookie-bite"></i> Día 5: Bruselas</a>
-        
-        <div style="margin-top:auto; padding: 15px; background: #f0f9ff; border-radius: 12px;">
-            <p style="font-size:0.8rem; color:var(--primary);"><strong>Modo Lluvia</strong></p>
-            <div style="display:flex; align-items:center; gap:10px; margin-top:5px;">
-                <input type="checkbox" id="rainSwitch" onchange="toggleRainMode()">
-                <label for="rainSwitch" style="font-size:0.9rem;">Activar planes techados</label>
-            </div>
-        </div>
+        <a href="#" class="menu-item active" onclick="navTo('home', 'paris', this); toggleMenu();">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+        <a href="#" class="menu-item" onclick="navTo('docs', 'paris', this); toggleMenu();">
+            <i class="fas fa-passport"></i> Documentos
+        </a>
+        <a href="#" class="menu-item" onclick="navTo('gastos', 'paris', this); toggleMenu();">
+            <i class="fas fa-wallet"></i> Mis Gastos
+        </a>
+        <a href="#" class="menu-item" onclick="navTo('checklist', 'paris', this); toggleMenu();">
+            <i class="fas fa-tasks"></i> Mi Checklist
+        </a>
     </div>
 
+    <!-- ============ MOBILE HEADER ============ -->
     <header>
-        <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         <div class="logo">
             <h1>EUROTRIP</h1>
             <span>Enero 2026</span>
         </div>
-        <div style="width: 30px;"></div> </header>
+        <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </header>
 
+    <!-- ============ MOBILE DAYS NAVIGATION ============ -->
+    <nav class="mobile-days-nav">
+        <div class="days-row">
+            <button class="day-btn" onclick="navToDay('day1', 'paris', this)">
+                <span class="day-num">Día 1</span>
+                <span class="day-city">París</span>
+            </button>
+            <button class="day-btn" onclick="navToDay('day2', 'paris', this)">
+                <span class="day-num">Día 2</span>
+                <span class="day-city">París</span>
+            </button>
+            <button class="day-btn" onclick="navToDay('day3', 'london', this)">
+                <span class="day-num">Día 3</span>
+                <span class="day-city">Londres</span>
+            </button>
+        </div>
+        <div class="days-row">
+            <button class="day-btn" onclick="navToDay('day4', 'london', this)">
+                <span class="day-num">Día 4</span>
+                <span class="day-city">Lon→Bru</span>
+            </button>
+            <button class="day-btn" onclick="navToDay('day5', 'brussels', this)">
+                <span class="day-num">Día 5</span>
+                <span class="day-city">Bruselas</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============ CONTENIDO PRINCIPAL ============ -->
     <div class="main-container">
 
+        <!-- HOME -->
         <div id="home" class="section active">
-            <div style="text-align:center; padding: 40px 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem;">Bienvenue</h2>
-                <p>Faltan <span id="countdown">...</span> días para la aventura.</p>
-            </div>
-
-            <div class="card-hotel">
-                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1557335200-a65f7f032602?q=80&w=1000&auto=format&fit=crop');">
-                    <div class="price-badge">~145€/noche</div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Hotel Whistler</h3>
-                    <div class="card-location"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Gare du Nord, París</div>
-                    <div class="card-features">
-                        <span class="feature-tag">⭐ 4.5</span>
-                        <span class="feature-tag">🚇 Frente a Estación</span>
-                    </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Whistler+Paris" target="_blank" class="btn-map">Ver Ubicación</a>
+            <div class="welcome-hero">
+                <h2>Bienvenue ✨</h2>
+                <p>La aventura está por comenzar</p>
+                <div class="countdown-box">
+                    <span class="countdown-num" id="countdown">...</span>
+                    <span> días restantes</span>
                 </div>
             </div>
 
-            <div class="card-hotel">
-                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1000&auto=format&fit=crop');">
-                    <div class="price-badge">~£110/noche</div>
+            <div class="tip-box">
+                <h4><i class="fas fa-shield-alt"></i> Hoteles Seguros Seleccionados</h4>
+                <p>Elegimos zonas recomendadas por viajeros por su seguridad, transporte y accesibilidad turística. 👥 Viajeros: 2 personas</p>
+            </div>
+
+            <!-- COMPARACIÓN DE HOTELES -->
+            <div class="hotel-comparison">
+                <h3><i class="fas fa-balance-scale"></i> Comparación de Hoteles</h3>
+                
+                <div style="overflow-x: auto;">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Hotel</th>
+                                <th>Precio/Noche</th>
+                                <th>Ubicación</th>
+                                <th style="color:#059669;">Ventajas ✓</th>
+                                <th style="color:#DC2626;">Desventajas ✗</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="hotel-name">🇫🇷 Hôtel Caron de Beaumarchais</span><br>
+                                    <small style="color:var(--text-light);">París · Le Marais</small>
+                                </td>
+                                <td>
+                                    <strong>155€</strong><br>
+                                    <small>310€ total (2 noches)</small>
+                                </td>
+                                <td>
+                                    ⭐⭐⭐⭐⭐<br>
+                                    <small>Le Marais es increíble</small>
+                                </td>
+                                <td class="pros">
+                                    <ul>
+                                        <li>Barrio más seguro y bonito</li>
+                                        <li>Zona peatonal, muy iluminada</li>
+                                        <li>Restaurantes y cafés a pasos</li>
+                                        <li>Metro Saint-Paul a 2 min</li>
+                                        <li>Decoración boutique única</li>
+                                    </ul>
+                                </td>
+                                <td class="cons">
+                                    <ul>
+                                        <li>Más caro que otras zonas</li>
+                                        <li>Habitaciones pequeñas (típico París)</li>
+                                        <li>Sin gym ni piscina</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="hotel-name">🇬🇧 The Kensington Hotel</span><br>
+                                    <small style="color:var(--text-light);">Londres · South Kensington</small>
+                                </td>
+                                <td>
+                                    <strong>£135</strong><br>
+                                    <small>~160€ (1 noche)</small>
+                                </td>
+                                <td>
+                                    ⭐⭐⭐⭐⭐<br>
+                                    <small>Zona premium</small>
+                                </td>
+                                <td class="pros">
+                                    <ul>
+                                        <li>Barrio más seguro de Londres</li>
+                                        <li>3 museos gratis a 5 min a pie</li>
+                                        <li>Zona residencial elegante</li>
+                                        <li>Excelente tube connection</li>
+                                        <li>Hyde Park cerca</li>
+                                    </ul>
+                                </td>
+                                <td class="cons">
+                                    <ul>
+                                        <li>Lejos del centro turístico</li>
+                                        <li>Zona más cara para comer</li>
+                                        <li>15-20 min en tube a Westminster</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="hotel-name">🇧🇪 Hotel Le Berger</span><br>
+                                    <small style="color:var(--text-light);">Bruselas · Ixelles</small>
+                                </td>
+                                <td>
+                                    <strong>95€</strong><br>
+                                    <small>95€ total (1 noche)</small>
+                                </td>
+                                <td>
+                                    ⭐⭐⭐⭐<br>
+                                    <small>Muy buena relación precio-seguridad</small>
+                                </td>
+                                <td class="pros">
+                                    <ul>
+                                        <li>El barrio MÁS seguro de Bruselas</li>
+                                        <li>Precio excelente</li>
+                                        <li>Zona con buenos restaurantes</li>
+                                        <li>Metro Louise a 5 min</li>
+                                        <li>Cerca del Barrio Europeo</li>
+                                    </ul>
+                                </td>
+                                <td class="cons">
+                                    <ul>
+                                        <li>No está en el centro histórico</li>
+                                        <li>15 min en metro a Grand Place</li>
+                                        <li>Hotel más básico (3 estrellas)</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">Point A King's Cross</h3>
-                    <div class="card-location"><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Londres, UK</div>
-                    <div class="card-features">
-                        <span class="feature-tag">⭐ 4.2</span>
-                        <span class="feature-tag">🚇 Económico</span>
+
+                <div class="tip-box" style="margin-top:20px; margin-bottom:0;">
+                    <h4><i class="fas fa-lightbulb"></i> ¿Por qué estos hoteles?</h4>
+                    <p>
+                        <strong>Prioridad #1: Seguridad.</strong> Evitamos zonas problemáticas como Gare du Nord (París), áreas de King's Cross menos iluminadas (Londres), y Molenbeek/Anderlecht (Bruselas).<br><br>
+                        <strong>Prioridad #2: Transporte.</strong> Todos están a menos de 5 min de una estación de metro/tube.<br><br>
+                        <strong>Prioridad #3: Experiencia.</strong> Queremos que camines por calles lindas, no solo que duermas ahí.
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="color:white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin: 30px 0 20px; font-family: 'Playfair Display';">
+                <i class="fas fa-hotel"></i> Detalle de cada Hotel
+            </h3>
+
+            <div class="hotels-grid">
+                <!-- HOTEL PARIS - LE MARAIS (Zona muy segura) -->
+                <div class="card-hotel">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1000&auto=format&fit=crop');">
+                        <div class="safety-badge"><i class="fas fa-shield-alt"></i> Zona Segura</div>
+                        <div class="price-badge">~155€/noche</div>
                     </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Point+A+Hotel+London+Kings+Cross" target="_blank" class="btn-map">Ver Ubicación</a>
+                    <div class="card-content">
+                        <h3 class="card-title">Hôtel Caron de Beaumarchais</h3>
+                        <div class="card-location">
+                            <i class="fas fa-map-marker-alt" style="color:var(--accent)"></i>
+                            Le Marais, 4ème Arrondissement, París
+                        </div>
+                        <div class="safety-info">
+                            <p><i class="fas fa-check-circle"></i> <strong>Le Marais</strong> es uno de los barrios más seguros y encantadores de París. Zona peatonal, iluminada, llena de cafés y tiendas. Muy recomendado por TripAdvisor y viajeros.</p>
+                        </div>
+                        <div class="card-features">
+                            <span class="feature-tag">⭐ 4.7</span>
+                            <span class="feature-tag">🚇 Metro Saint-Paul</span>
+                            <span class="feature-tag">🏛️ Cerca Bastille</span>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Caron+de+Beaumarchais+Paris" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Ver Ubicación
+                        </a>
+                        <a href="https://www.booking.com/hotel/fr/caron-de-beaumarchais.html" target="_blank" class="btn-book">
+                            <i class="fas fa-calendar-check"></i> Ver en Booking
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HOTEL LONDRES - SOUTH KENSINGTON (Zona muy segura) -->
+                <div class="card-hotel">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop');">
+                        <div class="safety-badge"><i class="fas fa-shield-alt"></i> Zona Premium</div>
+                        <div class="price-badge">~£135/noche</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">The Kensington Hotel</h3>
+                        <div class="card-location">
+                            <i class="fas fa-map-marker-alt" style="color:var(--accent)"></i>
+                            South Kensington, Londres
+                        </div>
+                        <div class="safety-info">
+                            <p><i class="fas fa-check-circle"></i> <strong>South Kensington</strong> es una de las zonas más seguras de Londres. Barrio residencial elegante, cerca de museos gratuitos (V&A, Natural History, Science). Altamente recomendado.</p>
+                        </div>
+                        <div class="card-features">
+                            <span class="feature-tag">⭐ 4.6</span>
+                            <span class="feature-tag">🚇 Tube South Ken</span>
+                            <span class="feature-tag">🏛️ Museums Area</span>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=The+Kensington+Hotel+London" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Ver Ubicación
+                        </a>
+                        <a href="https://www.booking.com/hotel/gb/the-kensington.html" target="_blank" class="btn-book">
+                            <i class="fas fa-calendar-check"></i> Ver en Booking
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HOTEL BRUSELAS - IXELLES (Zona segura) -->
+                <div class="card-hotel">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1000&auto=format&fit=crop');">
+                        <div class="safety-badge"><i class="fas fa-shield-alt"></i> Barrio Seguro</div>
+                        <div class="price-badge">~95€/noche</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Hotel Le Berger</h3>
+                        <div class="card-location">
+                            <i class="fas fa-map-marker-alt" style="color:var(--accent)"></i>
+                            Ixelles, Bruselas
+                        </div>
+                        <div class="safety-info">
+                            <p><i class="fas fa-check-circle"></i> <strong>Ixelles</strong> es considerado el barrio más seguro de Bruselas. Zona residencial con restaurantes, cerca del Barrio Europeo. Evita zonas como Molenbeek o Anderlecht.</p>
+                        </div>
+                        <div class="card-features">
+                            <span class="feature-tag">⭐ 4.4</span>
+                            <span class="feature-tag">🚇 Metro Louise</span>
+                            <span class="feature-tag">🍫 Chocolaterías</span>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Le+Berger+Brussels" target="_blank" class="btn-map">
+                            <i class="fas fa-map-marked-alt"></i> Ver Ubicación
+                        </a>
+                        <a href="https://www.booking.com/hotel/be/le-berger.html" target="_blank" class="btn-book">
+                            <i class="fas fa-calendar-check"></i> Ver en Booking
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- GASTOS -->
         <div id="gastos" class="section">
             <div class="budget-dashboard">
-                <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Gasto Total Estimado</p>
+                <p style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">Gasto Total Estimado</p>
                 <div class="total-price" id="totalAmount">0 €</div>
                 <div class="progress-container">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
-                <p style="font-size: 0.8rem; margin-top: 10px; color: #888;">Incluye hoteles, entradas y comidas añadidas.</p>
+                <p style="font-size: 0.8rem; margin-top: 12px; color: #888;">Presupuesto objetivo: 2,500€</p>
+            </div>
+
+            <!-- DESGLOSE DE COSTOS -->
+            <div class="cost-breakdown">
+                <h4><i class="fas fa-receipt"></i> Desglose de Costos Fijos (Click para ver detalle)</h4>
+                <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:15px;">👥 Viajeros: 2 personas | Precios mostrados: por persona + total</p>
+                
+                <!-- Hotel París -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#DBEAFE; color:#1D4ED8;"><i class="fas fa-bed"></i></div>
+                            <span>Hotel París (2 noches)</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">155€/noche × 2 = 310€ p/p</div>
+                            <div class="cost-total">620€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Hôtel Caron de Beaumarchais ⭐⭐⭐⭐</strong><br>
+                        📍 Le Marais, 4ème Arrondissement<br><br>
+                        <ul>
+                            <li>Habitación doble con desayuno incluido</li>
+                            <li>Check-in: 15:00 / Check-out: 11:00</li>
+                            <li>Noches: 7 y 8 de enero</li>
+                            <li>WiFi gratis, aire acondicionado</li>
+                        </ul>
+                        <a href="https://www.booking.com/hotel/fr/caron-de-beaumarchais.html" target="_blank">→ Ver en Booking</a>
+                    </div>
+                </div>
+
+                <!-- Hotel Londres -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#FCE7F3; color:#BE185D;"><i class="fas fa-bed"></i></div>
+                            <span>Hotel Londres (1 noche)</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">160€ p/p</div>
+                            <div class="cost-total">320€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>The Kensington Hotel ⭐⭐⭐⭐</strong><br>
+                        📍 South Kensington, Londres<br><br>
+                        <ul>
+                            <li>Habitación doble estándar</li>
+                            <li>Check-in: 14:00 / Check-out: 11:00</li>
+                            <li>Noche: 9 de enero</li>
+                            <li>Zona premium, cerca de museos gratuitos</li>
+                        </ul>
+                        <a href="https://www.booking.com/hotel/gb/the-kensington.html" target="_blank">→ Ver en Booking</a>
+                    </div>
+                </div>
+
+                <!-- Hotel Bruselas -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#D1FAE5; color:#059669;"><i class="fas fa-bed"></i></div>
+                            <span>Hotel Bruselas (1 noche)</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">95€ p/p</div>
+                            <div class="cost-total">190€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Hotel Le Berger ⭐⭐⭐</strong><br>
+                        📍 Ixelles, Bruselas<br><br>
+                        <ul>
+                            <li>Habitación doble con baño privado</li>
+                            <li>Check-in: 14:00 / Check-out: 10:00</li>
+                            <li>Noche: 10 de enero</li>
+                            <li>Barrio más seguro de Bruselas</li>
+                        </ul>
+                        <a href="https://www.booking.com/hotel/be/le-berger.html" target="_blank">→ Ver en Booking</a>
+                    </div>
+                </div>
+
+                <!-- Eurostar París-Londres -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#FEF3C7; color:#B45309;"><i class="fas fa-train"></i></div>
+                            <span>Eurostar París → Londres</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">~120€ p/p</div>
+                            <div class="cost-total">~240€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Eurostar Standard Premier (recomendado)</strong><br><br>
+                        <ul>
+                            <li>🚉 Salida: Gare du Nord, París ~07:00</li>
+                            <li>🚉 Llegada: St Pancras, Londres ~08:30 (hora UK)</li>
+                            <li>⏱️ Duración: 2h 16min</li>
+                            <li>💡 Tip: Comprar con 2-3 meses de anticipación para mejores precios</li>
+                            <li>📋 Llevar pasaporte (control UK en París)</li>
+                        </ul>
+                        <a href="https://www.eurostar.com" target="_blank">→ Comprar en Eurostar</a>
+                    </div>
+                </div>
+
+                <!-- Eurostar Londres-Bruselas -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#FEE2E2; color:#DC2626;"><i class="fas fa-train"></i></div>
+                            <span>Eurostar Londres → Bruselas</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">~80€ p/p</div>
+                            <div class="cost-total">~160€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Eurostar Standard</strong><br><br>
+                        <ul>
+                            <li>🚉 Salida: St Pancras, Londres ~15:00</li>
+                            <li>🚉 Llegada: Bruxelles-Midi ~18:00</li>
+                            <li>⏱️ Duración: 2h (sin cambio de hora)</li>
+                            <li>💡 Generalmente más barato que París-Londres</li>
+                        </ul>
+                        <a href="https://www.eurostar.com" target="_blank">→ Comprar en Eurostar</a>
+                    </div>
+                </div>
+
+                <!-- Entradas -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#E0E7FF; color:#4338CA;"><i class="fas fa-ticket-alt"></i></div>
+                            <span>Entradas y Atracciones</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">~135€ p/p</div>
+                            <div class="cost-total">~270€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Desglose por atracción:</strong><br><br>
+                        <ul>
+                            <li>🏛️ Museo Louvre (nocturno): 22€ p/p</li>
+                            <li>⛪ Sainte-Chapelle: 13€ p/p</li>
+                            <li>🗼 Torre Eiffel (cima): 35€ p/p</li>
+                            <li>🏛️ Arc de Triomphe: 16€ p/p</li>
+                            <li>🏰 Tower of London: 33€ (~£28) p/p</li>
+                            <li>⚛️ Atomium Bruselas: 16€ p/p</li>
+                        </ul>
+                        <strong>Total entradas: ~135€ por persona</strong>
+                        <div class="doc-tip">💡 Reservar online para evitar filas y asegurar disponibilidad</div>
+                    </div>
+                </div>
+
+                <!-- ETA UK -->
+                <div class="cost-item" onclick="toggleCostItem(this)">
+                    <div class="cost-item-header">
+                        <div class="cost-label">
+                            <div class="cost-icon" style="background:#ECFDF5; color:#059669;"><i class="fas fa-passport"></i></div>
+                            <span>ETA Reino Unido</span>
+                        </div>
+                        <div class="cost-prices">
+                            <div class="cost-per-person">12€ p/p</div>
+                            <div class="cost-total">24€ total</div>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="cost-item-details">
+                        <strong>Electronic Travel Authorisation</strong><br><br>
+                        <ul>
+                            <li>🛂 Obligatorio para ciudadanos argentinos desde 2024</li>
+                            <li>⏱️ Válido por 2 años o hasta que expire el pasaporte</li>
+                            <li>📱 Se tramita 100% online, tarda 3 días hábiles</li>
+                            <li>⚠️ Hacerlo ANTES de viajar, no se puede en el aeropuerto</li>
+                        </ul>
+                        <a href="https://www.gov.uk/electronic-travel-authorisation" target="_blank">→ Tramitar ETA Oficial</a>
+                    </div>
+                </div>
+
+                <!-- RESUMEN TOTAL -->
+                <div class="cost-summary">
+                    <div class="cost-summary-row">
+                        <span>🏨 Alojamiento (4 noches)</span>
+                        <span>1,130€</span>
+                    </div>
+                    <div class="cost-summary-row">
+                        <span>🚄 Transporte (Eurostar)</span>
+                        <span>400€</span>
+                    </div>
+                    <div class="cost-summary-row">
+                        <span>🎟️ Entradas</span>
+                        <span>270€</span>
+                    </div>
+                    <div class="cost-summary-row">
+                        <span>🛂 Documentos (ETA)</span>
+                        <span>24€</span>
+                    </div>
+                    <div class="cost-summary-row highlight">
+                        <strong>SUBTOTAL FIJOS (2 personas)</strong>
+                        <strong>~1,824€</strong>
+                    </div>
+                    <div class="cost-summary-row" style="opacity:0.8;">
+                        <span>Por persona</span>
+                        <span>~912€ p/p</span>
+                    </div>
+                </div>
             </div>
             
-            <div style="background:white; border-radius:20px; padding:20px; box-shadow:var(--shadow-soft);">
-                <h3><i class="fas fa-plus-circle" style="color:var(--accent)"></i> Agregar Gasto</h3>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <input type="text" id="expenseDesc" placeholder="Ej: Café" style="flex:1; padding:10px; border:1px solid #eee; border-radius:10px;">
-                    <input type="number" id="expenseValue" placeholder="€" style="width:80px; padding:10px; border:1px solid #eee; border-radius:10px;">
-                    <button onclick="addExpense()" style="background:var(--primary); color:white; border:none; padding:10px 15px; border-radius:10px;"><i class="fas fa-check"></i></button>
+            <div style="background:white; border-radius:20px; padding:25px; box-shadow:var(--shadow-soft); margin-bottom:20px;">
+                <h3 style="margin-bottom:15px;"><i class="fas fa-plus-circle" style="color:var(--accent)"></i> Agregar Gasto Variable</h3>
+                <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:15px;">Comidas, souvenirs, transporte local, extras...</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <input type="text" id="expenseDesc" placeholder="Ej: Cena, Metro, Souvenirs..." style="flex:1; min-width:150px; padding:12px; border:2px solid #eee; border-radius:12px; font-size:1rem;">
+                    <input type="number" id="expenseValue" placeholder="€" style="width:100px; padding:12px; border:2px solid #eee; border-radius:12px; font-size:1rem;">
+                    <button onclick="addExpense()" style="background:var(--primary); color:white; border:none; padding:12px 20px; border-radius:12px; font-weight:600; cursor:pointer;">
+                        <i class="fas fa-check"></i> Añadir
+                    </button>
                 </div>
                 <div id="expenseList" style="margin-top:20px;"></div>
             </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-lightbulb"></i> Estimación de Gastos Variables</h4>
+                <p>Comidas: ~40€/día × 5 días = 200€<br>
+                Transporte local (metro, bus): ~50€<br>
+                Souvenirs y extras: ~100€<br>
+                <strong>Total estimado del viaje: ~1,250€ - 1,500€</strong></p>
+            </div>
         </div>
 
+        <!-- DOCUMENTOS -->
+        <div id="docs" class="section">
+            <div class="day-header">
+                <h2>📋 Documentación del Viaje</h2>
+                <p>Todo lo que necesitas tener listo antes de viajar</p>
+            </div>
+
+            <!-- ETA UK -->
+            <div class="doc-card" style="border-left: 4px solid #DC2626;">
+                <div class="doc-card-header" style="background: #FEF2F2;">
+                    <div class="doc-card-icon" style="background:#DC2626; color:white;"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:#DC2626;">ETA Reino Unido (£10 / ~12€)</h4>
+                        <p>⚠️ OBLIGATORIO - Tramitar antes de viajar</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <p>La <strong>Electronic Travel Authorisation</strong> es obligatoria para ciudadanos argentinos que visiten Reino Unido desde 2024.</p>
+                    
+                    <div class="doc-warning">
+                        <strong>⚠️ IMPORTANTE:</strong> No se puede tramitar en el aeropuerto. Si no lo tenés, no te dejan abordar el Eurostar.
+                    </div>
+                    
+                    <ul>
+                        <li><strong>Costo:</strong> £10 por persona (~12€)</li>
+                        <li><strong>Validez:</strong> 2 años o hasta que expire tu pasaporte</li>
+                        <li><strong>Tiempo de aprobación:</strong> Generalmente 3 días hábiles</li>
+                        <li><strong>Cuándo tramitar:</strong> Mínimo 2 semanas antes del viaje</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📝 Qué necesitás:</h5>
+                    <ul>
+                        <li>Pasaporte argentino vigente</li>
+                        <li>Foto tipo pasaporte digital</li>
+                        <li>Tarjeta de crédito/débito para el pago</li>
+                        <li>Dirección del hotel en UK</li>
+                    </ul>
+
+                    <a href="https://www.gov.uk/electronic-travel-authorisation" target="_blank" class="doc-link">
+                        <i class="fas fa-external-link-alt"></i> Tramitar ETA Oficial
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pasaporte -->
+            <div class="doc-card" style="border-left: 4px solid var(--primary);">
+                <div class="doc-card-header" style="background: #F0F9FF;">
+                    <div class="doc-card-icon" style="background:var(--primary); color:white;"><i class="fas fa-passport"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:var(--primary);">Pasaporte Argentino</h4>
+                        <p>Documento principal para todo el viaje</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <ul>
+                        <li><strong>Francia & Bélgica (UE):</strong> Se puede entrar con DNI si tenés ciudadanía europea, sino pasaporte argentino</li>
+                        <li><strong>Reino Unido:</strong> Pasaporte OBLIGATORIO (no acepta DNI)</li>
+                        <li><strong>Vigencia mínima:</strong> 6 meses desde la fecha de regreso</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Llevá una copia digital en tu celular (foto o PDF) por si perdés el original.
+                    </div>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📋 Verificar antes de viajar:</h5>
+                    <ul>
+                        <li>✅ Pasaporte no vencido</li>
+                        <li>✅ Mínimo 2 páginas en blanco para sellos</li>
+                        <li>✅ Foto del pasaporte guardada en la nube</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Eurostar -->
+            <div class="doc-card" style="border-left: 4px solid var(--accent);">
+                <div class="doc-card-header" style="background: #E0F7FF;">
+                    <div class="doc-card-icon" style="background:var(--accent); color:white;"><i class="fas fa-train"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:var(--primary);">Tickets Eurostar</h4>
+                        <p>París → Londres → Bruselas</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <h5 style="margin-bottom:10px;">🚄 Trayectos a reservar:</h5>
+                    <ul>
+                        <li><strong>9 de enero:</strong> París Gare du Nord → Londres St Pancras (~07:00)</li>
+                        <li><strong>10 de enero:</strong> Londres St Pancras → Bruselas Midi (~15:00)</li>
+                    </ul>
+
+                    <div class="doc-warning">
+                        <strong>⏰ Control de pasaporte:</strong> Llegar 1 hora antes de la salida. El control de UK se hace EN PARÍS antes de subir.
+                    </div>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📱 Cómo llevar los tickets:</h5>
+                    <ul>
+                        <li><strong>Opción 1:</strong> App Eurostar (código QR)</li>
+                        <li><strong>Opción 2:</strong> PDF descargado en celular</li>
+                        <li><strong>Opción 3:</strong> Impreso en papel (backup recomendado)</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Comprá con 2-3 meses de anticipación. Los precios suben mucho cerca de la fecha.
+                    </div>
+
+                    <a href="https://www.eurostar.com" target="_blank" class="doc-link">
+                        <i class="fas fa-external-link-alt"></i> Comprar en Eurostar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Seguro de Viaje -->
+            <div class="doc-card" style="border-left: 4px solid #8B5CF6;">
+                <div class="doc-card-header" style="background: #F5F3FF;">
+                    <div class="doc-card-icon" style="background:#8B5CF6; color:white;"><i class="fas fa-shield-alt"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:#6D28D9;">Seguro de Viaje</h4>
+                        <p>Recomendado para Europa</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <p>Aunque no es obligatorio para argentinos en Europa, es MUY recomendado. Una emergencia médica sin seguro puede costar miles de euros.</p>
+                    
+                    <h5 style="margin-top:15px; margin-bottom:10px;">🏥 Cobertura recomendada:</h5>
+                    <ul>
+                        <li>Gastos médicos: mínimo €30,000</li>
+                        <li>Repatriación sanitaria</li>
+                        <li>Pérdida de equipaje</li>
+                        <li>Cancelación de viaje</li>
+                        <li>Asistencia 24/7 en español</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📋 Opciones populares:</h5>
+                    <ul>
+                        <li><strong>Assist Card:</strong> ~$50-80 USD (5 días)</li>
+                        <li><strong>World Nomads:</strong> ~$60-90 USD</li>
+                        <li><strong>IATI Seguros:</strong> ~€40-60</li>
+                        <li><strong>Tarjeta de crédito:</strong> Algunas incluyen seguro de viaje</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Verificá si tu tarjeta de crédito incluye seguro de viaje. Muchas premium lo tienen.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dinero y Tarjetas -->
+            <div class="doc-card" style="border-left: 4px solid var(--warning);">
+                <div class="doc-card-header" style="background: #FFFBEB;">
+                    <div class="doc-card-icon" style="background:var(--warning); color:white;"><i class="fas fa-credit-card"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:#B45309;">Dinero y Tarjetas</h4>
+                        <p>Cómo pagar sin perder en comisiones</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <h5 style="margin-bottom:10px;">💳 Tarjetas Recomendadas (sin comisiones):</h5>
+                    <ul>
+                        <li><strong>Revolut:</strong> La mejor opción. Tipo de cambio real, sin comisiones. Funciona en EUR y GBP.</li>
+                        <li><strong>Wise (ex TransferWise):</strong> Similar a Revolut, excelente para Europa.</li>
+                        <li><strong>N26:</strong> Banco alemán, cuenta gratis en euros.</li>
+                        <li><strong>Ualá/Prex:</strong> Funcionan pero tienen límite de compras en el exterior.</li>
+                    </ul>
+
+                    <div class="doc-warning">
+                        <strong>⚠️ Evitar:</strong> Tarjetas argentinas tradicionales cobran hasta 65% extra entre impuestos y cotización.
+                    </div>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">💶 Monedas que vas a usar:</h5>
+                    <ul>
+                        <li><strong>Francia & Bélgica:</strong> Euro (€)</li>
+                        <li><strong>Reino Unido:</strong> Libra Esterlina (£)</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">💵 ¿Llevar efectivo?</h5>
+                    <ul>
+                        <li>Recomendado: ~100-150€ en efectivo como backup</li>
+                        <li>En UK casi todo es contactless, efectivo poco necesario</li>
+                        <li>No cambiar en aeropuertos (peor cotización)</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Cuando pagues con tarjeta, SIEMPRE elegí "pagar en moneda local" (EUR o GBP), no en pesos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Celular y Datos -->
+            <div class="doc-card" style="border-left: 4px solid var(--success);">
+                <div class="doc-card-header" style="background: #ECFDF5;">
+                    <div class="doc-card-icon" style="background:var(--success); color:white;"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:#059669;">Celular y Datos Móviles</h4>
+                        <p>Cómo tener internet en Europa</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <h5 style="margin-bottom:10px;">📱 Opciones para tener datos:</h5>
+                    <ul>
+                        <li><strong>eSIM (recomendado):</strong> Airalo, Holafly, Ubigi. Se activa desde el celular.</li>
+                        <li><strong>SIM física:</strong> Comprar en aeropuerto o tiendas locales</li>
+                        <li><strong>Roaming argentino:</strong> Muy caro, no recomendado</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📊 Planes recomendados (eSIM):</h5>
+                    <ul>
+                        <li><strong>Airalo Europe:</strong> 5GB/30 días ~$15 USD (cubre UK, FR, BE)</li>
+                        <li><strong>Holafly:</strong> Datos ilimitados 5 días ~$19 USD</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Verificá que tu celular sea compatible con eSIM. iPhone XS y posteriores lo soportan.
+                    </div>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">📶 WiFi gratis:</h5>
+                    <ul>
+                        <li>Hoteles: siempre tienen WiFi incluido</li>
+                        <li>Cafeterías: Starbucks, McDonald's, cafés locales</li>
+                        <li>Museos y atracciones: la mayoría tiene WiFi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Apps Útiles -->
+            <div class="doc-card" style="border-left: 4px solid #EC4899;">
+                <div class="doc-card-header" style="background: #FDF2F8;">
+                    <div class="doc-card-icon" style="background:#EC4899; color:white;"><i class="fas fa-th"></i></div>
+                    <div class="doc-card-title">
+                        <h4 style="color:#BE185D;">Apps Imprescindibles</h4>
+                        <p>Descargar antes de viajar</p>
+                    </div>
+                </div>
+                <div class="doc-card-content">
+                    <h5 style="margin-bottom:10px;">🗺️ Mapas y Navegación:</h5>
+                    <ul>
+                        <li><strong>Google Maps:</strong> Descargar mapas offline de París, Londres y Bruselas</li>
+                        <li><strong>Citymapper:</strong> La mejor para transporte público en Londres y París</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">🚇 Transporte:</h5>
+                    <ul>
+                        <li><strong>Eurostar:</strong> Tickets y estado del tren</li>
+                        <li><strong>RATP (París):</strong> Metro de París</li>
+                        <li><strong>TfL Go (Londres):</strong> Metro y buses de Londres</li>
+                        <li><strong>Uber:</strong> Funciona en las 3 ciudades</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">💬 Comunicación:</h5>
+                    <ul>
+                        <li><strong>WhatsApp:</strong> Llamadas gratis por WiFi</li>
+                        <li><strong>Google Translate:</strong> Descargar francés y holandés offline</li>
+                    </ul>
+
+                    <h5 style="margin-top:15px; margin-bottom:10px;">💰 Dinero:</h5>
+                    <ul>
+                        <li><strong>Revolut/Wise:</strong> Para pagos</li>
+                        <li><strong>XE Currency:</strong> Conversor de monedas</li>
+                    </ul>
+
+                    <div class="doc-tip">
+                        <strong>💡 Tip:</strong> Descargá todo antes de viajar. En el avión o sin datos vas a necesitar los mapas offline.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÍA 1: PARÍS LLEGADA -->
         <div id="day1" class="section">
             <div class="day-header">
-                <h2>🇫🇷 Miércoles 7</h2>
-                <p>Llegada, Île de la Cité & Louvre</p>
+                <h2>🇫🇷 Miércoles 7 de Enero</h2>
+                <p>Llegada a París • Île de la Cité • Louvre</p>
+            </div>
+
+            <div class="day-rain-toggle">
+                <label onclick="toggleRainMode()">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>¿Llueve hoy? Ver alternativas techadas</span>
+                </label>
+                <div class="rain-switch" id="rainSwitch1" onclick="toggleRainMode()"></div>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-plane-arrival"></i> Check-in Hotel</h4>
+                <p>Le Marais está a 25 min en metro desde CDG (RER B + Metro 1). Check-in habitualmente desde 15:00.</p>
             </div>
 
             <div class="activity-card outdoor">
-                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1478391679964-b80418ee3f72?q=80&w=200');"></div>
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1478391679764-b2d8b3cd1e94?q=80&w=200');"></div>
                 <div class="activity-info">
-                    <div class="activity-time">14:30</div>
-                    <div class="activity-title">Notre Dame Walk</div>
-                    <div class="activity-price"><span class="tag-price">Gratis</span></div>
-                    <div class="rain-option"><i class="fas fa-umbrella"></i> Ir directo a Sainte-Chapelle</div>
+                    <div class="activity-time">14:30 - 16:00</div>
+                    <div class="activity-title">Notre Dame & Île de la Cité</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span></div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Ir directo a Sainte-Chapelle (interior)</div>
                 </div>
-                <a href="https://maps.google.com/?q=Notre+Dame" target="_blank" style="position:absolute; right:15px; top:15px; color:var(--primary)"><i class="fas fa-location-arrow"></i></a>
+                <a href="https://maps.google.com/?q=Notre+Dame+Paris" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">16:00 - 17:00</div>
+                    <div class="activity-title">Sainte-Chapelle</div>
+                    <div class="activity-price"><span class="tag-price">13€</span> <span class="tag-reserve">Reserva Online</span></div>
+                </div>
+                <a href="https://maps.google.com/?q=Sainte+Chapelle+Paris" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
             </div>
 
             <div class="activity-card">
                 <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1490232490013-1b99cb84f668?q=80&w=200');"></div>
                 <div class="activity-info">
-                    <div class="activity-time">19:00</div>
+                    <div class="activity-time">19:00 - 21:30</div>
                     <div class="activity-title">Museo Louvre (Noche)</div>
-                    <div class="activity-price"><span class="tag-price">22€</span> <span style="font-size:0.7rem; color:red">Reserva!</span></div>
+                    <div class="activity-price"><span class="tag-price">22€</span> <span class="tag-reserve">¡Reserva ya!</span></div>
                 </div>
-                 <a href="https://maps.google.com/?q=Louvre+Museum" target="_blank" style="position:absolute; right:15px; top:15px; color:var(--primary)"><i class="fas fa-location-arrow"></i></a>
+                <a href="https://maps.google.com/?q=Louvre+Museum" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1511739001486-6bfe10ce465f?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">21:30</div>
+                    <div class="activity-title">Cena en Le Marais</div>
+                    <div class="activity-price"><span class="tag-price">~25€</span> p/persona</div>
+                </div>
+                <a href="https://maps.google.com/?q=Le+Marais+restaurants+Paris" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
             </div>
         </div>
-        
-        <div id="docs" class="section">
-             <div class="budget-dashboard" style="text-align:left;">
-                <h3><i class="fas fa-file-alt" style="color:var(--accent)"></i> Documentación</h3>
-                <div style="margin-top:20px; border-left:4px solid #F56565; padding-left:15px;">
-                    <h4 style="color:#F56565">ETA Reino Unido (£10)</h4>
-                    <p style="font-size:0.9rem;">Obligatorio. Tramitar antes de viajar.</p>
-                    <a href="https://www.gov.uk/electronic-travel-authorisation" style="color:blue; font-size:0.8rem;">Link Oficial</a>
+
+        <!-- DÍA 2: PARÍS FULL -->
+        <div id="day2" class="section">
+            <div class="day-header">
+                <h2>🇫🇷 Jueves 8 de Enero</h2>
+                <p>Tour Eiffel • Montmartre • Champs-Élysées</p>
+            </div>
+
+            <div class="day-rain-toggle">
+                <label onclick="toggleRainMode()">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>¿Llueve hoy? Ver alternativas techadas</span>
+                </label>
+                <div class="rain-switch" id="rainSwitch2" onclick="toggleRainMode()"></div>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1543349689-9a4d426bee8e?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">09:00 - 11:00</div>
+                    <div class="activity-title">Torre Eiffel (Subida)</div>
+                    <div class="activity-price"><span class="tag-price">35€</span> hasta la cima <span class="tag-reserve">Reserva!</span></div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Se puede subir con lluvia ligera</div>
                 </div>
-                <div style="margin-top:20px; border-left:4px solid var(--accent); padding-left:15px;">
-                    <h4>Eurostar Tickets</h4>
-                    <p style="font-size:0.9rem;">Llevar impresos o en Apple Wallet.</p>
+                <a href="https://maps.google.com/?q=Tour+Eiffel" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1550340499-a6c60fc8287c?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">12:00 - 14:00</div>
+                    <div class="activity-title">Montmartre & Sacré-Cœur</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> (basílica gratuita)</div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Entrar a la basílica, cafés cercanos</div>
+                </div>
+                <a href="https://maps.google.com/?q=Sacre+Coeur+Paris" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1522093007474-d86e9bf7ba6f?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">15:00 - 17:00</div>
+                    <div class="activity-title">Champs-Élysées & Arc de Triomphe</div>
+                    <div class="activity-price"><span class="tag-price">16€</span> subir al arco</div>
+                </div>
+                <a href="https://maps.google.com/?q=Arc+de+Triomphe+Paris" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">20:00</div>
+                    <div class="activity-title">Cena Crucero por el Sena</div>
+                    <div class="activity-price"><span class="tag-price">~75€</span> (opcional, muy romántico)</div>
+                </div>
+                <a href="https://www.bateaux-mouches.fr/" target="_blank" class="activity-link"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+
+        <!-- DÍA 3: LONDRES -->
+        <div id="day3" class="section">
+            <div class="day-header">
+                <h2>🇬🇧 Viernes 9 de Enero</h2>
+                <p>Eurostar a Londres • Westminster • South Bank</p>
+            </div>
+
+            <div class="day-rain-toggle">
+                <label onclick="toggleRainMode()">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>¿Llueve hoy? Ver alternativas techadas</span>
+                </label>
+                <div class="rain-switch" id="rainSwitch3" onclick="toggleRainMode()"></div>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-train"></i> Eurostar París → Londres</h4>
+                <p>Salida Gare du Nord ~07:00. Llegada St Pancras ~08:30 (hora local UK). Check-in hotel en South Kensington.</p>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1529655683826-aba9b3e77383?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">10:00 - 12:00</div>
+                    <div class="activity-title">Westminster Walking Tour</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> Big Ben, Parliament, Abbey</div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Westminster Abbey interior (£27)</div>
+                </div>
+                <a href="https://maps.google.com/?q=Big+Ben+London" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">12:30 - 14:00</div>
+                    <div class="activity-title">South Bank & London Eye</div>
+                    <div class="activity-price"><span class="tag-price">£36</span> London Eye (opcional)</div>
+                </div>
+                <a href="https://maps.google.com/?q=London+Eye" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1574958269340-fa927503f3dd?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">14:30 - 17:00</div>
+                    <div class="activity-title">British Museum</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> (donación sugerida)</div>
+                </div>
+                <a href="https://maps.google.com/?q=British+Museum+London" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1517394834181-95ed159986c7?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">18:00 - 20:00</div>
+                    <div class="activity-title">Covent Garden & Piccadilly</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> Shopping & Street performers</div>
+                </div>
+                <a href="https://maps.google.com/?q=Covent+Garden+London" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+        </div>
+
+        <!-- DÍA 4: LONDRES → BRUSELAS -->
+        <div id="day4" class="section">
+            <div class="day-header">
+                <h2>🇬🇧→🇧🇪 Sábado 10 de Enero</h2>
+                <p>Tower Bridge • Borough Market • Eurostar a Bruselas</p>
+            </div>
+
+            <div class="day-rain-toggle">
+                <label onclick="toggleRainMode()">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>¿Llueve hoy? Ver alternativas techadas</span>
+                </label>
+                <div class="rain-switch" id="rainSwitch4" onclick="toggleRainMode()"></div>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">09:00 - 10:30</div>
+                    <div class="activity-title">Tower Bridge & Tower of London</div>
+                    <div class="activity-price"><span class="tag-price">£33</span> Tower of London</div>
+                </div>
+                <a href="https://maps.google.com/?q=Tower+Bridge+London" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">11:00 - 13:00</div>
+                    <div class="activity-title">Borough Market (Almuerzo)</div>
+                    <div class="activity-price"><span class="tag-price">~£15</span> comida artesanal</div>
+                </div>
+                <a href="https://maps.google.com/?q=Borough+Market+London" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-train"></i> Eurostar Londres → Bruselas</h4>
+                <p>Salida St Pancras ~15:00. Llegada Bruxelles-Midi ~18:00. Check-in hotel Ixelles.</p>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1559113513-d5e09c78b9dd?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">19:30</div>
+                    <div class="activity-title">Grand Place (Primera Vista)</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> ✨ Impresionante de noche</div>
+                </div>
+                <a href="https://maps.google.com/?q=Grand+Place+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">20:30</div>
+                    <div class="activity-title">Cena: Moules-Frites Belgas</div>
+                    <div class="activity-price"><span class="tag-price">~25€</span> Chez Léon recomendado</div>
+                </div>
+                <a href="https://maps.google.com/?q=Chez+Leon+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+        </div>
+
+        <!-- DÍA 5: BRUSELAS -->
+        <div id="day5" class="section">
+            <div class="day-header">
+                <h2>🇧🇪 Domingo 11 de Enero</h2>
+                <p>Bruselas Full Day • Chocolate • Waffles • Atomium</p>
+            </div>
+
+            <div class="day-rain-toggle">
+                <label onclick="toggleRainMode()">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>¿Llueve hoy? Ver alternativas techadas</span>
+                </label>
+                <div class="rain-switch" id="rainSwitch5" onclick="toggleRainMode()"></div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1559113513-d5e09c78b9dd?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">10:00 - 12:00</div>
+                    <div class="activity-title">Grand Place & Centro Histórico</div>
+                    <div class="activity-price"><span class="tag-free">Gratis</span> Manneken Pis, Galeries Royales</div>
+                </div>
+                <a href="https://maps.google.com/?q=Grand+Place+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1481391319762-47dff72954d9?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">12:30</div>
+                    <div class="activity-title">Belgian Waffle Tasting</div>
+                    <div class="activity-price"><span class="tag-price">~5€</span> Maison Dandoy es top</div>
+                </div>
+                <a href="https://maps.google.com/?q=Maison+Dandoy+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1606312619070-d48b4c652a52?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">13:00 - 14:00</div>
+                    <div class="activity-title">Chocolaterías: Neuhaus & Pierre Marcolini</div>
+                    <div class="activity-price"><span class="tag-price">~15€</span> caja de bombones</div>
+                </div>
+                <a href="https://maps.google.com/?q=Neuhaus+Galerie+de+la+Reine+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card outdoor">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1491557345352-5929e343eb89?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">15:00 - 17:00</div>
+                    <div class="activity-title">Atomium</div>
+                    <div class="activity-price"><span class="tag-price">16€</span> Icono de Bruselas</div>
+                    <div class="rain-option"><i class="fas fa-umbrella"></i> Interior del Atomium tiene exposiciones</div>
+                </div>
+                <a href="https://maps.google.com/?q=Atomium+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-img" style="background-image:url('https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=200');"></div>
+                <div class="activity-info">
+                    <div class="activity-time">18:00</div>
+                    <div class="activity-title">Última Cena Belga 🍺</div>
+                    <div class="activity-price"><span class="tag-price">~30€</span> Cerveza trapense + carbonade</div>
+                </div>
+                <a href="https://maps.google.com/?q=A+la+Mort+Subite+Brussels" target="_blank" class="activity-link"><i class="fas fa-location-arrow"></i></a>
+            </div>
+
+            <div class="tip-box">
+                <h4><i class="fas fa-plane-departure"></i> Vuelo de Regreso</h4>
+                <p>Aeropuerto de Bruselas (BRU) está a 20 min en tren desde Bruxelles-Central. Llegar 2h antes.</p>
+            </div>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div id="checklist" class="section">
+            <div class="day-header">
+                <h2>✅ Mi Checklist del Viaje</h2>
+                <p>Marca las tareas completadas para no olvidar nada</p>
+            </div>
+
+            <div class="checklist-progress">
+                <strong>Progreso: <span id="checklistPercent">0%</span></strong>
+                <div class="checklist-progress-bar">
+                    <div class="checklist-progress-fill" id="checklistFill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="checklist-section">
+                <h3><i class="fas fa-calendar-alt"></i> Antes del Viaje</h3>
+
+                <div class="checklist-category">
+                    <h4>📄 Documentación</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="doc1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Tramitar ETA Reino Unido</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="doc2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Verificar pasaporte vigente</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="doc3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Imprimir/guardar tickets Eurostar</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="doc4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Seguro de viaje contratado</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🏨 Reservas</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Reservar Hotel París (Le Marais)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Reservar Hotel Londres (South Kensington)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Reservar Hotel Bruselas (Ixelles)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Reservar entrada Louvre (nocturno)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res5">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Reservar entrada Torre Eiffel</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res6">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Comprar Eurostar París→Londres</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="res7">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Comprar Eurostar Londres→Bruselas</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🎒 Equipaje</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="eq1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Adaptador de enchufe UK</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="eq2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Ropa abrigada (enero es frío)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="eq3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Paraguas compacto</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="eq4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Cargador portátil (powerbank)</span>
+                        <span class="checklist-item-tag tag-before">Antes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist-section">
+                <h3><i class="fas fa-route"></i> Durante el Viaje</h3>
+
+                <div class="checklist-category">
+                    <h4>🇫🇷 Día 1 - París Llegada</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d1-1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Llegar a CDG, tomar RER B</span>
+                        <span class="checklist-item-tag tag-day1">Día 1</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d1-2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Check-in Hotel Le Marais</span>
+                        <span class="checklist-item-tag tag-day1">Día 1</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d1-3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Caminar Notre Dame & Île de la Cité</span>
+                        <span class="checklist-item-tag tag-day1">Día 1</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d1-4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Visitar Sainte-Chapelle</span>
+                        <span class="checklist-item-tag tag-day1">Día 1</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d1-5">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Museo Louvre (entrada nocturna)</span>
+                        <span class="checklist-item-tag tag-day1">Día 1</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🇫🇷 Día 2 - París Full</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d2-1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Subir Torre Eiffel</span>
+                        <span class="checklist-item-tag tag-day2">Día 2</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d2-2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Explorar Montmartre & Sacré-Cœur</span>
+                        <span class="checklist-item-tag tag-day2">Día 2</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d2-3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Paseo Champs-Élysées</span>
+                        <span class="checklist-item-tag tag-day2">Día 2</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d2-4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Subir Arc de Triomphe</span>
+                        <span class="checklist-item-tag tag-day2">Día 2</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🇬🇧 Día 3 - Londres</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d3-1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Eurostar París→Londres</span>
+                        <span class="checklist-item-tag tag-day3">Día 3</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d3-2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Check-in Hotel South Kensington</span>
+                        <span class="checklist-item-tag tag-day3">Día 3</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d3-3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Westminster Walk (Big Ben, Parliament)</span>
+                        <span class="checklist-item-tag tag-day3">Día 3</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d3-4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">British Museum</span>
+                        <span class="checklist-item-tag tag-day3">Día 3</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d3-5">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Covent Garden & Piccadilly</span>
+                        <span class="checklist-item-tag tag-day3">Día 3</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🇬🇧→🇧🇪 Día 4 - Londres & Bruselas</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d4-1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Tower Bridge & Tower of London</span>
+                        <span class="checklist-item-tag tag-day4">Día 4</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d4-2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Borough Market (almuerzo)</span>
+                        <span class="checklist-item-tag tag-day4">Día 4</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d4-3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Eurostar Londres→Bruselas</span>
+                        <span class="checklist-item-tag tag-day4">Día 4</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d4-4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Check-in Hotel Ixelles</span>
+                        <span class="checklist-item-tag tag-day4">Día 4</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d4-5">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Grand Place de noche</span>
+                        <span class="checklist-item-tag tag-day4">Día 4</span>
+                    </div>
+                </div>
+
+                <div class="checklist-category">
+                    <h4>🇧🇪 Día 5 - Bruselas</h4>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-1">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Grand Place & Centro Histórico</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-2">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Probar Waffles belgas</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-3">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Comprar chocolates (Neuhaus/Marcolini)</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-4">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Visitar Atomium</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-5">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Última cena + cerveza belga</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
+                    <div class="checklist-item" onclick="toggleCheck(this)" data-id="d5-6">
+                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                        <span class="checklist-item-text">Ir al aeropuerto BRU</span>
+                        <span class="checklist-item-tag tag-day5">Día 5</span>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <!-- FAB NOTAS -->
     <div class="fab-container">
         <button class="fab-btn" onclick="toggleNotes()"><i class="fas fa-pen"></i></button>
     </div>
 
     <div class="notes-modal" id="notesModal">
         <div class="notes-header">
-            <span>Notas de Viaje</span>
+            <span><i class="fas fa-sticky-note"></i> Notas de Viaje</span>
             <i class="fas fa-times" style="cursor:pointer;" onclick="toggleNotes()"></i>
         </div>
         <div class="notes-body" id="notesList">
-            <div style="text-align:center; color:#ccc; font-size:0.8rem; margin-top:20px;">Escribe algo...</div>
+            <div style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
+                <i class="fas fa-lightbulb" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
+                Escribe recordatorios, tips o cosas para no olvidar...
+            </div>
         </div>
         <div class="notes-input-area">
-            <input type="text" id="noteInput" class="notes-input" placeholder="Ej: Comprar adaptador...">
-            <button onclick="addNote()" style="background:var(--primary); color:white; border:none; width:35px; border-radius:50%; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+            <input type="text" id="noteInput" class="notes-input" placeholder="Ej: Comprar adaptador UK...">
+            <button onclick="addNote()" style="background:var(--primary); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
 
     <script>
-        // --- 1. NAVEGACIÓN Y MENÚ ---
+        // --- NAVEGACIÓN ---
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const sections = document.querySelectorAll('.section');
@@ -406,43 +2745,77 @@
             overlay.classList.toggle('active');
         }
 
-        function navTo(sectionId, cityKey) {
-            // Ocultar todas las secciones
+        // Navegación general (desktop y mobile sidebar)
+        function navTo(sectionId, cityKey, element) {
             sections.forEach(s => s.classList.remove('active'));
-            // Mostrar la elegida
             document.getElementById(sectionId).classList.add('active');
             
-            // Cambiar fondo
-            document.documentElement.style.setProperty('--current-bg', bgImages[cityKey]);
+            document.body.style.backgroundImage = bgImages[cityKey];
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Cerrar menú
-            toggleMenu();
-            
-            // Actualizar items activos
+
+            // Update desktop menu
+            document.querySelectorAll('.desktop-menu-item').forEach(i => i.classList.remove('active'));
             document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if(element) element.classList.add('active');
+
+            // Update mobile day buttons
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
         }
 
-        // --- 2. CUENTA REGRESIVA ---
+        // Navegación desde botones de días móviles
+        function navToDay(sectionId, cityKey, element) {
+            sections.forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.body.style.backgroundImage = bgImages[cityKey];
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update day buttons
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            // Update desktop menu
+            document.querySelectorAll('.desktop-menu-item').forEach(i => i.classList.remove('active'));
+        }
+
+        // --- CUENTA REGRESIVA ---
         const tripDate = new Date("January 7, 2026").getTime();
         const now = new Date().getTime();
         const diff = Math.ceil((tripDate - now) / (1000 * 60 * 60 * 24));
         document.getElementById('countdown').innerText = diff > 0 ? diff : 0;
 
-        // --- 3. MODO LLUVIA ---
-        function toggleRainMode() {
-            const isChecked = document.getElementById('rainSwitch').checked;
-            if(isChecked) document.body.classList.add('raining');
-            else document.body.classList.remove('raining');
+        // --- EXPANDIR ITEMS DE COSTOS ---
+        function toggleCostItem(element) {
+            element.classList.toggle('expanded');
         }
 
-        // --- 4. GESTOR DE GASTOS ---
-        // Costos Fijos (Estimados)
-        const fixedCosts = 145*3 + 110 + 90 + 200; // Hoteles + Trenes (aprox)
+        // --- MODO LLUVIA ---
+        let isRaining = false;
+        
+        function toggleRainMode() {
+            isRaining = !isRaining;
+            
+            if(isRaining) {
+                document.body.classList.add('raining');
+            } else {
+                document.body.classList.remove('raining');
+            }
+            
+            // Sync all rain switches
+            document.querySelectorAll('.rain-switch').forEach(sw => {
+                if(isRaining) {
+                    sw.classList.add('active');
+                } else {
+                    sw.classList.remove('active');
+                }
+            });
+        }
+
+        // --- GESTOR DE GASTOS ---
+        const fixedCosts = 155*2 + 135 + 95 + 180 + 80; // Hoteles París(2) + Londres + Bruselas + Trenes + Entradas base
         
         function loadExpenses() {
-            const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
             const list = document.getElementById('expenseList');
             let userTotal = 0;
             
@@ -450,27 +2823,29 @@
             expenses.forEach((item, index) => {
                 userTotal += parseFloat(item.value);
                 list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
-                        <span>${item.desc}</span>
-                        <span><strong>${item.value}€</strong> <i class="fas fa-trash" style="color:red; margin-left:10px; cursor:pointer;" onclick="deleteExpense(${index})"></i></span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #f0f0f0;">
+                        <span style="font-weight:500;">${item.desc}</span>
+                        <span>
+                            <strong style="color:var(--primary);">${item.value}€</strong>
+                            <i class="fas fa-trash" style="color:#EF4444; margin-left:12px; cursor:pointer; font-size:0.9rem;" onclick="deleteExpense(${index})"></i>
+                        </span>
                     </div>`;
             });
 
             const grandTotal = fixedCosts + userTotal;
-            document.getElementById('totalAmount').innerText = grandTotal + " €";
+            document.getElementById('totalAmount').innerText = grandTotal.toFixed(0) + " €";
             
-            // Barra de progreso (simulada sobre un presupuesto de 2000€)
-            const percentage = Math.min((grandTotal / 2000) * 100, 100);
+            const percentage = Math.min((grandTotal / 2500) * 100, 100);
             document.getElementById('progressBar').style.width = percentage + "%";
         }
 
         function addExpense() {
-            const desc = document.getElementById('expenseDesc').value;
+            const desc = document.getElementById('expenseDesc').value.trim();
             const val = document.getElementById('expenseValue').value;
             if(desc && val) {
-                const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+                const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
                 expenses.push({desc, value: val});
-                localStorage.setItem('ultraExpenses', JSON.stringify(expenses));
+                localStorage.setItem('euroExpenses', JSON.stringify(expenses));
                 document.getElementById('expenseDesc').value = '';
                 document.getElementById('expenseValue').value = '';
                 loadExpenses();
@@ -478,51 +2853,113 @@
         }
         
         function deleteExpense(index) {
-            const expenses = JSON.parse(localStorage.getItem('ultraExpenses')) || [];
+            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
             expenses.splice(index, 1);
-            localStorage.setItem('ultraExpenses', JSON.stringify(expenses));
+            localStorage.setItem('euroExpenses', JSON.stringify(expenses));
             loadExpenses();
         }
 
-        // --- 5. NOTAS (BUBBLE) ---
+        // --- NOTAS ---
         function toggleNotes() {
             const modal = document.getElementById('notesModal');
-            if(modal.style.display === 'flex') modal.style.display = 'none';
-            else {
+            if(modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
                 modal.style.display = 'flex';
                 loadNotes();
             }
         }
 
         function loadNotes() {
-            const notes = JSON.parse(localStorage.getItem('ultraNotes')) || [];
+            const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
             const list = document.getElementById('notesList');
+            
+            if(notes.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
+                        <i class="fas fa-lightbulb" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
+                        Escribe recordatorios, tips o cosas para no olvidar...
+                    </div>`;
+                return;
+            }
+            
             list.innerHTML = '';
-            notes.forEach(note => {
+            notes.forEach((note, index) => {
                 const div = document.createElement('div');
                 div.className = 'note-bubble';
-                div.innerText = note;
+                div.innerHTML = `${note} <i class="fas fa-times" style="margin-left:8px; cursor:pointer; color:#aaa; font-size:0.7rem;" onclick="deleteNote(${index})"></i>`;
                 list.appendChild(div);
             });
-            // Scroll al fondo
             list.scrollTop = list.scrollHeight;
         }
 
         function addNote() {
             const input = document.getElementById('noteInput');
-            const text = input.value;
+            const text = input.value.trim();
             if(text) {
-                const notes = JSON.parse(localStorage.getItem('ultraNotes')) || [];
+                const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
                 notes.push(text);
-                localStorage.setItem('ultraNotes', JSON.stringify(notes));
+                localStorage.setItem('euroNotes', JSON.stringify(notes));
                 input.value = '';
                 loadNotes();
             }
         }
 
+        function deleteNote(index) {
+            const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
+            notes.splice(index, 1);
+            localStorage.setItem('euroNotes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        // Enter key para notas
+        document.getElementById('noteInput')?.addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') addNote();
+        });
+
+        // --- CHECKLIST ---
+        function toggleCheck(element) {
+            const id = element.dataset.id;
+            const checklist = JSON.parse(localStorage.getItem('euroChecklist')) || {};
+            
+            if(checklist[id]) {
+                delete checklist[id];
+                element.classList.remove('completed');
+            } else {
+                checklist[id] = true;
+                element.classList.add('completed');
+            }
+            
+            localStorage.setItem('euroChecklist', JSON.stringify(checklist));
+            updateChecklistProgress();
+        }
+
+        function loadChecklist() {
+            const checklist = JSON.parse(localStorage.getItem('euroChecklist')) || {};
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                const id = item.dataset.id;
+                if(checklist[id]) {
+                    item.classList.add('completed');
+                }
+            });
+            updateChecklistProgress();
+        }
+
+        function updateChecklistProgress() {
+            const total = document.querySelectorAll('.checklist-item').length;
+            const completed = document.querySelectorAll('.checklist-item.completed').length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            const percentEl = document.getElementById('checklistPercent');
+            const fillEl = document.getElementById('checklistFill');
+            
+            if(percentEl) percentEl.innerText = percent + '%';
+            if(fillEl) fillEl.style.width = percent + '%';
+        }
+
         // Init
         loadExpenses();
-
+        loadChecklist();
     </script>
 </body>
 </html>
