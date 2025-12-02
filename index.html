@@ -576,6 +576,164 @@
             border: 1px solid #BEE3F8;
         }
 
+        /* TARJETAS DE EXPERIENCIAS ESPECIALES */
+        .special-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .special-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .experience-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .experience-card.football {
+            border-left-color: #22C55E;
+        }
+
+        .experience-card.hidden-gem {
+            border-left-color: #F59E0B;
+        }
+
+        .experience-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .experience-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .experience-card .city-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(0,212,255,0.15);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .experience-card .match-info {
+            background: rgba(34, 197, 94, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .experience-card .match-info strong {
+            color: #16A34A;
+        }
+
+        .experience-card .tip-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #B45309;
+            background: #FEF3C7;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        /* ALTERNATIVAS DE LLUVIA MEJORADAS */
+        .rain-alternative-enhanced {
+            display: none;
+            background: linear-gradient(135deg, #EBF8FF 0%, #DBEAFE 100%);
+            border: 2px solid #3B82F6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        body.raining .rain-alternative-enhanced {
+            display: block;
+        }
+
+        .rain-alternative-enhanced .rain-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion:last-child {
+            margin-bottom: 0;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion h5 {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #1E40AF;
+            margin-bottom: 5px;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion p {
+            font-size: 0.8rem;
+            color: #64748B;
+            margin: 0;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion .suggestion-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rain-alternative-enhanced .rain-suggestion .suggestion-tag {
+            padding: 3px 8px;
+            background: #DBEAFE;
+            color: #1E40AF;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
         /* --- 7. FAB & NOTAS --- */
         .fab-container {
             position: fixed;
@@ -1717,7 +1875,36 @@
         }
 
         body.raining .schedule-card.outdoor {
+            position: relative;
+            border: 2px solid #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        body.raining .schedule-card.outdoor::before {
+            content: '🌧️ Actividad afectada por lluvia';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #3B82F6 0%, #1D4ED8 100%);
+            color: white;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 10;
+            border-radius: 10px 10px 0 0;
+        }
+
+        body.raining .schedule-card.outdoor .schedule-header,
+        body.raining .schedule-card.outdoor .schedule-details {
             opacity: 0.5;
+            filter: grayscale(0.5);
+        }
+
+        body.raining .schedule-card.outdoor .rain-alternative-enhanced {
+            opacity: 1 !important;
+            filter: none !important;
         }
 
         .rain-alternative p {
@@ -1928,6 +2115,9 @@
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day5', 'brussels', this)">
             <i class="fas fa-cookie-bite"></i> Día 5: Bruselas
+        </a>
+        <a href="#" class="desktop-menu-item" onclick="navTo('gems', 'paris', this)">
+            <i class="fas fa-gem"></i> 💎 Hidden Gems
         </a>
 
         <div class="menu-divider"></div>
@@ -2927,8 +3117,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="rain-alternative">
-                            <p><i class="fas fa-umbrella"></i> <strong>Plan lluvia:</strong> Ir directo a Sainte-Chapelle (cubierto)</p>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🏰 Ir directo a Sainte-Chapelle</h5>
+                                <p>Está a 5 min caminando y tiene vitrales espectaculares. Completamente cubierto.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 13€ p/p</span>
+                                    <span class="suggestion-tag">⏱️ 1h visita</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>☕ Café Procope (el café más antiguo de París)</h5>
+                                <p>Fundado en 1686. Donde se reunían Voltaire y Rousseau. Atmósfera histórica increíble.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">📍 Saint-Germain</span>
+                                    <span class="suggestion-tag">🥐 Café + pastry ~12€</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🏛️ Passage des Panoramas</h5>
+                                <p>Galería cubierta del siglo XIX con tiendas vintage y bistros. ¡Un hidden gem perfecto para lluvia!</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis</span>
+                                    <span class="suggestion-tag">📍 Near Grands Boulevards</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="schedule-actions">
                             <a href="https://maps.google.com/?q=Notre+Dame+Paris" target="_blank" class="btn-small btn-map-small">
@@ -3256,8 +3472,41 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="rain-alternative">
-                            <p><i class="fas fa-umbrella"></i> Se puede subir con lluvia ligera. Con tormenta fuerte, cierran la cima.</p>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>⚠️ Info Torre Eiffel con lluvia</h5>
+                                <p>Con lluvia ligera se puede subir. Con tormenta fuerte cierran la cima. Verificar en el sitio oficial antes de ir.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">📱 Revisar toureiffel.paris</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🏛️ Musée d'Orsay</h5>
+                                <p>El mejor museo impresionista del mundo. Van Gogh, Monet, Renoir. Edificio increíble (antigua estación de tren).</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 16€ p/p</span>
+                                    <span class="suggestion-tag">⏱️ 2-3h visita</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎨 Centre Pompidou</h5>
+                                <p>Arte moderno en un edificio con arquitectura única. Escaleras mecánicas con vista a París.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 15€ p/p</span>
+                                    <span class="suggestion-tag">📍 Le Marais</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🛍️ Galerías Lafayette</h5>
+                                <p>Shopping de lujo en edificio Art Nouveau. La cúpula de vidrio es espectacular. Terraza gratis con vistas.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis entrar</span>
+                                    <span class="suggestion-tag">📍 Opéra</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="schedule-actions">
                             <a href="https://www.toureiffel.paris/en/rates-opening-times" target="_blank" class="btn-small btn-book-small">
@@ -3490,7 +3739,7 @@
         <div id="day3" class="section">
             <div class="day-header">
                 <h2>🇬🇧 Viernes 9 de Enero</h2>
-                <p>Eurostar a Londres • Westminster • South Bank</p>
+                <p>Eurostar a Londres • Westminster • Covent Garden</p>
             </div>
 
             <div class="day-rain-toggle">
@@ -3509,11 +3758,11 @@
                         <div class="day-stat-label">Caminata total</div>
                     </div>
                     <div class="day-stat">
-                        <div class="day-stat-value">~£36</div>
-                        <div class="day-stat-label">Entradas p/p</div>
+                        <div class="day-stat-value">Gratis</div>
+                        <div class="day-stat-label">British Museum</div>
                     </div>
                     <div class="day-stat">
-                        <div class="day-stat-value">4</div>
+                        <div class="day-stat-value">5</div>
                         <div class="day-stat-label">Atracciones</div>
                     </div>
                     <div class="day-stat">
@@ -3657,8 +3906,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="rain-alternative">
-                            <p><i class="fas fa-umbrella"></i> Entrar a Westminster Abbey (interior techado)</p>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>⛪ Westminster Abbey (interior)</h5>
+                                <p>Iglesia gótica donde coronan a los reyes. Tumbas de Newton, Darwin, Shakespeare. Impresionante.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 £27 p/p</span>
+                                    <span class="suggestion-tag">⏱️ 1.5h visita</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🏛️ Churchill War Rooms</h5>
+                                <p>Bunker secreto de WWII donde Churchill lideró la guerra. Muy cerca de Westminster. Fascinante.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 £28 p/p</span>
+                                    <span class="suggestion-tag">📍 2 min caminando</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎨 Tate Britain</h5>
+                                <p>Arte británico de los últimos 500 años. Turner, Constable, Hockney. Edificio neoclásico hermoso.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis</span>
+                                    <span class="suggestion-tag">📍 15 min caminando</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="schedule-actions">
                             <a href="https://maps.google.com/?q=Big+Ben+London" target="_blank" class="btn-small btn-map-small">
@@ -3713,6 +3988,35 @@
                                     <div class="detail-label">Almuerzo en South Bank</div>
                                     <div class="detail-value">Southbank Centre Food Market (fines de semana)</div>
                                     <div class="detail-note">O cualquier café en la zona ~£12-18</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎬 BFI Southbank</h5>
+                                <p>Cinemateca británica con café, exposiciones de cine y proyecciones. Ambiente cultural único.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">☕ Café gratis entrar</span>
+                                    <span class="suggestion-tag">🎬 Films desde £8</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎭 Southbank Centre</h5>
+                                <p>Centro cultural con cafeterías, librerías, y espacios de arte contemporáneo. Siempre hay algo interesante.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis explorar</span>
+                                    <span class="suggestion-tag">📍 Junto al London Eye</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🖼️ Tate Modern</h5>
+                                <p>Arte contemporáneo en una antigua central eléctrica. Arquitectura industrial + obras de Picasso, Warhol, Dalí.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ GRATIS</span>
+                                    <span class="suggestion-tag">📍 15 min caminando</span>
                                 </div>
                             </div>
                         </div>
@@ -3809,7 +4113,7 @@
                                     <span class="type-icon">🎭</span>
                                     Covent Garden & Leicester Square
                                 </div>
-                                <div class="schedule-subtitle">Street performers, tiendas, ambiente</div>
+                                <div class="schedule-subtitle">Street performers, tiendas, ambiente navideño</div>
                                 <div class="schedule-tags">
                                     <span class="schedule-tag tag-free-entry">✓ Paseo gratis</span>
                                 </div>
@@ -3822,6 +4126,34 @@
                                     <div class="detail-label">Qué ver</div>
                                     <div class="detail-value">Market Hall, street performers, Neal's Yard</div>
                                     <div class="detail-note">Caminar a Piccadilly Circus (10 min)</div>
+                                </div>
+                            </div>
+                            <div class="detail-box">
+                                <i class="fas fa-star"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Neal's Yard</div>
+                                    <div class="detail-value">Callejón escondido súper colorido</div>
+                                    <div class="detail-note">Perfecto para fotos, muy instagrameable</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎭 West End Theatre</h5>
+                                <p>El distrito teatral de Londres. Obras como Wicked, Hamilton, El Rey León. Comprar tickets en TKTS con descuento.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 £30-100</span>
+                                    <span class="suggestion-tag">📍 Leicester Square</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🛍️ Covent Garden Market (techado)</h5>
+                                <p>El mercado principal es cubierto. Tiendas, restaurantes y actuaciones bajo techo.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis entrar</span>
                                 </div>
                             </div>
                         </div>
@@ -3845,7 +4177,7 @@
                             <div class="schedule-main">
                                 <div class="schedule-title">
                                     <span class="type-icon">🍽️</span>
-                                    Cena en Soho
+                                    Cena en Soho / Chinatown
                                 </div>
                                 <div class="schedule-subtitle">Barrio gastronómico de Londres</div>
                                 <div class="schedule-tags">
@@ -3859,7 +4191,7 @@
                                 <div class="detail-content">
                                     <div class="detail-label">Recomendaciones</div>
                                     <div class="detail-value">Chinatown, Flat Iron (carne), Dishoom (indio)</div>
-                                    <div class="detail-note">Reservar Dishoom o llegar temprano</div>
+                                    <div class="detail-note">Reservar Dishoom o llegar temprano (colas largas)</div>
                                 </div>
                             </div>
                         </div>
@@ -4302,6 +4634,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="rain-alternative-enhanced">
+                            <div class="rain-header">
+                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🏛️ Galeries Royales Saint-Hubert</h5>
+                                <p>¡Ya está en el recorrido! Pasaje cubierto de 1847 con chocolaterías premium. Perfecto para lluvia.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">✓ Gratis caminar</span>
+                                    <span class="suggestion-tag">🍫 Chocolates ~15€</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🍺 Delirium Café</h5>
+                                <p>Récord Guinness: +2,000 cervezas. En un callejón escondido cerca de Grand Place. La experiencia belga auténtica.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🍺 Cerveza ~5-8€</span>
+                                    <span class="suggestion-tag">📍 Impasse de la Fidélité</span>
+                                </div>
+                            </div>
+                            <div class="rain-suggestion">
+                                <h5>🎨 Museos de Bellas Artes de Bélgica</h5>
+                                <p>Complejo de museos con arte de Bruegel, Rubens, Magritte. El museo Magritte es increíble.</p>
+                                <div class="suggestion-tags">
+                                    <span class="suggestion-tag">🎫 15€ combinado</span>
+                                    <span class="suggestion-tag">📍 10 min caminando</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="schedule-actions">
                             <a href="https://maps.google.com/?q=Grand+Place+Brussels" target="_blank" class="btn-small btn-map-small">
                                 <i class="fas fa-map-marker-alt"></i> Mapa
@@ -4562,6 +4923,321 @@
             <div class="tip-box">
                 <h4><i class="fas fa-plane-departure"></i> Vuelo de Regreso</h4>
                 <p>Aeropuerto de Bruselas (BRU) está a 20 min en tren desde Bruxelles-Central. Llegar 2h antes.</p>
+            </div>
+        </div>
+
+        <!-- HIDDEN GEMS -->
+        <div id="gems" class="section">
+            <div class="day-header">
+                <h2>💎 Hidden Gems</h2>
+                <p>Lugares secretos que los turistas no conocen</p>
+            </div>
+
+            <div class="tip-box" style="margin-bottom: 25px;">
+                <h4><i class="fas fa-info-circle"></i> ¿Qué son los Hidden Gems?</h4>
+                <p>Son lugares especiales que no aparecen en las guías turísticas tradicionales. Los locales los conocen, pero la mayoría de turistas pasan de largo. ¡Son experiencias auténticas que hacen el viaje único!</p>
+            </div>
+
+            <!-- PARÍS GEMS -->
+            <div class="special-section">
+                <h3 style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🇫🇷</span> París - Lugares Secretos
+                </h3>
+                
+                <div class="experience-grid">
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇫🇷 París</span>
+                        <h4>🏛️ Passages Couverts</h4>
+                        <p>Galerías comerciales cubiertas del siglo XIX. <strong>Passage des Panoramas</strong> (1800) es el más antiguo de París. <strong>Galerie Vivienne</strong> tiene mosaicos espectaculares.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Ubicación</div>
+                                    <div class="detail-value">Cerca de Palais Royal, 2ème arr.</div>
+                                    <div class="detail-note">Metro: Grands Boulevards o Bourse</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://en.parisinfo.com/paris-museum-monument/100256/Passage-des-Panoramas" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Info oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Passage+des+Panoramas+Paris" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇫🇷 París</span>
+                        <h4>🌿 Canal Saint-Martin</h4>
+                        <p>El barrio más <strong>hipster de París</strong>. 4.5 km de canales con puentes de hierro, esclusas, y cafés de especialidad. Donde pasean los parisinos, no los turistas.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-clock"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Mejor momento</div>
+                                    <div class="detail-value">Tarde-noche para ver el atardecer</div>
+                                    <div class="detail-note">Metro: République o Goncourt</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.timeout.com/paris/en/things-to-do/canal-saint-martin" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> TimeOut Guide
+                            </a>
+                            <a href="https://maps.google.com/?q=Canal+Saint-Martin+Paris" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇫🇷 París</span>
+                        <h4>🎨 Rue Crémieux</h4>
+                        <p>La calle más <strong>colorida de París</strong>. Casas pintadas en colores pastel estilo Notting Hill. Perfecta para fotos únicas sin multitudes.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-camera"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Para fotos</div>
+                                    <div class="detail-value">Ir temprano (antes de las 10am)</div>
+                                    <div class="detail-note">Metro: Gare de Lyon (5 min caminando)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://secretparisguide.com/rue-cremieux/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Secret Paris
+                            </a>
+                            <a href="https://maps.google.com/?q=Rue+Crémieux+Paris" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LONDRES GEMS -->
+            <div class="special-section">
+                <h3 style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🇬🇧</span> Londres - Lugares Secretos
+                </h3>
+                
+                <div class="experience-grid">
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇬🇧 Londres</span>
+                        <h4>📚 Leadenhall Market</h4>
+                        <p>Mercado victoriano de 1881 donde filmaron <strong>Harry Potter</strong> (entrada al Callejón Diagon). Arquitectura de hierro pintado increíble. Casi vacío entre semana.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Dato curioso</div>
+                                    <div class="detail-value">La óptica donde Harry ve su varita está aquí</div>
+                                    <div class="detail-note">Metro: Bank o Monument</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.leadenhallmarket.co.uk/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Web oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Leadenhall+Market+London" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇬🇧 Londres</span>
+                        <h4>🌸 Little Venice</h4>
+                        <p>Canales con <strong>houseboats coloridos</strong>, cafeterías flotantes y paseos en bote. Mucho más tranquilo que Camden. El secreto mejor guardado de Londres.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-coffee"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Qué hacer</div>
+                                    <div class="detail-value">Café en un houseboat + paseo por el canal</div>
+                                    <div class="detail-note">Metro: Warwick Avenue (Bakerloo Line)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.visitlondon.com/things-to-do/place/277702-little-venice" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Visit London
+                            </a>
+                            <a href="https://maps.google.com/?q=Little+Venice+London" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇬🇧 Londres</span>
+                        <h4>🏰 Dennis Severs' House</h4>
+                        <p>Casa museo inmersiva del siglo XVIII. Parece <strong>congelada en el tiempo</strong>. Sin guías, solo silencio y velas. Como viajar al pasado. Experiencia única en el mundo.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-ticket-alt"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Reservas</div>
+                                    <div class="detail-value">£15 - Reservar con anticipación</div>
+                                    <div class="detail-note">Spitalfields, Metro: Liverpool Street</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.dennissevershouse.co.uk/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Web oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Dennis+Severs+House+London" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇬🇧 Londres</span>
+                        <h4>📖 Daunt Books</h4>
+                        <p>La librería más bella del mundo (según muchos). Interior eduardiano de 1912 con galerías de roble y tragaluz. Los libros están organizados por país.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-book"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Especialidad</div>
+                                    <div class="detail-value">Libros de viaje organizados por destino</div>
+                                    <div class="detail-note">Marylebone High Street. Metro: Baker Street</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://dauntbooks.co.uk/shops/marylebone/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Web oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Daunt+Books+Marylebone" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BRUSELAS GEMS -->
+            <div class="special-section">
+                <h3 style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🇧🇪</span> Bruselas - Lugares Secretos
+                </h3>
+                
+                <div class="experience-grid">
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇧🇪 Bruselas</span>
+                        <h4>🎭 Place du Jeu de Balle</h4>
+                        <p>El <strong>mercado de pulgas más antiguo de Europa</strong> (desde 1873). Funciona todos los días pero los domingos es espectacular. Antigüedades, vinilos, arte, de todo.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-clock"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Horario</div>
+                                    <div class="detail-value">Todos los días 6:00-14:00</div>
+                                    <div class="detail-note">Mejor ir temprano (antes de las 10am)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.brussels.be/place-du-jeu-de-balle" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Brussels.be
+                            </a>
+                            <a href="https://maps.google.com/?q=Place+du+Jeu+de+Balle+Brussels" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇧🇪 Bruselas</span>
+                        <h4>🍺 Delirium Café</h4>
+                        <p>Récord Guinness: <strong>+2,000 cervezas diferentes</strong>. En un callejón escondido a metros de Grand Place. 3 pisos de cervezas de todo el mundo. LA experiencia belga.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-beer"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Dirección</div>
+                                    <div class="detail-value">Impasse de la Fidélité 4A</div>
+                                    <div class="detail-note">Buscar el elefante rosa en la entrada</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.deliriumvillage.com/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Web oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Delirium+Cafe+Brussels" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇧🇪 Bruselas</span>
+                        <h4>🏛️ Parque del Cincuentenario</h4>
+                        <p>Arco del triunfo monumental de 1880, tres museos y jardines enormes. Los locales hacen picnic acá. <strong>Mucho mejor que Atomium</strong> según muchos viajeros.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-museum"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Museos incluidos</div>
+                                    <div class="detail-value">Autoworld, Museo Militar, Museo de Arte</div>
+                                    <div class="detail-note">Metro: Mérode o Schuman</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.brussels.be/cinquantenaire-park" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Brussels.be
+                            </a>
+                            <a href="https://maps.google.com/?q=Parc+du+Cinquantenaire+Brussels" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="experience-card hidden-gem">
+                        <span class="city-tag">🇧🇪 Bruselas</span>
+                        <h4>🎭 Théâtre Royal de Toone</h4>
+                        <p>Teatro de marionetas tradicional desde 1830. Obras clásicas interpretadas por títeres con el dialecto bruselense. Un bar increíble en el edificio.</p>
+                        <div class="schedule-details" style="margin-top:12px;">
+                            <div class="detail-box">
+                                <i class="fas fa-theater-masks"></i>
+                                <div class="detail-content">
+                                    <div class="detail-label">Experiencia</div>
+                                    <div class="detail-value">Ver una función o solo tomar algo en el bar</div>
+                                    <div class="detail-note">Impasse Schuddeveld (cerca de Grand Place)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-actions" style="margin-top:12px;">
+                            <a href="https://www.toone.be/" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-external-link-alt"></i> Web oficial
+                            </a>
+                            <a href="https://maps.google.com/?q=Theatre+Royal+de+Toone+Brussels" target="_blank" class="btn-small btn-map-small">
+                                <i class="fas fa-map-marker-alt"></i> Mapa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-top:20px;">
+                <h4><i class="fas fa-lightbulb"></i> ¿Cómo encontré estos lugares?</h4>
+                <p>
+                    Fuentes utilizadas: <a href="https://www.timeout.com" target="_blank">TimeOut</a>, 
+                    <a href="https://secretparisguide.com" target="_blank">Secret Paris Guide</a>, 
+                    <a href="https://www.visitlondon.com" target="_blank">Visit London</a>, 
+                    <a href="https://www.brussels.be" target="_blank">Brussels.be</a>, 
+                    y recomendaciones de locales en <a href="https://www.reddit.com/r/travel/" target="_blank">r/travel</a>.
+                </p>
             </div>
         </div>
 
