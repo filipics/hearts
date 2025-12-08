@@ -26,6 +26,12 @@ async function loadSection(sectionId) {
         const html = await response.text();
         container.innerHTML = html;
         
+        // Ensure the loaded section is visible
+        const section = container.querySelector('.section');
+        if (section) {
+            section.classList.add('active');
+        }
+        
         // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
