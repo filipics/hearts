@@ -1,0 +1,342 @@
+﻿        <div id="packing" class="section">
+            <div class="day-header">
+                <h2>ðŸ§³ ArmÃ¡ tu Valija</h2>
+                <p>Carry-on de 10kg para 5 dÃ­as en Europa (Enero)</p>
+            </div>
+
+            <!-- Clima -->
+            <div class="weather-card">
+                <h3><i class="fas fa-cloud-sun"></i> Clima esperado en Enero</h3>
+                <div class="weather-cities">
+                    <div class="weather-city">
+                        <div class="weather-city-name">ðŸ‡«ðŸ‡· ParÃ­s</div>
+                        <div class="weather-city-temp">3-7Â°C</div>
+                        <div class="weather-city-desc">FrÃ­o, posible lluvia</div>
+                    </div>
+                    <div class="weather-city">
+                        <div class="weather-city-name">ðŸ‡¬ðŸ‡§ Londres</div>
+                        <div class="weather-city-temp">2-8Â°C</div>
+                        <div class="weather-city-desc">FrÃ­o, lluvia frecuente</div>
+                    </div>
+                    <div class="weather-city">
+                        <div class="weather-city-name">ðŸ‡§ðŸ‡ª Bruselas</div>
+                        <div class="weather-city-temp">1-6Â°C</div>
+                        <div class="weather-city-desc">FrÃ­o, hÃºmedo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Especificaciones Carry-on -->
+            <div class="carryon-specs">
+                <div class="carryon-specs-icon">ðŸ§³</div>
+                <div class="carryon-specs-info">
+                    <h4>Equipaje de mano (Carry-on)</h4>
+                    <p>La mayorÃ­a de aerolÃ­neas permiten 1 carry-on + 1 artÃ­culo personal</p>
+                </div>
+                <div class="carryon-specs-dims">
+                    <strong>55 x 40 x 20 cm</strong>
+                    <small>MÃ¡ximo ~10kg</small>
+                </div>
+            </div>
+
+            <div class="packing-tip">
+                <div class="packing-tip-icon">ðŸ’¡</div>
+                <div class="packing-tip-content">
+                    <h4>Tips para empacar liviano en invierno</h4>
+                    <p>
+                        â€¢ UsÃ¡ la tÃ©cnica de <strong>capas</strong>: remera tÃ©rmica + sweater + campera<br>
+                        â€¢ LlevÃ¡ colores neutros que combinen entre sÃ­<br>
+                        â€¢ UsÃ¡ las prendas mÃ¡s pesadas en el aviÃ³n (campera, botas)<br>
+                        â€¢ EnrollÃ¡ la ropa en vez de doblarla para ahorrar espacio
+                    </p>
+                </div>
+            </div>
+
+            <!-- Toggle Hombre/Mujer -->
+            <div class="gender-toggle">
+                <button class="active" onclick="toggleGender('male', this)">
+                    <i class="fas fa-mars"></i> Hombre
+                </button>
+                <button onclick="toggleGender('female', this)">
+                    <i class="fas fa-venus"></i> Mujer
+                </button>
+            </div>
+
+            <!-- ========== LISTA HOMBRE ========== -->
+            <div id="packing-male" class="packing-section active">
+                
+                <!-- ROPA SUPERIOR -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#DBEAFE; color:#1D4ED8;">ðŸ‘”</div>
+                        <div class="packing-category-title">
+                            <h3>Ropa Superior</h3>
+                            <p>Para temperaturas de 0-10Â°C</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¥</div>
+                            <div class="item-details">
+                                <div class="item-name">Campera de invierno</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Impermeable y con capucha</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¶</div>
+                            <div class="item-details">
+                                <div class="item-name">Sweaters / Buzos</div>
+                                <div class="item-quantity">2 unidades</div>
+                                <div class="item-note">De lana o polar</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ‘•</div>
+                            <div class="item-details">
+                                <div class="item-name">Remeras manga larga</div>
+                                <div class="item-quantity">3 unidades</div>
+                                <div class="item-note">AlgodÃ³n o tÃ©rmicas</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸŽ½</div>
+                            <div class="item-details">
+                                <div class="item-name">Camiseta tÃ©rmica</div>
+                                <div class="item-quantity">2 unidades</div>
+                                <div class="item-note">Primera capa, imprescindible</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ‘”</div>
+                            <div class="item-details">
+                                <div class="item-name">Camisa (opcional)</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Para cena elegante</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROPA INFERIOR -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#FEF3C7; color:#B45309;">ðŸ‘–</div>
+                        <div class="packing-category-title">
+                            <h3>Ropa Inferior</h3>
+                            <p>Pantalones y mÃ¡s</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ‘–</div>
+                            <div class="item-details">
+                                <div class="item-name">Jeans / Pantalones</div>
+                                <div class="item-quantity">2 unidades</div>
+                                <div class="item-note">Uno oscuro, uno claro</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ©²</div>
+                            <div class="item-details">
+                                <div class="item-name">Ropa interior</div>
+                                <div class="item-quantity">6 unidades</div>
+                                <div class="item-note">1 por dÃ­a + 1 extra</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¦</div>
+                            <div class="item-details">
+                                <div class="item-name">Medias gruesas</div>
+                                <div class="item-quantity">5 pares</div>
+                                <div class="item-note">De lana o tÃ©rmicas</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ©³</div>
+                            <div class="item-details">
+                                <div class="item-name">Calzoncillo largo tÃ©rmico</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Para dÃ­as muy frÃ­os</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CALZADO -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#FCE7F3; color:#BE185D;">ðŸ‘Ÿ</div>
+                        <div class="packing-category-title">
+                            <h3>Calzado</h3>
+                            <p>Vas a caminar MUCHO</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ¥¾</div>
+                            <div class="item-details">
+                                <div class="item-name">Botas impermeables</div>
+                                <div class="item-quantity">1 par</div>
+                                <div class="item-note">CÃ³modas para caminar, impermeables</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ‘Ÿ</div>
+                            <div class="item-details">
+                                <div class="item-name">Zapatillas cÃ³modas</div>
+                                <div class="item-quantity">1 par</div>
+                                <div class="item-note">Backup o para interiores</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACCESORIOS INVIERNO -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#E0E7FF; color:#4338CA;">ðŸ§£</div>
+                        <div class="packing-category-title">
+                            <h3>Accesorios de Invierno</h3>
+                            <p>Imprescindibles para el frÃ­o</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§£</div>
+                            <div class="item-details">
+                                <div class="item-name">Bufanda</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">De lana, grande</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¤</div>
+                            <div class="item-details">
+                                <div class="item-name">Guantes</div>
+                                <div class="item-quantity">1 par</div>
+                                <div class="item-note">Touch-screen compatible</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¢</div>
+                            <div class="item-details">
+                                <div class="item-name">Gorro de lana</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Cubre orejas</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">â˜‚ï¸</div>
+                            <div class="item-details">
+                                <div class="item-name">Paraguas compacto</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Plegable, cabe en la mochila</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HIGIENE -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#D1FAE5; color:#059669;">ðŸ§´</div>
+                        <div class="packing-category-title">
+                            <h3>Higiene y Cuidado Personal</h3>
+                            <p>Envases de 100ml mÃ¡ximo (norma aviÃ³n)</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§´</div>
+                            <div class="item-details">
+                                <div class="item-name">Shampoo (mini)</div>
+                                <div class="item-quantity">100ml</div>
+                                <div class="item-note">O usar el del hotel</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ§¼</div>
+                            <div class="item-details">
+                                <div class="item-name">Desodorante</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">En barra mejor (sin lÃ­mite ml)</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸª¥</div>
+                            <div class="item-details">
+                                <div class="item-name">Cepillo de dientes</div>
+                                <div class="item-quantity">1 unidad</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ¦·</div>
+                            <div class="item-details">
+                                <div class="item-name">Pasta dental (mini)</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">TamaÃ±o viaje</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸª’</div>
+                            <div class="item-details">
+                                <div class="item-name">Afeitadora</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">ElÃ©ctrica o descartables</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ’Š</div>
+                            <div class="item-details">
+                                <div class="item-name">Crema hidratante</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">El frÃ­o seca la piel</div>
+                            </div>
+                        </div>
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ’‹</div>
+                            <div class="item-details">
+                                <div class="item-name">Protector labial</div>
+                                <div class="item-quantity">1 unidad</div>
+                                <div class="item-note">Imprescindible en invierno</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TECNOLOGÃA -->
+                <div class="packing-category">
+                    <div class="packing-category-header">
+                        <div class="packing-category-icon" style="background:#FEE2E2; color:#DC2626;">ðŸ“±</div>
+                        <div class="packing-category-title">
+                            <h3>TecnologÃ­a</h3>
+                            <p>Gadgets esenciales</p>
+                        </div>
+                    </div>
+                    <div class="packing-items">
+                        <div class="packing-item" onclick="togglePackItem(this)">
+                            <div class="item-check"><i class="fas fa-check"></i></div>
+                            <div class="item-icon">ðŸ“±</div>

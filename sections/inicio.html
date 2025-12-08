@@ -1,0 +1,64 @@
+<div id="home" class="section active">
+    <div class="welcome-hero">
+        <h2>✈️ EuroTrip 2026</h2>
+        <p style="font-size: 1.2rem; margin: 15px 0;">París • Bruselas • Brujas • Londres</p>
+        <div class="countdown-box">
+            <span class="countdown-num" id="countdown">Loading...</span>
+            <div style="font-size: 0.9rem; margin-top: 5px;">días para el viaje</div>
+        </div>
+    </div>
+
+    <div class="special-section">
+        <h3>🗺️ Resumen del Viaje</h3>
+        <div class="experience-grid">
+            <div class="experience-card">
+                <h4>📅 Fechas</h4>
+                <p><strong>7-12 Enero 2026</strong><br>6 días inolvidables</p>
+            </div>
+            <div class="experience-card">
+                <h4>🌍 Destinos</h4>
+                <p><strong>3 países, 4 ciudades</strong><br>Francia, Bélgica, Reino Unido</p>
+            </div>
+            <div class="experience-card">
+                <h4>💰 Presupuesto</h4>
+                <p><strong>~€1,200-1,500 p/p</strong><br>Todo incluido</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-box">
+        <h4><i class="fas fa-lightbulb"></i> Usa el menú lateral</h4>
+        <p>
+            Navega por cada día del itinerario usando el menú de la izquierda (o el menú hamburguesa en móvil).<br><br>
+            Cada día tiene horarios detallados, precios, mapas y alternativas para lluvia.
+        </p>
+    </div>
+
+    <div class="special-section">
+        <h3>🎯 Highlights del Viaje</h3>
+        <ul style="line-height: 2; font-size: 1rem;">
+            <li>🗼 <strong>París:</strong> Louvre, Musée d'Orsay, Sainte-Chapelle, Montmartre</li>
+            <li>🏰 <strong>Brujas:</strong> Canales medievales, chocolate belga</li>
+            <li>👑 <strong>Londres:</strong> British Museum, Churchill War Rooms, Sky Garden</li>
+            <li>🎨 <strong>Museos gratis:</strong> Natural History, V&A, Petit Palais</li>
+            <li>🌙 <strong>Museos nocturnos:</strong> Menos gente, más tranquilo</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Countdown timer
+    const tripDate = new Date('2026-01-07T08:00:00');
+    function updateCountdown() {
+        const now = new Date();
+        const diff = tripDate - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const countdownEl = document.getElementById('countdown');
+        if (countdownEl) {
+            countdownEl.innerText = days > 0 ? days : '¡HOY!';
+        }
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+</script>
+
