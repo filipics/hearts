@@ -168,7 +168,7 @@
             cursor: pointer;
         }
 
-        /* --- 3. MOBILE HEADER CON DÃAS --- */
+        /* --- 3. MOBILE HEADER CON DÍAS --- */
         @media (max-width: 768px) {
             .desktop-sidebar { display: none !important; }
 
@@ -279,7 +279,7 @@
             }
         }
 
-        /* SIDEBAR MÃ“VIL (MenÃº hamburguesa) */
+        /* SIDEBAR MÓVIL (Menú hamburguesa) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -951,7 +951,7 @@
             .card-hotel { margin-bottom: 0; }
         }
 
-        /* Rain Toggle en cada dÃ­a */
+        /* Rain Toggle en cada día */
         .day-rain-toggle {
             background: linear-gradient(135deg, #EBF8FF 0%, #E0F7FA 100%);
             padding: 12px 18px;
@@ -1215,12 +1215,12 @@
         }
 
         .comparison-table .pros li::before {
-            content: "âœ“ ";
+            content: "✓ ";
             font-weight: bold;
         }
 
         .comparison-table .cons li::before {
-            content: "âœ— ";
+            content: "✗ ";
             font-weight: bold;
         }
 
@@ -1881,7 +1881,7 @@
         }
 
         body.raining .schedule-card.outdoor::before {
-            content: 'ðŸŒ§ï¸ Actividad afectada por lluvia';
+            content: '🌧️ Actividad afectada por lluvia';
             position: absolute;
             top: 0;
             left: 0;
@@ -2085,7 +2085,7 @@
     <nav class="desktop-sidebar">
         <div class="logo-section">
             <h1>EUROTRIP</h1>
-            <span>Enero 2026 âœˆï¸</span>
+            <span>Enero 2026 ✈️</span>
         </div>
 
         <a href="#" class="desktop-menu-item active" onclick="navTo('home', 'paris', this)">
@@ -2102,25 +2102,25 @@
         <p class="menu-section-title">Itinerario</p>
 
         <a href="#" class="desktop-menu-item" onclick="navTo('day1', 'paris', this)">
-            <i class="fas fa-map-pin"></i> DÃ­a 1: ParÃ­s (Llegada)
+            <i class="fas fa-map-pin"></i> Día 1: París (Llegada)
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day2', 'paris', this)">
-            <i class="fas fa-landmark"></i> DÃ­a 2: ParÃ­s (Full)
+            <i class="fas fa-landmark"></i> Día 2: París (Full)
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day3', 'brussels', this)">
-            <i class="fas fa-train"></i> DÃ­a 3: Bruselas y Brujas
+            <i class="fas fa-train"></i> Día 3: Bruselas y Brujas
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day4', 'london', this)">
-            <i class="fas fa-crown"></i> DÃ­a 4: Bruselas â†’ Londres (Day 1)
+            <i class="fas fa-crown"></i> Día 4: Bruselas → Londres (Day 1)
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day5', 'london', this)">
-            <i class="fas fa-monument"></i> DÃ­a 5: Londres (Full Day 2)
+            <i class="fas fa-monument"></i> Día 5: Londres (Full Day 2)
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('day6', 'london', this)">
-            <i class="fas fa-plane"></i> DÃ­a 6: LGW â†’ CDG â†’ Home
+            <i class="fas fa-plane"></i> Día 6: LGW → CDG → Home
         </a>
         <a href="#" class="desktop-menu-item" onclick="navTo('gems', 'paris', this)">
-            <i class="fas fa-gem"></i> ðŸ’Ž Hidden Gems
+            <i class="fas fa-gem"></i> 💎 Hidden Gems
         </a>
 
         <div class="menu-divider"></div>
@@ -2137,7 +2137,7 @@
     <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h2 style="font-family:'Playfair Display'; color:var(--primary);">MenÃº</h2>
+            <h2 style="font-family:'Playfair Display'; color:var(--primary);">Menú</h2>
             <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
         </div>
 
@@ -2171,390 +2171,108 @@
     <nav class="mobile-days-nav">
         <div class="days-row">
             <button class="day-btn" onclick="navToDay('day1', 'paris', this)">
-                <span class="day-num">DÃ­a 1</span>
-                <span class="day-city">ParÃ­s</span>
+                <span class="day-num">Día 1</span>
+                <span class="day-city">París</span>
             </button>
             <button class="day-btn" onclick="navToDay('day2', 'paris', this)">
-                <span class="day-num">DÃ­a 2</span>
-                <span class="day-city">ParÃ­s</span>
+                <span class="day-num">Día 2</span>
+                <span class="day-city">París</span>
             </button>
             <button class="day-btn" onclick="navToDay('day3', 'brussels', this)">
-                <span class="day-num">DÃ­a 3</span>
+                <span class="day-num">Día 3</span>
                 <span class="day-city">Bru+Brujas</span>
             </button>
         </div>
         <div class="days-row">
             <button class="day-btn" onclick="navToDay('day4', 'london', this)">
-                <span class="day-num">DÃ­a 4</span>
-                <span class="day-city">Bruâ†’Lon</span>
+                <span class="day-num">Día 4</span>
+                <span class="day-city">Londres</span>
             </button>
-            <button class="day-btn" onclick="navToDay('day5', 'paris', this)">
-                <span class="day-num">DÃ­a 5</span>
-                <span class="day-city">Lonâ†’ParÃ­s</span>
+            <button class="day-btn" onclick="navToDay('day5', 'london', this)">
+                <span class="day-num">Día 5</span>
+                <span class="day-city">Londres</span>
+            </button>
+            <button class="day-btn" onclick="navToDay('day6', 'london', this)">
+                <span class="day-num">Día 6</span>
+                <span class="day-city">Home</span>
             </button>
         </div>
     </nav>
 
+    
     <!-- ============ CONTENIDO PRINCIPAL ============ -->
     <div class="main-container">
-
-        <!-- HOME -->
-
         <!-- CONTENT LOADED DYNAMICALLY -->
-        <div id='content-container'></div>
-
+        <div id="content-container"></div>
     </div>
 
-    <script src='loader.js'></script>
+    <script src="loader.js"></script>
     <script>
-        // Keep existing utility functions
-                                </div>
-                    </div>
-                    <div class="packing-items">
-                        <div class="packing-item" onclick="togglePackItem(this)">
-                            <div class="item-check"><i class="fas fa-check"></i></div>
-                            <div class="item-icon">ðŸ’Š</div>
-                            <div class="item-details">
-                                <div class="item-name">Ibuprofeno / Paracetamol</div>
-                                <div class="item-quantity">1 blister</div>
-                            </div>
-                        </div>
-                        <div class="packing-item" onclick="togglePackItem(this)">
-                            <div class="item-check"><i class="fas fa-check"></i></div>
-                            <div class="item-icon">ðŸ©¹</div>
-                            <div class="item-details">
-                                <div class="item-name">Curitas/Band-aids</div>
-                                <div class="item-quantity">5-10 unidades</div>
-                                <div class="item-note">Para ampollas</div>
-                            </div>
-                        </div>
-                        <div class="packing-item" onclick="togglePackItem(this)">
-                            <div class="item-check"><i class="fas fa-check"></i></div>
-                            <div class="item-icon">ðŸ¤§</div>
-                            <div class="item-details">
-                                <div class="item-name">Antigripal</div>
-                                <div class="item-quantity">1 caja</div>
-                            </div>
-                        </div>
-                        <div class="packing-item" onclick="togglePackItem(this)">
-                            <div class="item-check"><i class="fas fa-check"></i></div>
-                            <div class="item-icon">ðŸ’Š</div>
-                            <div class="item-details">
-                                <div class="item-name">Anticonceptivos (si aplica)</div>
-                                <div class="item-quantity">Suficientes</div>
-                            </div>
-                        </div>
-                        <div class="packing-item" onclick="togglePackItem(this)">
-                            <div class="item-check"><i class="fas fa-check"></i></div>
-                            <div class="item-icon">ðŸ©º</div>
-                            <div class="item-details">
-                                <div class="item-name">Medicamentos personales</div>
-                                <div class="item-quantity">Los que uses</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="packing-tip" style="margin-top:20px;">
-                <div class="packing-tip-icon">âœˆï¸</div>
-                <div class="packing-tip-content">
-                    <h4>RecordÃ¡ para el aviÃ³n</h4>
-                    <p>
-                        â€¢ <strong>LÃ­quidos:</strong> MÃ¡ximo 100ml por envase, todos en bolsa transparente de 1L<br>
-                        â€¢ <strong>Power bank:</strong> Solo en equipaje de mano, no despachado<br>
-                        â€¢ <strong>Campera pesada:</strong> Usala puesta para ahorrar espacio<br>
-                        â€¢ <strong>Documentos:</strong> Pasaporte y boarding pass siempre accesibles
-                    </p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- FAB NOTAS -->
-    <div class="fab-container">
-        <button class="fab-btn" onclick="toggleNotes()"><i class="fas fa-pen"></i></button>
-    </div>
-
-    <div class="notes-modal" id="notesModal">
-        <div class="notes-header">
-            <span><i class="fas fa-sticky-note"></i> Notas de Viaje</span>
-            <i class="fas fa-times" style="cursor:pointer;" onclick="toggleNotes()"></i>
-        </div>
-        <div class="notes-body" id="notesList">
-            <div style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
-                <i class="fas fa-lightbulb" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
-                Escribe recordatorios, tips o cosas para no olvidar...
-            </div>
-        </div>
-        <div class="notes-input-area">
-            <input type="text" id="noteInput" class="notes-input" placeholder="Ej: Comprar adaptador UK...">
-            <button onclick="addNote()" style="background:var(--primary); color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // --- NAVEGACIÃ“N ---
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const sections = document.querySelectorAll('.section');
-        const bgImages = {
-            'paris': 'var(--bg-paris)',
-            'london': 'var(--bg-london)',
-            'brussels': 'var(--bg-brussels)'
-        };
-
-        function toggleMenu() {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+        // Utility functions from original file
+        function navToDay(dayId, city, element) {
+            navTo(dayId, city, element);
         }
 
-        // NavegaciÃ³n general (desktop y mobile sidebar)
-        function navTo(sectionId, cityKey, element) {
-            sections.forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            
-            document.body.style.backgroundImage = bgImages[cityKey];
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Update desktop menu
-            document.querySelectorAll('.desktop-menu-item').forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            if(element) element.classList.add('active');
-
-            // Update mobile day buttons
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+        // Countdown timer  
+        const tripDate = new Date('2026-01-07T08:00:00');
+        function updateCountdown() {
+            const now = new Date();
+            const diff = tripDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const countdownEl = document.getElementById('countdown');
+            if (countdownEl) {
+                countdownEl.innerText = days > 0 ? days : 'HOY!';
+            }
         }
+        setInterval(updateCountdown, 60000);
 
-        // NavegaciÃ³n desde botones de dÃ­as mÃ³viles
-        function navToDay(sectionId, cityKey, element) {
-            sections.forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            
-            document.body.style.backgroundImage = bgImages[cityKey];
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Update day buttons
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
-            if(element) element.classList.add('active');
-
-            // Update desktop menu
-            document.querySelectorAll('.desktop-menu-item').forEach(i => i.classList.remove('active'));
-        }
-
-        // --- CUENTA REGRESIVA ---
-        const tripDate = new Date("January 7, 2026").getTime();
-        const now = new Date().getTime();
-        const diff = Math.ceil((tripDate - now) / (1000 * 60 * 60 * 24));
-        document.getElementById('countdown').innerText = diff > 0 ? diff : 0;
-
-        // --- EXPANDIR ITEMS DE COSTOS ---
-        function toggleCostItem(element) {
-            element.classList.toggle('expanded');
-        }
-
-        // --- PACKING LIST ---
-        function toggleGender(gender, button) {
-            // Toggle buttons
-            document.querySelectorAll('.gender-toggle button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Toggle sections
-            document.querySelectorAll('.packing-section').forEach(section => section.classList.remove('active'));
-            document.getElementById('packing-' + gender).classList.add('active');
-        }
-
-        function togglePackItem(element) {
-            element.classList.toggle('packed');
+        // Packing list state
+        function togglePackItem(item) {
+            item.classList.toggle('packed');
             savePackingState();
         }
 
         function savePackingState() {
-            const packedItems = [];
-            document.querySelectorAll('.packing-item.packed').forEach(item => {
-                const name = item.querySelector('.item-name').innerText;
-                const section = item.closest('.packing-section').id;
-                packedItems.push(section + ':' + name);
+            const packed = [];
+            document.querySelectorAll('.packing-item.packed').forEach((item, index) => {
+                packed.push(index);
             });
-            localStorage.setItem('euroPackingList', JSON.stringify(packedItems));
+            localStorage.setItem('eurotrip_packing', JSON.stringify(packed));
         }
 
         function loadPackingState() {
-            const packedItems = JSON.parse(localStorage.getItem('euroPackingList')) || [];
-            packedItems.forEach(itemKey => {
-                const [section, name] = itemKey.split(':');
-                const sectionEl = document.getElementById(section);
-                if(sectionEl) {
-                    sectionEl.querySelectorAll('.packing-item').forEach(item => {
-                        if(item.querySelector('.item-name').innerText === name) {
-                            item.classList.add('packed');
-                        }
-                    });
-                }
-            });
-        }
-
-        // --- MODO LLUVIA ---
-        let isRaining = false;
-        
-        function toggleRainMode() {
-            isRaining = !isRaining;
-            
-            if(isRaining) {
-                document.body.classList.add('raining');
-            } else {
-                document.body.classList.remove('raining');
-            }
-            
-            // Sync all rain switches
-            document.querySelectorAll('.rain-switch').forEach(sw => {
-                if(isRaining) {
-                    sw.classList.add('active');
-                } else {
-                    sw.classList.remove('active');
-                }
-            });
-        }
-
-        // --- GESTOR DE GASTOS ---
-        const fixedCosts = 155*2 + 135 + 95 + 180 + 80; // Hoteles ParÃ­s(2) + Londres + Bruselas + Trenes + Entradas base
-        
-        function loadExpenses() {
-            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
-            const list = document.getElementById('expenseList');
-            if(!list) return;
-            
-            let userTotal = 0;
-            
-            list.innerHTML = '';
-            expenses.forEach((item, index) => {
-                userTotal += parseFloat(item.value);
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #f0f0f0;">
-                        <span style="font-weight:500;">${item.desc}</span>
-                        <span>
-                            <strong style="color:var(--primary);">${item.value}â‚¬</strong>
-                            <i class="fas fa-trash" style="color:#EF4444; margin-left:12px; cursor:pointer; font-size:0.9rem;" onclick="deleteExpense(${index})"></i>
-                        </span>
-                    </div>`;
-            });
-            
-            // Mostrar total de gastos variables si hay alguno
-            if(userTotal > 0) {
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#F0F9FF; border-radius:10px; margin-top:10px;">
-                        <strong>Total gastos variables</strong>
-                        <strong style="color:var(--primary); font-size:1.1rem;">${userTotal.toFixed(0)}â‚¬</strong>
-                    </div>`;
+            const saved = localStorage.getItem('eurotrip_packing');
+            if (saved) {
+                const packed = JSON.parse(saved);
+                document.querySelectorAll('.packing-item').forEach((item, index) => {
+                    if (packed.includes(index)) item.classList.add('packed');
+                });
             }
         }
 
-        function addExpense() {
-            const desc = document.getElementById('expenseDesc').value.trim();
-            const val = document.getElementById('expenseValue').value;
-            if(desc && val) {
-                const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
-                expenses.push({desc, value: val});
-                localStorage.setItem('euroExpenses', JSON.stringify(expenses));
-                document.getElementById('expenseDesc').value = '';
-                document.getElementById('expenseValue').value = '';
-                loadExpenses();
-            }
-        }
-        
-        function deleteExpense(index) {
-            const expenses = JSON.parse(localStorage.getItem('euroExpenses')) || [];
-            expenses.splice(index, 1);
-            localStorage.setItem('euroExpenses', JSON.stringify(expenses));
-            loadExpenses();
-        }
-
-        // --- NOTAS ---
-        function toggleNotes() {
-            const modal = document.getElementById('notesModal');
-            if(modal.style.display === 'flex') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'flex';
-                loadNotes();
-            }
-        }
-
-        function loadNotes() {
-            const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
-            const list = document.getElementById('notesList');
-            
-            if(notes.length === 0) {
-                list.innerHTML = `
-                    <div style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:20px;">
-                        <i class="fas fa-lightbulb" style="font-size:2rem; margin-bottom:10px; display:block;"></i>
-                        Escribe recordatorios, tips o cosas para no olvidar...
-                    </div>`;
-                return;
-            }
-            
-            list.innerHTML = '';
-            notes.forEach((note, index) => {
-                const div = document.createElement('div');
-                div.className = 'note-bubble';
-                div.innerHTML = `${note} <i class="fas fa-times" style="margin-left:8px; cursor:pointer; color:#aaa; font-size:0.7rem;" onclick="deleteNote(${index})"></i>`;
-                list.appendChild(div);
-            });
-            list.scrollTop = list.scrollHeight;
-        }
-
-        function addNote() {
-            const input = document.getElementById('noteInput');
-            const text = input.value.trim();
-            if(text) {
-                const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
-                notes.push(text);
-                localStorage.setItem('euroNotes', JSON.stringify(notes));
-                input.value = '';
-                loadNotes();
-            }
-        }
-
-        function deleteNote(index) {
-            const notes = JSON.parse(localStorage.getItem('euroNotes')) || [];
-            notes.splice(index, 1);
-            localStorage.setItem('euroNotes', JSON.stringify(notes));
-            loadNotes();
-        }
-
-        // Enter key para notas
-        document.getElementById('noteInput')?.addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') addNote();
-        });
-
-        // --- CHECKLIST ---
-        function toggleCheck(element) {
-            const id = element.dataset.id;
-            const checklist = JSON.parse(localStorage.getItem('euroChecklist')) || {};
-            
-            if(checklist[id]) {
-                delete checklist[id];
-                element.classList.remove('completed');
-            } else {
-                checklist[id] = true;
-                element.classList.add('completed');
-            }
-            
-            localStorage.setItem('euroChecklist', JSON.stringify(checklist));
+        // Checklist state
+        function toggleCheckItem(item) {
+            item.classList.toggle('completed');
+            saveChecklistState();
             updateChecklistProgress();
         }
 
-        function loadChecklist() {
-            const checklist = JSON.parse(localStorage.getItem('euroChecklist')) || {};
-            document.querySelectorAll('.checklist-item').forEach(item => {
-                const id = item.dataset.id;
-                if(checklist[id]) {
-                    item.classList.add('completed');
-                }
+        function saveChecklistState() {
+            const completed = [];
+            document.querySelectorAll('.checklist-item.completed').forEach((item, index) => {
+                completed.push(index);
             });
+            localStorage.setItem('eurotrip_checklist', JSON.stringify(completed));
+        }
+
+        function loadChecklist() {
+            const saved = localStorage.getItem('eurotrip_checklist');
+            if (saved) {
+                const completed = JSON.parse(saved);
+                document.querySelectorAll('.checklist-item').forEach((item, index) => {
+                    if (completed.includes(index)) item.classList.add('completed');
+                });
+            }
             updateChecklistProgress();
         }
 
@@ -2570,11 +2288,10 @@
             if(fillEl) fillEl.style.width = percent + '%';
         }
 
-        // Init
-        loadExpenses();
-        loadChecklist();
-        loadPackingState();
-    </script>
+        // Expenses tracking  
+        function loadExpenses() {
+            // Placeholder for expense tracking functionality
+        }
     </script>
 </body>
 </html>
