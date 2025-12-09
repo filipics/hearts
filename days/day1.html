@@ -1,696 +1,370 @@
 <div id="day1" class="section">
-            <div class="day-header">
-                <h2>🇫🇷 Miércoles 7 de Enero</h2>
-                <p>Llegada • Sainte-Chapelle • Musée d'Orsay • Seine Cruise 🌟 Reddit Approved</p>
+    <div class="day-header">
+        <h2>🇫🇷 Miércoles 7 de Enero</h2>
+        <p>Llegada • Sainte-Chapelle • Musée d'Orsay • Seine Cruise 🌟 Reddit Approved</p>
+    </div>
+
+    <!-- 1. NEW STATS HEADER -->
+    <div class="day-stats-header">
+        <div class="stat-pill">
+            <i class="fas fa-walking"></i>
+            <span>~6 km</span>
+            <small>Walking</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-ticket-alt"></i>
+            <span>~48€</span>
+            <small>Tickets</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-utensils"></i>
+            <span>~40€</span>
+            <small>Food</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>7</span>
+            <small>Stops</small>
+        </div>
+    </div>
+
+    <!-- 2. INTERACTIVE MAP -->
+    <div class="interactive-map-container">
+        <div id="map-day1"></div>
+    </div>
+
+    <!-- RAIN TOGGLE -->
+    <div class="day-rain-toggle">
+        <label onclick="toggleRainMode()">
+            <i class="fas fa-cloud-rain"></i>
+            <span>¿Llueve hoy? Ver alternativas techadas</span>
+        </label>
+        <div class="rain-switch" id="rainSwitch1" onclick="toggleRainMode()"></div>
+    </div>
+
+    <!-- 3. REORDERABLE ACTIVITY GRID -->
+    <div id="activityGridDay1" class="activity-grid">
+        
+        <!-- ITEM 1: LLEGADA -->
+        <div class="activity-block" data-id="arrival">
+            <div class="activity-block-header">
+                <span class="activity-time-badge" style="background:#B45309;">08:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-plane"></i></div>
             </div>
-
-            <!-- MAP CARD -->
-            <div class="route-map-card">
-                <div class="route-map-preview">
-                    <a href="https://www.google.com/maps/dir/Hôtel+Caron+de+Beaumarchais,+Rue+Vieille-du-Temple,+Paris,+France/Cathédrale+Notre-Dame+de+Paris,+Paris,+France/Sainte-Chapelle,+Boulevard+du+Palais,+Paris,+France/L'As+du+Fallafel,+Rue+des+Rosiers,+Paris,+France/Panthéon,+Place+du+Panthéon,+Paris,+France/Shakespeare+and+Company,+Rue+de+la+Bûcherie,+Paris,+France/Petit+Palais,+Avenue+Winston+Churchill,+Paris,+France/Passage+des+Panoramas,+Paris,+France/Galeries+Lafayette+Haussmann,+Boulevard+Haussmann,+Paris,+France/Musée+du+Louvre,+Rue+de+Rivoli,+Paris,+France" target="_blank" class="btn-route-map">
-                        <i class="fas fa-map-marked-alt"></i> Ver Ruta en Google Maps
-                    </a>
-                </div>
-                <div class="route-stats">
-                    <span><i class="fas fa-walking"></i> ~6 km a pie</span>
-                    <span><i class="fas fa-map-marker-alt"></i> 9 Paradas</span>
-                </div>
-            </div>
-
-            <div class="day-rain-toggle">
-                <label onclick="toggleRainMode()">
-                    <i class="fas fa-cloud-rain"></i>
-                    <span>¿Llueve hoy? Ver alternativas techadas</span>
-                </label>
-                <div class="rain-switch" id="rainSwitch1" onclick="toggleRainMode()"></div>
-            </div>
-
-            <!-- Resumen del día -->
-            <div class="day-summary">
-                <h3>📊 Resumen del Día 1</h3>
-                <div class="day-summary-stats">
-                    <div class="day-stat">
-                        <div class="day-stat-value">~6km</div>
-                        <div class="day-stat-label">Caminata total</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">~48€</div>
-                        <div class="day-stat-label">Entradas p/p</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">7</div>
-                        <div class="day-stat-label">Atracciones</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">~40€</div>
-                        <div class="day-stat-label">Comida p/p</div>
+            <div class="activity-block-title">Llegada a París (CDG)</div>
+            <div class="activity-block-subtitle">Aeropuerto Charles de Gaulle</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="detail-box">
+                    <i class="fas fa-route"></i>
+                    <div class="detail-content">
+                        <div class="detail-label">Transfer</div>
+                        <div class="detail-value">RER B → Châtelet → Metro 1</div>
+                        <div class="detail-note">~50 min a Le Marais</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="tip-box" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-color: #F59E0B; margin-bottom: 20px;">
-                <h4 style="color:#92400E;"><i class="fab fa-reddit"></i> Reddit-Optimized for COLD Weather</h4>
-                <p style="color:#78350F;">
-                    Indoor-focused itinerary con todas las Reddit gems:<br>
-                    ✓ Museums at NIGHT (less crowded, warm!)<br>
-                    ✓ Sainte-Chapelle (Reddit: "mind-blowing" stained glass)<br>
-                    ✓ Galeries Lafayette rooftop (FREE Eiffel view - Reddit hack)<br>
-                    ✓ Palais Garnier Opera (jaw-dropping interior)<br>
-                    ✓ L'As du Fallafel (Reddit institution)<br>
-                    ⚠️ No boat rides - keeping you warm!
-                </p>
-            </div>
-
-            <!-- TIMELINE -->
-            <div class="timeline">
-                
-                <!-- LLEGADA AEROPUERTO -->
-                <div class="timeline-item transport">
-                    <div class="schedule-card transport-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #B45309 0%, #92400E 100%);">
-                                <div class="time-start">08:00</div>
-                                <div class="time-duration">Llegada</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">✈️</span>
-                                    Aeropuerto CDG → Hotel Le Marais
-                                </div>
-                                <div class="schedule-subtitle">Charles de Gaulle Terminal 2</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;">🚇 RER B + Metro 1</span>
-                                    <span class="schedule-tag" style="background:#FEE2E2; color:#DC2626;">~11€ p/p</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-route"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Ruta</div>
-                                    <div class="detail-value">CDG → Châtelet (RER B) → Saint-Paul (Metro 1)</div>
-                                    <div class="detail-note">~45-50 min total</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-ticket-alt"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Ticket</div>
-                                    <div class="detail-value">Comprar en máquinas del aeropuerto</div>
-                                    <div class="detail-note">Pagar con tarjeta contactless</div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="detail-box">
+                    <i class="fas fa-tag"></i>
+                    <div class="detail-content">
+                        <div class="detail-label">Costo</div>
+                        <div class="detail-value">~11.80€</div>
+                        <div class="detail-note">Ticket RER + Metro incluido</div>
                     </div>
                 </div>
-
-                <!-- CHECK-IN HOTEL -->
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">09:00</div>
-                                <div class="time-end">10:30</div>
-                                <div class="time-duration">1.5h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏨</span>
-                                    Check-in + Descanso
-                                </div>
-                                <div class="schedule-subtitle">Hôtel Caron de Beaumarchais, Le Marais</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-hours">🕐 Check-in desde 15:00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-info-circle"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Tip</div>
-                                    <div class="detail-value">Pueden dejar valijas antes si llegan temprano</div>
-                                    <div class="detail-note">Refrescarse y prepararse para salir</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TRANSPORTE A NOTRE DAME -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Caminando por Le Marais</div>
-                        <div class="transport-details">Rue de Rivoli → Île de la Cité (paseo lindo)</div>
-                    </div>
-                    <div class="transport-time">1.2 km · 15 min</div>
-                </div>
-
-                <!-- NOTRE DAME -->
-                <div class="timeline-item">
-                    <div class="schedule-card outdoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">10:30</div>
-                                <div class="time-end">11:45</div>
-                                <div class="time-duration">1h 15m</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">⛪</span>
-                                    Notre Dame & Île de la Cité
-                                </div>
-                                <div class="schedule-subtitle">Catedral en reconstrucción, vista exterior</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ Gratis (exterior)</span>
-                                    <span class="schedule-tag tag-hours">🕐 24h acceso exterior</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-camera"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Qué ver</div>
-                                    <div class="detail-value">Fachada, Plaza, Pont Saint-Louis</div>
-                                    <div class="detail-note">Fotos desde el Pont de l'Archevêché</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-info-circle"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Estado actual</div>
-                                    <div class="detail-value">Reabrió en Dic 2024 tras incendio</div>
-                                    <div class="detail-note">Verificar si ya hay acceso interior</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rain-alternative-enhanced">
-                            <div class="rain-header">
-                                <i class="fas fa-umbrella"></i> ¡Llueve! Alternativas Cubiertas:
-                            </div>
-                            <div class="rain-suggestion">
-                                <h5>🏰 Ir directo a Sainte-Chapelle</h5>
-                                <p>Está a 5 min caminando y tiene vitrales espectaculares. Completamente cubierto.</p>
-                                <div class="suggestion-tags">
-                                    <span class="suggestion-tag">🎫 13€ p/p</span>
-                                    <span class="suggestion-tag">⏱️ 1h visita</span>
-                                </div>
-                            </div>
-                            <div class="rain-suggestion">
-                                <h5>☕ Café Procope (el café más antiguo de París)</h5>
-                                <p>Fundado en 1686. Donde se reunían Voltaire y Rousseau. Atmósfera histórica increíble.</p>
-                                <div class="suggestion-tags">
-                                    <span class="suggestion-tag">📍 Saint-Germain</span>
-                                    <span class="suggestion-tag">🥐 Café + pastry ~12€</span>
-                                </div>
-                            </div>
-                            <div class="rain-suggestion">
-                                <h5>🏛️ Passage des Panoramas</h5>
-                                <p>Galería cubierta del siglo XIX con tiendas vintage y bistros. ¡Un hidden gem perfecto para lluvia!</p>
-                                <div class="suggestion-tags">
-                                    <span class="suggestion-tag">✓ Gratis</span>
-                                    <span class="suggestion-tag">📍 Near Grands Boulevards</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Notre+Dame+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Ver mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TRANSPORTE A SAINTE CHAPELLE -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Caminando</div>
-                        <div class="transport-details">Por el Boulevard du Palais</div>
-                    </div>
-                    <div class="transport-time">400m · 5 min</div>
-                </div>
-
-                <!-- SAINTE CHAPELLE -->
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">12:00</div>
-                                <div class="time-end">13:00</div>
-                                <div class="time-duration">1h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏰</span>
-                                    Sainte-Chapelle
-                                </div>
-                                <div class="schedule-subtitle">Vitrales góticos más impresionantes del mundo</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-ticket">🎟️ 13€ p/p</span>
-                                    <span class="schedule-tag tag-hours">🕐 9:00 - 17:00 (invierno)</span>
-                                    <span class="schedule-tag" style="background:#FEE2E2; color:#DC2626;">⚠️ Reservar online</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-clock"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Horario invierno</div>
-                                    <div class="detail-value">9:00 - 17:00 (última entrada 16:30)</div>
-                                    <div class="detail-note">Cerrado 1 enero, 1 mayo, 25 dic</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Highlight</div>
-                                    <div class="detail-value">Capilla superior con 1,113 vitrales</div>
-                                    <div class="detail-note">Mejor con sol de tarde</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://www.sainte-chapelle.fr" target="_blank" class="btn-small btn-book-small">
-                                <i class="fas fa-ticket-alt"></i> Reservar
-                            </a>
-                            <a href="https://maps.google.com/?q=Sainte+Chapelle+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ALMUERZO EN LE MARAIS -->
-                <div class="timeline-item meal">
-                    <div class="schedule-card meal-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);">
-                                <div class="time-start">13:00</div>
-                                <div class="time-end">14:00</div>
-                                <div class="time-duration">Almuerzo</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🥙</span>
-                                    L'As du Fallafel (Reddit Legend)
-                                </div>
-                                <div class="schedule-subtitle">The #1 falafel in Paris según Reddit</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~8-12€ p/p</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Reddit fave</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Por qué es especial</div>
-                                    <div class="detail-value">Rue des Rosiers 34, Le Marais</div>
-                                    <div class="detail-note">Cola larga pero rápida. Vale la pena 100%</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=L'As+du+Fallafel+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PANTHÉON -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Walk to Quartier Latin</div>
-                        <div class="transport-details">Le Marais → Panthéon</div>
-                    </div>
-                    <div class="transport-time">1.5 km · 20 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">14:15</div>
-                                <div class="time-end">15:15</div>
-                                <div class="time-duration">1h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏛️</span>
-                                    Panthéon
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Impressive & quieter than other monuments</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-ticket">🎟️ 11.50€ p/p</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Underrated gem</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-monument"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Qué es</div>
-                                    <div class="detail-value">Mausoleum: Voltaire, Rousseau, Victor Hugo, Marie Curie buried here</div>
-                                    <div class="detail-note">Neoclassical interior + dome. WARM & impressive!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Pantheon+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SHAKESPEARE AND COMPANY -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Down to Seine</div>
-                        <div class="transport-details">Panthéon → Notre Dame area</div>
-                    </div>
-                    <div class="transport-time">700m · 10 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">15:30</div>
-                                <div class="time-end">16:00</div>
-                                <div class="time-duration">30min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">📚</span>
-                                    Shakespeare and Company
-                                </div>
-                                <div class="schedule-subtitle">Legendary English bookshop (Reddit approved despite tourists)</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Cozy & magical</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-book"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why it's special</div>
-                                    <div class="detail-value">Historic bookshop facing Notre Dame. Cozy, warm, magical atmosphere</div>
-                                    <div class="detail-note">Perfect spot to warm up with a book!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Shakespeare+and+Company+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PETIT PALAIS -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Metro Línea 4</div>
-                        <div class="transport-details">Saint-Michel → Concorde/Champs-Élysées-Clemenceau</div>
-                    </div>
-                    <div class="transport-time">~15 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">16:30</div>
-                                <div class="time-end">17:30</div>
-                                <div class="time-duration">1h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🎨</span>
-                                    Petit Palais
-                                </div>
-                                <div class="schedule-subtitle">Reddit: FREE museum, stunning building, great café!</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ GRATIS!</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Hidden gem</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why Reddit loves it</div>
-                                    <div class="detail-value">FREE permanent collection + Belle Époque architecture</div>
-                                    <div class="detail-note">Indoor garden café - perfect for the cold!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Petit+Palais+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PASSAGE DES PANORAMAS -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Short walk</div>
-                        <div class="transport-details">Grand Palais area → Passage des Panoramas</div>
-                    </div>
-                    <div class="transport-time">1.5 km · 20 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">18:00</div>
-                                <div class="time-end">18:45</div>
-                                <div class="time-duration">45min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏛️</span>
-                                    Passage des Panoramas
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Oldest covered arcade in Paris (1800)</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Hidden gem</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-building"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Qué es</div>
-                                    <div class="detail-value">19th century covered gallery with vintage shops, bistros</div>
-                                    <div class="detail-note">Perfect for cold weather - all covered! Warm & atmospheric</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Passage+des+Panoramas+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GALERIES LAFAYETTE ROOFTOP -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 5 min walk</div>
-                        <div class="transport-details">Desde Opéra a Galeries Lafayette</div>
-                    </div>
-                    <div class="transport-time">400m · 5 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">19:00</div>
-                                <div class="time-end">19:45</div>
-                                <div class="time-duration">45min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏢</span>
-                                    Galeries Lafayette Rooftop
-                                </div>
-                                <div class="schedule-subtitle">FREE Eiffel Tower view at night! (Reddit hack)</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ GRATIS</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Better than paying for tower</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why Reddit loves it</div>
-                                    <div class="detail-value">Free 360° view of Paris + stunning glass dome inside</div>
-                                    <div class="detail-note">See Eiffel sparkle at 19:00, 20:00, 21:00</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-building"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Cómo llegar</div>
-                                    <div class="detail-value">Entrar al mall, tomar elevador al "Terrasse"</div>
-                                    <div class="detail-note">¡Totalmente gratis! Mejor que pagar €35 por torre</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Galeries+Lafayette+Haussmann+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LOUVRE NOCTURNO -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Metro Línea 7 o 14</div>
-                        <div class="transport-details">Opéra → Palais Royal-Musée du Louvre</div>
-                    </div>
-                    <div class="transport-time">~10 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">20:00</div>
-                                <div class="time-end">21:45</div>
-                                <div class="time-duration">1h 45m</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏛️</span>
-                                    LOUVRE NOCTURNO (Wednesday Night!)
-                                </div>
-                                <div class="schedule-subtitle">Open until 21:45 on Wednesdays & Fridays</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-ticket">🎟️ 22€ p/p</span>
-                                    <span class="schedule-tag tag-hours">🕐 Mié/Vie hasta 21:45</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Way less crowded at night</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-moon"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">¡HOY ES MIÉRCOLES!</div>
-                                    <div class="detail-value">Perfect timing - Louvre open late Wednesdays!</div>
-                                    <div class="detail-note">WAY menos gente de noche. Entrada límite 21:00</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-route"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Ruta EXPRESS 1h45m</div>
-                                    <div class="detail-value">Mona Lisa → Venus de Milo → Winged Victory</div>
-                                    <div class="detail-note">Hit the highlights, keep it under 2h max</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-door-open"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Entrada</div>
-                                    <div class="detail-value">Passage Richelieu has LESS line than Pyramid</div>
-                                    <div class="detail-note">Book timed ticket online to skip all lines</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://www.louvre.fr/en/visit/tickets" target="_blank" class="btn-small btn-book-small">
-                                <i class="fas fa-ticket-alt"></i> BOOK NOW
-                            </a>
-                            <a href="https://maps.google.com/?q=Louvre+Museum+Paris" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CENA EN LE MARAIS -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Metro de regreso a Le Marais</div>
-                        <div class="transport-details">Para cena en tu barrio</div>
-                    </div>
-                    <div class="transport-time">~15 min</div>
-                </div>
-
-                <div class="timeline-item meal">
-                    <div class="schedule-card meal-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);">
-                                <div class="time-start">22:00</div>
-                                <div class="time-end">23:00</div>
-                                <div class="time-duration">Cena</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🍽️</span>
-                                    Cena en Le Marais
-                                </div>
-                                <div class="schedule-subtitle">Muchas opciones abiertas hasta tarde</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~25-35€ p/p</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-utensils"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Opciones</div>
-                                    <div class="detail-value">Rue Vieille du Temple tiene varios bares/restos abiertos tarde</div>
-                                    <div class="detail-note">Zona segura y animada de noche</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REGRESO HOTEL -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Caminando al hotel</div>
-                        <div class="transport-details">Zona muy segura de noche en Le Marais</div>
-                    </div>
-                    <div class="transport-time">~5 min</div>
-                </div>
-
             </div>
         </div>
+
+        <!-- ITEM 2: CHECK-IN -->
+        <div class="activity-block" data-id="hotel">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">09:30</span>
+                <div class="activity-icon-badge"><i class="fas fa-hotel"></i></div>
+            </div>
+            <div class="activity-block-title">Check-in Hotel</div>
+            <div class="activity-block-subtitle">Hôtel Caron de Beaumarchais</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="detail-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="detail-content">
+                        <div class="detail-value">Dejar maletas</div>
+                        <div class="detail-note">Check-in oficial es 15:00, pero guardan equipaje.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 3: NOTRE DAME -->
+        <div class="activity-block" data-id="notre-dame">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">10:30</span>
+                <div class="activity-icon-badge"><i class="fas fa-church"></i></div>
+            </div>
+            <div class="activity-block-title">Notre Dame</div>
+            <div class="activity-block-subtitle">Exterior & Île de la Cité</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-free-entry">Gratis</span>
+                </div>
+                <p style="font-size:0.85rem; color:#666; margin:10px 0;">Caminata por el exterior y los alrededores. La catedral reabrió en Dic 2024.</p>
+                <div class="rain-alternative-enhanced">
+                    <div class="rain-header"><i class="fas fa-umbrella"></i> Si llueve:</div>
+                    <p style="font-size:0.8rem; margin:0;">Ir directo a Sainte-Chapelle (al lado) o Café Procope.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ITEM 4: SAINTE CHAPELLE -->
+        <div class="activity-block" data-id="sainte-chapelle">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">12:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-gem"></i></div>
+            </div>
+            <div class="activity-block-title">Sainte-Chapelle</div>
+            <div class="activity-block-subtitle">Los mejores vitrales del mundo</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-ticket">13€ Ticket</span>
+                    <span class="schedule-tag tag-reserve">Reservar</span>
+                </div>
+                <div class="detail-box">
+                    <i class="fas fa-star"></i>
+                    <div class="detail-content">
+                        <div class="detail-label">Highlight</div>
+                        <div class="detail-value">Capilla Superior</div>
+                        <div class="detail-note">Subir las escaleras de caracol.</div>
+                    </div>
+                </div>
+                <a href="https://www.sainte-chapelle.fr" target="_blank" class="doc-link" style="margin-top:10px; display:inline-block; font-size:0.8rem;">Reservar Ticket</a>
+            </div>
+        </div>
+
+        <!-- ITEM 5: LUNCH -->
+        <div class="activity-block" data-id="lunch">
+            <div class="activity-block-header">
+                <span class="activity-time-badge" style="background:#EC4899;">13:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
+            </div>
+            <div class="activity-block-title">L'As du Fallafel</div>
+            <div class="activity-block-subtitle">Almuerzo icónico en Le Marais</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag" style="background:#FEF3C7; color:#B45309;">Reddit Famous</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">El falafel más famoso de París. Suele haber fila pero avanza rápido. Pedir "Special Fallafel Sandwich".</p>
+            </div>
+        </div>
+
+        <!-- ITEM 6: PANTHEON -->
+        <div class="activity-block" data-id="pantheon">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">14:15</span>
+                <div class="activity-icon-badge"><i class="fas fa-monument"></i></div>
+            </div>
+            <div class="activity-block-title">Panthéon</div>
+            <div class="activity-block-subtitle">Tumbas de Voltaire, Rousseau...</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-ticket">11.50€</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">Impresionante interior neoclásico. Mucho menos concurrido que otros museos.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 7: SHAKESPEARE & CO -->
+        <div class="activity-block" data-id="shakespeare">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">15:30</span>
+                <div class="activity-icon-badge"><i class="fas fa-book"></i></div>
+            </div>
+            <div class="activity-block-title">Shakespeare & Co.</div>
+            <div class="activity-block-subtitle">Librería histórica</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-free-entry">Gratis</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">Entrar a curiosear (puede haber fila). Ambiente mágico y cálido.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 8: PETIT PALAIS -->
+        <div class="activity-block" data-id="petit-palais">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">16:30</span>
+                <div class="activity-icon-badge"><i class="fas fa-palette"></i></div>
+            </div>
+            <div class="activity-block-title">Petit Palais</div>
+            <div class="activity-block-subtitle">Museo de Bellas Artes</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-free-entry">Gratis</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">Colección permanente gratuita. El edificio es una joya y tiene un jardín interior precioso.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 9: PASSAGE PANORAMAS -->
+        <div class="activity-block" data-id="panoramas">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">18:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-store"></i></div>
+            </div>
+            <div class="activity-block-title">Passage des Panoramas</div>
+            <div class="activity-block-subtitle">Galería cubierta vintage</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem; margin-top:10px;">Perfecto para escapar del frío. Tiendas de sellos, monedas y bistros antiguos.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 10: GALERIES LAFAYETTE -->
+        <div class="activity-block" data-id="lafayette">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">19:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-shopping-bag"></i></div>
+            </div>
+            <div class="activity-block-title">Galeries Lafayette</div>
+            <div class="activity-block-subtitle">Rooftop View & Cúpula</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-free-entry">Gratis</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">Subir a la terraza (7mo piso) para vista gratis de la Torre Eiffel. Ver la cúpula desde adentro.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 11: LOUVRE -->
+        <div class="activity-block" data-id="louvre">
+            <div class="activity-block-header">
+                <span class="activity-time-badge">20:00</span>
+                <div class="activity-icon-badge"><i class="fas fa-paint-brush"></i></div>
+            </div>
+            <div class="activity-block-title">Louvre Nocturno</div>
+            <div class="activity-block-subtitle">Abierto hasta 21:45 (Miércoles)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">
+                Ver detalles <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="activity-details-container">
+                <div class="schedule-tags">
+                    <span class="schedule-tag tag-ticket">22€</span>
+                </div>
+                <p style="font-size:0.85rem; margin-top:10px;">Aprovechar horario nocturno con menos gente. Ruta express: Mona Lisa, Venus, Victoria Alada.</p>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Spacer for FAB -->
+    <div style="height: 100px;"></div>
+
+    <script>
+        // Init logic for Day 1
+        setTimeout(() => {
+            // 1. Initialize Map
+            const mapContainer = document.getElementById('map-day1');
+            if (mapContainer && !mapContainer._leaflet_id) {
+                const map = L.map('map-day1').setView([48.8566, 2.3522], 13); // Center of Paris
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 20
+                }).addTo(map);
+
+                // Define stops
+                const stops = [
+                    { name: "Hotel Caron", lat: 48.8569, lng: 2.3582 },
+                    { name: "Notre Dame", lat: 48.8529, lng: 2.3500 },
+                    { name: "Sainte-Chapelle", lat: 48.8554, lng: 2.3450 },
+                    { name: "L'As du Fallafel", lat: 48.8574, lng: 2.3591 },
+                    { name: "Panthéon", lat: 48.8462, lng: 2.3464 },
+                    { name: "Shakespeare & Co", lat: 48.8519, lng: 2.3470 },
+                    { name: "Petit Palais", lat: 48.8661, lng: 2.3144 },
+                    { name: "Passage Panoramas", lat: 48.8714, lng: 2.3424 },
+                    { name: "Galeries Lafayette", lat: 48.8737, lng: 2.3322 },
+                    { name: "Louvre", lat: 48.8606, lng: 2.3376 }
+                ];
+
+                // Add route line
+                const latlngs = stops.map(s => [s.lat, s.lng]);
+                const polyline = L.polyline(latlngs, {color: '#0A2540', weight: 4, opacity: 0.8, dashArray: '10, 10'}).addTo(map);
+                
+                // Add markers
+                stops.forEach((stop, index) => {
+                    const markerHtml = `
+                        <div style="background-color: #00D4FF; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>
+                    `;
+                    const icon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: markerHtml,
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    
+                    L.marker([stop.lat, stop.lng], {icon: icon})
+                        .addTo(map)
+                        .bindPopup(`<b>${index + 1}. ${stop.name}</b>`);
+                });
+
+                // Fit bounds to show all points
+                map.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+            }
+
+            // 2. Initialize Sortable
+            const grid = document.getElementById('activityGridDay1');
+            if (grid) {
+                new Sortable(grid, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    dragClass: 'sortable-drag',
+                    delay: 100, // slight delay to prevent accidental drags on touch
+                    delayOnTouchOnly: true
+                });
+            }
+
+        }, 100);
+
+        // Toggle Details Function
+        window.toggleDetails = function(btn) {
+            const container = btn.nextElementSibling;
+            container.classList.toggle('open');
+            const icon = btn.querySelector('i');
+            if (container.classList.contains('open')) {
+                btn.innerHTML = 'Ver menos <i class="fas fa-chevron-up"></i>';
+                btn.style.background = "#E0F7FF";
+                btn.style.color = "#0077B6";
+            } else {
+                btn.innerHTML = 'Ver detalles <i class="fas fa-chevron-down"></i>';
+                btn.style.background = "#F7FAFC";
+                btn.style.color = "#718096";
+            }
+        };
+    </script>
+</div>
