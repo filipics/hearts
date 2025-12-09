@@ -2292,6 +2292,15 @@
         function loadExpenses() {
             // Placeholder for expense tracking functionality
         }
+
+        // EVENT DELEGATION for dynamically loaded content
+        document.addEventListener('click', function(e) {
+            // Cost Breakdown Accordion
+            if (e.target.closest('.cost-item-header')) {
+                const item = e.target.closest('.cost-item');
+                item.classList.toggle('expanded');
+            }
+        });
     </script>
 </body>
 </html>
