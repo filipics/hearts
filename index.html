@@ -2094,10 +2094,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Generic map pattern background */
-            background-image: url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png'); 
-            background-size: cover;
-            background-position: center;
+            /* Simple abstract map pattern using CSS gradient instead of external image */
+            background-image: repeating-linear-gradient(45deg, #e2e8f0 0, #e2e8f0 1px, transparent 0, transparent 50%);
+            background-size: 20px 20px;
         }
         
         .route-map-preview::before {
