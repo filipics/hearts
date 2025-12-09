@@ -2077,6 +2077,78 @@
             transition: width 0.5s ease;
         }
 
+        /* ROUTE MAP CARD */
+        .route-map-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .route-map-preview {
+            height: 120px;
+            background: #f1f5f9;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Generic map pattern background */
+            background-image: url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .route-map-preview::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+            backdrop-filter: blur(1px);
+        }
+
+        .btn-route-map {
+            position: relative;
+            z-index: 2;
+            background: white;
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-route-map:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-route-map i {
+            color: #4285F4; /* Google Blue */
+        }
+
+        .route-stats {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .route-stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
     </style>
 </head>
 <body>
