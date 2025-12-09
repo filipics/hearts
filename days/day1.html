@@ -1,10 +1,10 @@
 <div id="day1" class="section">
     <div class="day-header">
         <h2>🇫🇷 Miércoles 7 de Enero</h2>
-        <p>Dynamic Itinerary • Drag & Drop to Reorder • Live Walking Route</p>
+        <p>Dynamic Itinerary • Live Route • Drag & Drop</p>
     </div>
 
-    <!-- 1. STATS HEADER (Dynamic) -->
+    <!-- 1. STATS HEADER -->
     <div class="day-stats-header">
         <div class="stat-pill">
             <i class="fas fa-clock"></i>
@@ -24,8 +24,11 @@
     </div>
 
     <!-- 2. INTERACTIVE MAP -->
-    <div class="interactive-map-container">
+    <div class="interactive-map-container" id="mapContainerDay1">
         <div id="map-day1"></div>
+        <button class="map-expand-btn" onclick="toggleMapSize()" title="Expandir mapa">
+            <i class="fas fa-expand-alt"></i>
+        </button>
     </div>
 
     <!-- RAIN TOGGLE -->
@@ -40,41 +43,35 @@
     <!-- 3. REORDERABLE ACTIVITY GRID -->
     <div id="activityGridDay1" class="activity-grid">
         
-        <!-- ITEM 1: LLEGADA (Fixed Start) -->
-        <div class="activity-block" data-id="arrival" data-duration="90" data-lat="48.8569" data-lng="2.3582" data-fixed="true">
+        <!-- ITEM 1: ARRIVAL -->
+        <div class="activity-block" data-id="arrival" data-duration="90" data-lat="48.8569" data-lng="2.3582" data-name="Hotel (Start)">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">08:00 - 09:30</span>
                 <div class="activity-icon-badge"><i class="fas fa-plane"></i></div>
             </div>
-            <div class="activity-block-title">Llegada & Transfer</div>
-            <div class="activity-block-subtitle">CDG → Hotel (90 min)</div>
+            <div class="activity-block-title">Llegada & Hotel</div>
+            <div class="activity-block-subtitle">CDG → Le Marais (90 min)</div>
             <div class="activity-details-container">
-                <div class="detail-box">
-                    <i class="fas fa-info-circle"></i>
-                    <div class="detail-content">
-                        <div class="detail-value">Check-in / Bag Drop</div>
-                        <div class="detail-note">Hôtel Caron de Beaumarchais</div>
-                    </div>
-                </div>
+                <p style="font-size:0.85rem;">Check-in / Bag Drop @ Hotel Caron.</p>
             </div>
         </div>
 
-        <!-- ITEM: NOTRE DAME -->
-        <div class="activity-block" data-id="notre-dame" data-duration="75" data-lat="48.8529" data-lng="2.3500">
+        <!-- NOTRE DAME -->
+        <div class="activity-block" data-id="notre-dame" data-duration="75" data-lat="48.8529" data-lng="2.3500" data-name="Notre Dame">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-church"></i></div>
             </div>
             <div class="activity-block-title">Notre Dame</div>
-            <div class="activity-block-subtitle">Exterior Visit (75 min)</div>
+            <div class="activity-block-subtitle">Exterior (75 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
                 <p style="font-size:0.85rem;">Caminata por Île de la Cité.</p>
             </div>
         </div>
 
-        <!-- ITEM: SAINTE CHAPELLE -->
-        <div class="activity-block" data-id="sainte-chapelle" data-duration="60" data-lat="48.8554" data-lng="2.3450">
+        <!-- SAINTE CHAPELLE -->
+        <div class="activity-block" data-id="sainte-chapelle" data-duration="60" data-lat="48.8554" data-lng="2.3450" data-name="Sainte-Chapelle">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-gem"></i></div>
@@ -83,12 +80,12 @@
             <div class="activity-block-subtitle">Vitrales (60 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Reserva necesaria. 13€.</p>
+                <p style="font-size:0.85rem;">Reserva 13€.</p>
             </div>
         </div>
 
-        <!-- ITEM: LUNCH (GENERIC) -->
-        <div class="activity-block" data-id="lunch" data-duration="60" data-lat="48.8574" data-lng="2.3591">
+        <!-- LUNCH (NO MAP COORDS) -->
+        <div class="activity-block" data-id="lunch" data-duration="60" data-name="Almuerzo">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display" style="background:#EC4899;">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
@@ -97,12 +94,12 @@
             <div class="activity-block-subtitle">Tiempo Libre (60 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Hora libre para comer por la zona. Sugerencia: Le Marais.</p>
+                <p style="font-size:0.85rem;">Hora libre para comer. (No es parada de mapa)</p>
             </div>
         </div>
 
-        <!-- ITEM: PANTHEON -->
-        <div class="activity-block" data-id="pantheon" data-duration="60" data-lat="48.8462" data-lng="2.3464">
+        <!-- PANTHEON -->
+        <div class="activity-block" data-id="pantheon" data-duration="60" data-lat="48.8462" data-lng="2.3464" data-name="Panthéon">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-monument"></i></div>
@@ -111,12 +108,12 @@
             <div class="activity-block-subtitle">Visita (60 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Tumbas de Voltaire, Rousseau, Curie.</p>
+                <p style="font-size:0.85rem;">Tumbas de Voltaire, Rousseau.</p>
             </div>
         </div>
 
-        <!-- ITEM: SHAKESPEARE -->
-        <div class="activity-block" data-id="shakespeare" data-duration="30" data-lat="48.8519" data-lng="2.3470">
+        <!-- SHAKESPEARE -->
+        <div class="activity-block" data-id="shakespeare" data-duration="30" data-lat="48.8519" data-lng="2.3470" data-name="Shakespeare & Co">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-book"></i></div>
@@ -125,12 +122,12 @@
             <div class="activity-block-subtitle">Librería (30 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Librería histórica frente a Notre Dame.</p>
+                <p style="font-size:0.85rem;">Librería histórica.</p>
             </div>
         </div>
 
-        <!-- ITEM: PETIT PALAIS -->
-        <div class="activity-block" data-id="petit-palais" data-duration="60" data-lat="48.8661" data-lng="2.3144">
+        <!-- PETIT PALAIS -->
+        <div class="activity-block" data-id="petit-palais" data-duration="60" data-lat="48.8661" data-lng="2.3144" data-name="Petit Palais">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-palette"></i></div>
@@ -139,12 +136,12 @@
             <div class="activity-block-subtitle">Museo (60 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Gratis. Colección permanente y edificio.</p>
+                <p style="font-size:0.85rem;">Gratis.</p>
             </div>
         </div>
 
-        <!-- ITEM: PASSAGE PANORAMAS -->
-        <div class="activity-block" data-id="panoramas" data-duration="45" data-lat="48.8714" data-lng="2.3424">
+        <!-- PASSAGE PANORAMAS -->
+        <div class="activity-block" data-id="panoramas" data-duration="45" data-lat="48.8714" data-lng="2.3424" data-name="P. Panoramas">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-store"></i></div>
@@ -153,12 +150,12 @@
             <div class="activity-block-subtitle">Paseo (45 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Galería cubierta ideal para el frío.</p>
+                <p style="font-size:0.85rem;">Galería cubierta.</p>
             </div>
         </div>
 
-        <!-- ITEM: GALERIES LAFAYETTE -->
-        <div class="activity-block" data-id="lafayette" data-duration="60" data-lat="48.8737" data-lng="2.3322">
+        <!-- GALERIES LAFAYETTE -->
+        <div class="activity-block" data-id="lafayette" data-duration="60" data-lat="48.8737" data-lng="2.3322" data-name="Lafayette">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-shopping-bag"></i></div>
@@ -167,12 +164,12 @@
             <div class="activity-block-subtitle">Rooftop (60 min)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Vistas gratis y cúpula.</p>
+                <p style="font-size:0.85rem;">Vistas gratis.</p>
             </div>
         </div>
 
-        <!-- ITEM: LOUVRE -->
-        <div class="activity-block" data-id="louvre" data-duration="120" data-lat="48.8606" data-lng="2.3376">
+        <!-- LOUVRE -->
+        <div class="activity-block" data-id="louvre" data-duration="120" data-lat="48.8606" data-lng="2.3376" data-name="Louvre">
             <div class="activity-block-header">
                 <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-paint-brush"></i></div>
@@ -181,7 +178,20 @@
             <div class="activity-block-subtitle">Museo (2h)</div>
             <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem;">Abierto hasta tarde los miércoles.</p>
+                <p style="font-size:0.85rem;">Abierto tarde.</p>
+            </div>
+        </div>
+
+        <!-- RETURN HOTEL -->
+        <div class="activity-block" data-id="return-hotel" data-duration="30" data-lat="48.8569" data-lng="2.3582" data-name="Hotel (End)">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-bed"></i></div>
+            </div>
+            <div class="activity-block-title">Regreso al Hotel</div>
+            <div class="activity-block-subtitle">Descanso</div>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Vuelta a Le Marais.</p>
             </div>
         </div>
 
@@ -194,32 +204,34 @@
         let map;
         let routeControl;
         const grid = document.getElementById('activityGridDay1');
+        const mapContainer = document.getElementById('mapContainerDay1');
 
         // --- INIT ---
         setTimeout(() => {
             initMap();
             initSortable();
-            updateScheduleAndRoute(); // Initial calculation
+            updateScheduleAndRoute(); 
         }, 100);
 
         // --- 1. SCHEDULE LOGIC ---
         function updateScheduleAndRoute() {
             const blocks = Array.from(grid.children);
-            let currentTime = 8 * 60; // Start at 08:00 AM (in minutes)
+            let currentTime = 8 * 60; // Start 08:00
             let waypoints = [];
+            let totalDist = 0; // Approx distance
 
-            // Reset loop
             blocks.forEach(block => {
                 const duration = parseInt(block.dataset.duration) || 60;
-                const lat = parseFloat(block.dataset.lat);
-                const lng = parseFloat(block.dataset.lng);
                 
-                // Add to map waypoints if valid
-                if (!isNaN(lat) && !isNaN(lng)) {
-                    waypoints.push(L.latLng(lat, lng));
+                // Map Point Logic
+                if (block.dataset.lat && block.dataset.lng) {
+                    const lat = parseFloat(block.dataset.lat);
+                    const lng = parseFloat(block.dataset.lng);
+                    const name = block.dataset.name || "Stop";
+                    waypoints.push({ latLng: L.latLng(lat, lng), name: name });
                 }
 
-                // Calculate Times
+                // Time Calculation
                 const startH = Math.floor(currentTime / 60);
                 const startM = currentTime % 60;
                 
@@ -228,95 +240,98 @@
                 const endH = Math.floor(currentTime / 60);
                 const endM = currentTime % 60;
 
-                // Format
                 const timeStr = `${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')} - ${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
                 
-                // Update DOM
                 const badge = block.querySelector('.time-display');
                 if(badge) badge.innerText = timeStr;
 
-                // Add travel time buffer (e.g., 20 min between activities)
-                // We're keeping it simple: Activity time assumes travel time is handled or part of the flow
-                // But normally you'd add travel time here. For now, we chain them directly.
-                currentTime += 15; // Adding 15min travel buffer between blocks automatically
+                currentTime += 15; // Travel buffer
             });
 
-            // Update Map Route
             updateRoute(waypoints);
             
-            // Update Total Time
             const endH = Math.floor(currentTime / 60);
             const totalHours = endH - 8;
             document.getElementById('total-time').innerText = `~${totalHours}h`;
         }
 
-        // --- 2. MAP LOGIC (OSRM Routing) ---
+        // --- 2. MAP LOGIC ---
         function initMap() {
-            const mapContainer = document.getElementById('map-day1');
-            if (mapContainer && !mapContainer._leaflet_id) {
+            if (mapContainer && !document.getElementById('map-day1')._leaflet_id) {
                 map = L.map('map-day1').setView([48.8566, 2.3522], 13);
-                
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; OpenStreetMap &copy; CARTO',
+                    attribution: 'OSM',
                     maxZoom: 20
                 }).addTo(map);
             }
         }
 
-        function updateRoute(waypoints) {
+        function updateRoute(points) {
             if (!map) return;
+            if (routeControl) map.removeControl(routeControl);
 
-            // Clear previous route
-            if (routeControl) {
-                map.removeControl(routeControl);
-            }
+            const waypoints = points.map(p => p.latLng);
 
-            // Create new route
-            // We use L.Routing.control but hide the text instructions container
             routeControl = L.Routing.control({
                 waypoints: waypoints,
                 routeWhileDragging: false,
-                show: false, // Hide the instructions panel
+                show: false,
                 createMarker: function(i, wp, nWps) {
-                    // Custom markers for stops (Numbered)
+                    const name = points[i].name;
                     return L.marker(wp.latLng, {
                         draggable: false,
                         icon: L.divIcon({
                             className: 'custom-map-marker',
-                            html: `<div style="background-color:#0A2540; color:white; border-radius:50%; width:24px; height:24px; text-align:center; line-height:24px; font-weight:bold; border:2px solid white; box-shadow:0 2px 5px rgba(0,0,0,0.3);">${i+1}</div>`,
-                            iconSize: [24, 24],
-                            iconAnchor: [12, 12]
+                            html: `<div class="marker-pin"></div><div class="marker-label">${name}</div>`,
+                            iconSize: [30, 42],
+                            iconAnchor: [15, 42]
                         })
-                    }).bindPopup(`Stop ${i+1}`);
+                    });
                 },
                 lineOptions: {
                     styles: [{color: '#00D4FF', opacity: 0.8, weight: 6}]
                 },
-                fitSelectedRoutes: true,
-                addWaypoints: false // Disable adding points by clicking line
+                addWaypoints: false,
+                fitSelectedRoutes: true
             }).addTo(map);
-            
-            // Hide the default container that Leaflet Routing Machine adds
-            // We only want the visual line on the map
-            const container = document.querySelector('.leaflet-routing-container');
-            if (container) container.style.display = 'none';
+
+            // Listen for route found to update distance stats
+            routeControl.on('routesfound', function(e) {
+                const routes = e.routes;
+                const summary = routes[0].summary;
+                // Convert meters to km
+                const km = (summary.totalDistance / 1000).toFixed(1);
+                const distEl = document.getElementById('total-dist');
+                if(distEl) distEl.innerText = `${km} km`;
+            });
         }
 
-        // --- 3. SORTABLE LOGIC ---
+        // --- 3. SORTABLE ---
         function initSortable() {
             if (grid) {
                 new Sortable(grid, {
                     animation: 150,
-                    handle: '.activity-block', // Drag whole block
+                    handle: '.activity-block',
                     ghostClass: 'sortable-ghost',
-                    onEnd: function() {
-                        updateScheduleAndRoute(); // Recalculate on drop
-                    }
+                    onEnd: function() { updateScheduleAndRoute(); }
                 });
             }
         }
 
-        // Helper
+        // --- 4. MAP EXPAND ---
+        window.toggleMapSize = function() {
+            mapContainer.classList.toggle('expanded-map');
+            setTimeout(() => {
+                map.invalidateSize();
+                // Re-fit bounds if expanded
+                if(routeControl) {
+                    // This is a bit hacky to re-center route
+                    const waypoints = routeControl.getWaypoints();
+                    // We just trigger a re-route calculation effectively or just let user zoom
+                }
+            }, 300);
+        };
+
         window.toggleDetails = function(btn) {
             const container = btn.nextElementSibling;
             container.classList.toggle('open');
