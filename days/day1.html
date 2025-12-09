@@ -1,30 +1,25 @@
 <div id="day1" class="section">
     <div class="day-header">
         <h2>🇫🇷 Miércoles 7 de Enero</h2>
-        <p>Llegada • Sainte-Chapelle • Musée d'Orsay • Seine Cruise 🌟 Reddit Approved</p>
+        <p>Dynamic Itinerary • Drag & Drop to Reorder • Live Walking Route</p>
     </div>
 
-    <!-- 1. NEW STATS HEADER -->
+    <!-- 1. STATS HEADER (Dynamic) -->
     <div class="day-stats-header">
         <div class="stat-pill">
+            <i class="fas fa-clock"></i>
+            <span id="total-time">0h</span>
+            <small>Total</small>
+        </div>
+        <div class="stat-pill">
             <i class="fas fa-walking"></i>
-            <span>~6 km</span>
+            <span id="total-dist">Calc...</span>
             <small>Walking</small>
         </div>
         <div class="stat-pill">
-            <i class="fas fa-ticket-alt"></i>
-            <span>~48€</span>
-            <small>Tickets</small>
-        </div>
-        <div class="stat-pill">
-            <i class="fas fa-utensils"></i>
-            <span>~40€</span>
-            <small>Food</small>
-        </div>
-        <div class="stat-pill">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>7</span>
-            <small>Stops</small>
+            <i class="fas fa-euro-sign"></i>
+            <span>~95€</span>
+            <small>Est. Cost</small>
         </div>
     </div>
 
@@ -37,7 +32,7 @@
     <div class="day-rain-toggle">
         <label onclick="toggleRainMode()">
             <i class="fas fa-cloud-rain"></i>
-            <span>¿Llueve hoy? Ver alternativas techadas</span>
+            <span>¿Llueve hoy? Ver alternativas</span>
         </label>
         <div class="rain-switch" id="rainSwitch1" onclick="toggleRainMode()"></div>
     </div>
@@ -45,325 +40,290 @@
     <!-- 3. REORDERABLE ACTIVITY GRID -->
     <div id="activityGridDay1" class="activity-grid">
         
-        <!-- ITEM 1: LLEGADA -->
-        <div class="activity-block" data-id="arrival">
+        <!-- ITEM 1: LLEGADA (Fixed Start) -->
+        <div class="activity-block" data-id="arrival" data-duration="90" data-lat="48.8569" data-lng="2.3582" data-fixed="true">
             <div class="activity-block-header">
-                <span class="activity-time-badge" style="background:#B45309;">08:00</span>
+                <span class="activity-time-badge time-display">08:00 - 09:30</span>
                 <div class="activity-icon-badge"><i class="fas fa-plane"></i></div>
             </div>
-            <div class="activity-block-title">Llegada a París (CDG)</div>
-            <div class="activity-block-subtitle">Aeropuerto Charles de Gaulle</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="activity-details-container">
-                <div class="detail-box">
-                    <i class="fas fa-route"></i>
-                    <div class="detail-content">
-                        <div class="detail-label">Transfer</div>
-                        <div class="detail-value">RER B → Châtelet → Metro 1</div>
-                        <div class="detail-note">~50 min a Le Marais</div>
-                    </div>
-                </div>
-                <div class="detail-box">
-                    <i class="fas fa-tag"></i>
-                    <div class="detail-content">
-                        <div class="detail-label">Costo</div>
-                        <div class="detail-value">~11.80€</div>
-                        <div class="detail-note">Ticket RER + Metro incluido</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ITEM 2: CHECK-IN -->
-        <div class="activity-block" data-id="hotel">
-            <div class="activity-block-header">
-                <span class="activity-time-badge">09:30</span>
-                <div class="activity-icon-badge"><i class="fas fa-hotel"></i></div>
-            </div>
-            <div class="activity-block-title">Check-in Hotel</div>
-            <div class="activity-block-subtitle">Hôtel Caron de Beaumarchais</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-title">Llegada & Transfer</div>
+            <div class="activity-block-subtitle">CDG → Hotel (90 min)</div>
             <div class="activity-details-container">
                 <div class="detail-box">
                     <i class="fas fa-info-circle"></i>
                     <div class="detail-content">
-                        <div class="detail-value">Dejar maletas</div>
-                        <div class="detail-note">Check-in oficial es 15:00, pero guardan equipaje.</div>
+                        <div class="detail-value">Check-in / Bag Drop</div>
+                        <div class="detail-note">Hôtel Caron de Beaumarchais</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ITEM 3: NOTRE DAME -->
-        <div class="activity-block" data-id="notre-dame">
+        <!-- ITEM: NOTRE DAME -->
+        <div class="activity-block" data-id="notre-dame" data-duration="75" data-lat="48.8529" data-lng="2.3500">
             <div class="activity-block-header">
-                <span class="activity-time-badge">10:30</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-church"></i></div>
             </div>
             <div class="activity-block-title">Notre Dame</div>
-            <div class="activity-block-subtitle">Exterior & Île de la Cité</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Exterior Visit (75 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-free-entry">Gratis</span>
-                </div>
-                <p style="font-size:0.85rem; color:#666; margin:10px 0;">Caminata por el exterior y los alrededores. La catedral reabrió en Dic 2024.</p>
-                <div class="rain-alternative-enhanced">
-                    <div class="rain-header"><i class="fas fa-umbrella"></i> Si llueve:</div>
-                    <p style="font-size:0.8rem; margin:0;">Ir directo a Sainte-Chapelle (al lado) o Café Procope.</p>
-                </div>
+                <p style="font-size:0.85rem;">Caminata por Île de la Cité.</p>
             </div>
         </div>
 
-        <!-- ITEM 4: SAINTE CHAPELLE -->
-        <div class="activity-block" data-id="sainte-chapelle">
+        <!-- ITEM: SAINTE CHAPELLE -->
+        <div class="activity-block" data-id="sainte-chapelle" data-duration="60" data-lat="48.8554" data-lng="2.3450">
             <div class="activity-block-header">
-                <span class="activity-time-badge">12:00</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-gem"></i></div>
             </div>
             <div class="activity-block-title">Sainte-Chapelle</div>
-            <div class="activity-block-subtitle">Los mejores vitrales del mundo</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Vitrales (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-ticket">13€ Ticket</span>
-                    <span class="schedule-tag tag-reserve">Reservar</span>
-                </div>
-                <div class="detail-box">
-                    <i class="fas fa-star"></i>
-                    <div class="detail-content">
-                        <div class="detail-label">Highlight</div>
-                        <div class="detail-value">Capilla Superior</div>
-                        <div class="detail-note">Subir las escaleras de caracol.</div>
-                    </div>
-                </div>
-                <a href="https://www.sainte-chapelle.fr" target="_blank" class="doc-link" style="margin-top:10px; display:inline-block; font-size:0.8rem;">Reservar Ticket</a>
+                <p style="font-size:0.85rem;">Reserva necesaria. 13€.</p>
             </div>
         </div>
 
-        <!-- ITEM 5: LUNCH -->
-        <div class="activity-block" data-id="lunch">
+        <!-- ITEM: LUNCH (GENERIC) -->
+        <div class="activity-block" data-id="lunch" data-duration="60" data-lat="48.8574" data-lng="2.3591">
             <div class="activity-block-header">
-                <span class="activity-time-badge" style="background:#EC4899;">13:00</span>
+                <span class="activity-time-badge time-display" style="background:#EC4899;">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
             </div>
-            <div class="activity-block-title">L'As du Fallafel</div>
-            <div class="activity-block-subtitle">Almuerzo icónico en Le Marais</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-title">Almuerzo</div>
+            <div class="activity-block-subtitle">Tiempo Libre (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag" style="background:#FEF3C7; color:#B45309;">Reddit Famous</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">El falafel más famoso de París. Suele haber fila pero avanza rápido. Pedir "Special Fallafel Sandwich".</p>
+                <p style="font-size:0.85rem;">Hora libre para comer por la zona. Sugerencia: Le Marais.</p>
             </div>
         </div>
 
-        <!-- ITEM 6: PANTHEON -->
-        <div class="activity-block" data-id="pantheon">
+        <!-- ITEM: PANTHEON -->
+        <div class="activity-block" data-id="pantheon" data-duration="60" data-lat="48.8462" data-lng="2.3464">
             <div class="activity-block-header">
-                <span class="activity-time-badge">14:15</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-monument"></i></div>
             </div>
             <div class="activity-block-title">Panthéon</div>
-            <div class="activity-block-subtitle">Tumbas de Voltaire, Rousseau...</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Visita (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-ticket">11.50€</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">Impresionante interior neoclásico. Mucho menos concurrido que otros museos.</p>
+                <p style="font-size:0.85rem;">Tumbas de Voltaire, Rousseau, Curie.</p>
             </div>
         </div>
 
-        <!-- ITEM 7: SHAKESPEARE & CO -->
-        <div class="activity-block" data-id="shakespeare">
+        <!-- ITEM: SHAKESPEARE -->
+        <div class="activity-block" data-id="shakespeare" data-duration="30" data-lat="48.8519" data-lng="2.3470">
             <div class="activity-block-header">
-                <span class="activity-time-badge">15:30</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-book"></i></div>
             </div>
-            <div class="activity-block-title">Shakespeare & Co.</div>
-            <div class="activity-block-subtitle">Librería histórica</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-title">Shakespeare & Co</div>
+            <div class="activity-block-subtitle">Librería (30 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-free-entry">Gratis</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">Entrar a curiosear (puede haber fila). Ambiente mágico y cálido.</p>
+                <p style="font-size:0.85rem;">Librería histórica frente a Notre Dame.</p>
             </div>
         </div>
 
-        <!-- ITEM 8: PETIT PALAIS -->
-        <div class="activity-block" data-id="petit-palais">
+        <!-- ITEM: PETIT PALAIS -->
+        <div class="activity-block" data-id="petit-palais" data-duration="60" data-lat="48.8661" data-lng="2.3144">
             <div class="activity-block-header">
-                <span class="activity-time-badge">16:30</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-palette"></i></div>
             </div>
             <div class="activity-block-title">Petit Palais</div>
-            <div class="activity-block-subtitle">Museo de Bellas Artes</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Museo (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-free-entry">Gratis</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">Colección permanente gratuita. El edificio es una joya y tiene un jardín interior precioso.</p>
+                <p style="font-size:0.85rem;">Gratis. Colección permanente y edificio.</p>
             </div>
         </div>
 
-        <!-- ITEM 9: PASSAGE PANORAMAS -->
-        <div class="activity-block" data-id="panoramas">
+        <!-- ITEM: PASSAGE PANORAMAS -->
+        <div class="activity-block" data-id="panoramas" data-duration="45" data-lat="48.8714" data-lng="2.3424">
             <div class="activity-block-header">
-                <span class="activity-time-badge">18:00</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-store"></i></div>
             </div>
-            <div class="activity-block-title">Passage des Panoramas</div>
-            <div class="activity-block-subtitle">Galería cubierta vintage</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-title">Passage Panoramas</div>
+            <div class="activity-block-subtitle">Paseo (45 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <p style="font-size:0.85rem; margin-top:10px;">Perfecto para escapar del frío. Tiendas de sellos, monedas y bistros antiguos.</p>
+                <p style="font-size:0.85rem;">Galería cubierta ideal para el frío.</p>
             </div>
         </div>
 
-        <!-- ITEM 10: GALERIES LAFAYETTE -->
-        <div class="activity-block" data-id="lafayette">
+        <!-- ITEM: GALERIES LAFAYETTE -->
+        <div class="activity-block" data-id="lafayette" data-duration="60" data-lat="48.8737" data-lng="2.3322">
             <div class="activity-block-header">
-                <span class="activity-time-badge">19:00</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-shopping-bag"></i></div>
             </div>
             <div class="activity-block-title">Galeries Lafayette</div>
-            <div class="activity-block-subtitle">Rooftop View & Cúpula</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Rooftop (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-free-entry">Gratis</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">Subir a la terraza (7mo piso) para vista gratis de la Torre Eiffel. Ver la cúpula desde adentro.</p>
+                <p style="font-size:0.85rem;">Vistas gratis y cúpula.</p>
             </div>
         </div>
 
-        <!-- ITEM 11: LOUVRE -->
-        <div class="activity-block" data-id="louvre">
+        <!-- ITEM: LOUVRE -->
+        <div class="activity-block" data-id="louvre" data-duration="120" data-lat="48.8606" data-lng="2.3376">
             <div class="activity-block-header">
-                <span class="activity-time-badge">20:00</span>
+                <span class="activity-time-badge time-display">--:--</span>
                 <div class="activity-icon-badge"><i class="fas fa-paint-brush"></i></div>
             </div>
             <div class="activity-block-title">Louvre Nocturno</div>
-            <div class="activity-block-subtitle">Abierto hasta 21:45 (Miércoles)</div>
-            <button class="expand-btn" onclick="toggleDetails(this)">
-                Ver detalles <i class="fas fa-chevron-down"></i>
-            </button>
+            <div class="activity-block-subtitle">Museo (2h)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
             <div class="activity-details-container">
-                <div class="schedule-tags">
-                    <span class="schedule-tag tag-ticket">22€</span>
-                </div>
-                <p style="font-size:0.85rem; margin-top:10px;">Aprovechar horario nocturno con menos gente. Ruta express: Mona Lisa, Venus, Victoria Alada.</p>
+                <p style="font-size:0.85rem;">Abierto hasta tarde los miércoles.</p>
             </div>
         </div>
 
     </div>
     
-    <!-- Spacer for FAB -->
     <div style="height: 100px;"></div>
 
     <script>
-        // Init logic for Day 1
+        // --- VARIABLES ---
+        let map;
+        let routeControl;
+        const grid = document.getElementById('activityGridDay1');
+
+        // --- INIT ---
         setTimeout(() => {
-            // 1. Initialize Map
+            initMap();
+            initSortable();
+            updateScheduleAndRoute(); // Initial calculation
+        }, 100);
+
+        // --- 1. SCHEDULE LOGIC ---
+        function updateScheduleAndRoute() {
+            const blocks = Array.from(grid.children);
+            let currentTime = 8 * 60; // Start at 08:00 AM (in minutes)
+            let waypoints = [];
+
+            // Reset loop
+            blocks.forEach(block => {
+                const duration = parseInt(block.dataset.duration) || 60;
+                const lat = parseFloat(block.dataset.lat);
+                const lng = parseFloat(block.dataset.lng);
+                
+                // Add to map waypoints if valid
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    waypoints.push(L.latLng(lat, lng));
+                }
+
+                // Calculate Times
+                const startH = Math.floor(currentTime / 60);
+                const startM = currentTime % 60;
+                
+                currentTime += duration;
+                
+                const endH = Math.floor(currentTime / 60);
+                const endM = currentTime % 60;
+
+                // Format
+                const timeStr = `${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')} - ${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
+                
+                // Update DOM
+                const badge = block.querySelector('.time-display');
+                if(badge) badge.innerText = timeStr;
+
+                // Add travel time buffer (e.g., 20 min between activities)
+                // We're keeping it simple: Activity time assumes travel time is handled or part of the flow
+                // But normally you'd add travel time here. For now, we chain them directly.
+                currentTime += 15; // Adding 15min travel buffer between blocks automatically
+            });
+
+            // Update Map Route
+            updateRoute(waypoints);
+            
+            // Update Total Time
+            const endH = Math.floor(currentTime / 60);
+            const totalHours = endH - 8;
+            document.getElementById('total-time').innerText = `~${totalHours}h`;
+        }
+
+        // --- 2. MAP LOGIC (OSRM Routing) ---
+        function initMap() {
             const mapContainer = document.getElementById('map-day1');
             if (mapContainer && !mapContainer._leaflet_id) {
-                const map = L.map('map-day1').setView([48.8566, 2.3522], 13); // Center of Paris
-
+                map = L.map('map-day1').setView([48.8566, 2.3522], 13);
+                
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    subdomains: 'abcd',
+                    attribution: '&copy; OpenStreetMap &copy; CARTO',
                     maxZoom: 20
                 }).addTo(map);
+            }
+        }
 
-                // Define stops
-                const stops = [
-                    { name: "Hotel Caron", lat: 48.8569, lng: 2.3582 },
-                    { name: "Notre Dame", lat: 48.8529, lng: 2.3500 },
-                    { name: "Sainte-Chapelle", lat: 48.8554, lng: 2.3450 },
-                    { name: "L'As du Fallafel", lat: 48.8574, lng: 2.3591 },
-                    { name: "Panthéon", lat: 48.8462, lng: 2.3464 },
-                    { name: "Shakespeare & Co", lat: 48.8519, lng: 2.3470 },
-                    { name: "Petit Palais", lat: 48.8661, lng: 2.3144 },
-                    { name: "Passage Panoramas", lat: 48.8714, lng: 2.3424 },
-                    { name: "Galeries Lafayette", lat: 48.8737, lng: 2.3322 },
-                    { name: "Louvre", lat: 48.8606, lng: 2.3376 }
-                ];
+        function updateRoute(waypoints) {
+            if (!map) return;
 
-                // Add route line
-                const latlngs = stops.map(s => [s.lat, s.lng]);
-                const polyline = L.polyline(latlngs, {color: '#0A2540', weight: 4, opacity: 0.8, dashArray: '10, 10'}).addTo(map);
-                
-                // Add markers
-                stops.forEach((stop, index) => {
-                    const markerHtml = `
-                        <div style="background-color: #00D4FF; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>
-                    `;
-                    const icon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: markerHtml,
-                        iconSize: [20, 20],
-                        iconAnchor: [10, 10]
-                    });
-                    
-                    L.marker([stop.lat, stop.lng], {icon: icon})
-                        .addTo(map)
-                        .bindPopup(`<b>${index + 1}. ${stop.name}</b>`);
-                });
-
-                // Fit bounds to show all points
-                map.fitBounds(polyline.getBounds(), {padding: [50, 50]});
+            // Clear previous route
+            if (routeControl) {
+                map.removeControl(routeControl);
             }
 
-            // 2. Initialize Sortable
-            const grid = document.getElementById('activityGridDay1');
+            // Create new route
+            // We use L.Routing.control but hide the text instructions container
+            routeControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false,
+                show: false, // Hide the instructions panel
+                createMarker: function(i, wp, nWps) {
+                    // Custom markers for stops (Numbered)
+                    return L.marker(wp.latLng, {
+                        draggable: false,
+                        icon: L.divIcon({
+                            className: 'custom-map-marker',
+                            html: `<div style="background-color:#0A2540; color:white; border-radius:50%; width:24px; height:24px; text-align:center; line-height:24px; font-weight:bold; border:2px solid white; box-shadow:0 2px 5px rgba(0,0,0,0.3);">${i+1}</div>`,
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12]
+                        })
+                    }).bindPopup(`Stop ${i+1}`);
+                },
+                lineOptions: {
+                    styles: [{color: '#00D4FF', opacity: 0.8, weight: 6}]
+                },
+                fitSelectedRoutes: true,
+                addWaypoints: false // Disable adding points by clicking line
+            }).addTo(map);
+            
+            // Hide the default container that Leaflet Routing Machine adds
+            // We only want the visual line on the map
+            const container = document.querySelector('.leaflet-routing-container');
+            if (container) container.style.display = 'none';
+        }
+
+        // --- 3. SORTABLE LOGIC ---
+        function initSortable() {
             if (grid) {
                 new Sortable(grid, {
                     animation: 150,
+                    handle: '.activity-block', // Drag whole block
                     ghostClass: 'sortable-ghost',
-                    dragClass: 'sortable-drag',
-                    delay: 100, // slight delay to prevent accidental drags on touch
-                    delayOnTouchOnly: true
+                    onEnd: function() {
+                        updateScheduleAndRoute(); // Recalculate on drop
+                    }
                 });
             }
+        }
 
-        }, 100);
-
-        // Toggle Details Function
+        // Helper
         window.toggleDetails = function(btn) {
             const container = btn.nextElementSibling;
             container.classList.toggle('open');
-            const icon = btn.querySelector('i');
             if (container.classList.contains('open')) {
                 btn.innerHTML = 'Ver menos <i class="fas fa-chevron-up"></i>';
-                btn.style.background = "#E0F7FF";
-                btn.style.color = "#0077B6";
             } else {
                 btn.innerHTML = 'Ver detalles <i class="fas fa-chevron-down"></i>';
-                btn.style.background = "#F7FAFC";
-                btn.style.color = "#718096";
             }
         };
     </script>

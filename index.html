@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     
+    <!-- Leaflet Routing Machine (for walking directions) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
     <!-- SortableJS for Drag & Drop -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
@@ -475,6 +479,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 2px solid white;
             z-index: 1; /* Ensure map stays below other fixed elements */
+        }
+        
+        /* Hide Leaflet Routing Machine Text Panel */
+        .leaflet-routing-container {
+            display: none !important;
         }
 
         #map-day1, #map-day2, #map-day3, #map-day4, #map-day5, #map-day6 {
