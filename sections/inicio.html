@@ -47,6 +47,7 @@
 </div>
 
 <script>
+(function() {
     // Countdown timer
     const tripDate = new Date('2026-01-07T08:00:00');
     function updateCountdown() {
@@ -60,5 +61,6 @@
     }
     updateCountdown();
     setInterval(updateCountdown, 60000);
+})();
 </script>
 
