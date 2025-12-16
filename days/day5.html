@@ -1,599 +1,359 @@
 <div id="day5" class="section">
-            <div class="day-header">
-                <h2>🇬🇧 Sábado 11 de Enero</h2>
-                <p>London Day 2 • Westminster • Tower • Sky Garden • Covent Garden 🌟</p>
+    <div class="day-header">
+        <h2>🇬🇧 Sábado 11 de Enero</h2>
+        <p>London Day 2 • Westminster • Tower • Sky Garden • Covent Garden 🌟</p>
+    </div>
+
+    <!-- 1. STATS HEADER -->
+    <div class="day-stats-header">
+        <div class="stat-pill">
+            <i class="fas fa-clock"></i>
+            <span id="total-time">0h</span>
+            <small>Total</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-walking"></i>
+            <span id="total-dist">Calc...</span>
+            <small>Walking</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-euro-sign"></i>
+            <span>$110</span>
+            <small>Hotel</small>
+        </div>
+    </div>
+
+    <!-- 2. INTERACTIVE MAP -->
+    <div class="interactive-map-container" id="mapContainerDay5">
+        <div id="map-day5"></div>
+        <button class="map-expand-btn" onclick="toggleMapSize()" title="Expandir mapa">
+            <i class="fas fa-expand-alt"></i>
+        </button>
+    </div>
+
+    <!-- RAIN TOGGLE -->
+    <div class="day-rain-toggle">
+        <label onclick="toggleRainMode()">
+            <i class="fas fa-cloud-rain"></i>
+            <span>¿Llueve hoy? Ver alternativas techadas</span>
+        </label>
+        <div class="rain-switch" id="rainSwitch5" onclick="toggleRainMode()"></div>
+    </div>
+
+    <!-- REDDIT TIP BOX -->
+    <div class="tip-box" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-color: #F59E0B; margin-bottom: 20px;">
+        <h4 style="color:#92400E;"><i class="fab fa-reddit"></i> London Reddit Consensus Day 2</h4>
+        <p style="color:#78350F;">
+            Iconic sights + FREE views:<br>
+            ✓ Westminster classics (Big Ben, Parliament)<br>
+            ✓ Tower Bridge (THE Instagram spot)<br>
+            ✓ Sky Garden (FREE reservation = best views in London!)<br>
+            ✓ Covent Garden & Neal's Yard (colorful & charming)<br><br>
+            Reddit tip: Book Sky Garden reservation NOW - fills up fast!
+        </p>
+    </div>
+
+    <!-- 3. REORDERABLE ACTIVITY GRID -->
+    <div id="activityGridDay5" class="activity-grid">
+
+        <!-- ITEM 1: WESTMINSTER WALK -->
+        <div class="activity-block" data-id="westminster-walk" data-duration="90" data-lat="51.4994" data-lng="-0.1248" data-name="Westminster">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-landmark"></i></div>
             </div>
-
-            <!-- MAP CARD -->
-            <div class="route-map-card">
-                <div class="route-map-preview">
-                    <a href="https://www.google.com/maps/dir/Westminster+Abbey,+London,+UK/Buckingham+Palace,+London,+UK/Tower+Bridge,+London,+UK/Sky+Garden,+1+Sky+Garden+Walk,+London,+UK/Leadenhall+Market,+Gracechurch+Street,+London,+UK/Covent+Garden,+London,+UK/Daunt+Books+Marylebone,+Marylebone+High+Street,+London,+UK/Gordon's+Wine+Bar,+Villiers+Street,+London,+UK" target="_blank" class="btn-route-map">
-                        <i class="fas fa-map-marked-alt"></i> Ver Ruta en Google Maps
-                    </a>
-                </div>
-                <div class="route-stats">
-                    <span><i class="fas fa-walking"></i> ~10 km a pie</span>
-                    <span><i class="fas fa-map-marker-alt"></i> 8 Paradas</span>
-                </div>
-            </div>
-
-            <div class="day-rain-toggle">
-                <label onclick="toggleRainMode()">
-                    <i class="fas fa-cloud-rain"></i>
-                    <span>¿Llueve hoy? Ver alternativas techadas</span>
-                </label>
-                <div class="rain-switch" id="rainSwitch5" onclick="toggleRainMode()"></div>
-            </div>
-
-            <div class="tip-box" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-color: #F59E0B; margin-bottom: 20px;">
-                <h4 style="color:#92400E;"><i class="fab fa-reddit"></i> London Reddit Consensus Day 2</h4>
-                <p style="color:#78350F;">
-                    Iconic sights + FREE views:<br>
-                    ✓ Westminster classics (Big Ben, Parliament)<br>
-                    ✓ Tower Bridge (THE Instagram spot)<br>
-                    ✓ Sky Garden (FREE reservation = best views in London!)<br>
-                    ✓ Covent Garden & Neal's Yard (colorful & charming)<br><br>
-                    Reddit tip: Book Sky Garden reservation NOW - fills up fast!
-                </p>
-            </div>
-
-            <div class="day-summary">
-                <h3>📊 Resumen del Día 5</h3>
-                <div class="day-summary-stats">
-                    <div class="day-stat">
-                        <div class="day-stat-value">~10km</div>
-                        <div class="day-stat-label">Caminata</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">£0</div>
-                        <div class="day-stat-label">All FREE!</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">9</div>
-                        <div class="day-stat-label">Attractions</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">$110</div>
-                        <div class="day-stat-label">Hotel p/p</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">~£55</div>
-                        <div class="day-stat-label">Comida + Drinks</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline">
-
-                <!-- WESTMINSTER WALK -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Tube from hotel</div>
-                        <div class="transport-details">To Westminster Station</div>
-                    </div>
-                    <div class="transport-time">~10 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card outdoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">10:00</div>
-                                <div class="time-end">11:30</div>
-                                <div class="time-duration">1.5h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏛️</span>
-                                    Westminster Walk (Exterior)
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Classic London - Big Ben, Parliament, Westminster Bridge</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE walk</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Iconic</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-camera"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Photo route</div>
-                                    <div class="detail-value">Westminster Bridge → Big Ben → Houses of Parliament → Westminster Abbey exterior</div>
-                                    <div class="detail-note">Walk along Thames for great views</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-snowflake"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Winter tip</div>
-                                    <div class="detail-value">Keep it brief - it's cold! Focus on photos then duck indoors</div>
-                                    <div class="detail-note">Coffee shops nearby to warm up</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Big+Ben+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ST JAMES'S PARK -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Walk through park</div>
-                        <div class="transport-details">St James's Park to Buckingham Palace</div>
-                    </div>
-                    <div class="transport-time">15 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card outdoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">11:45</div>
-                                <div class="time-end">12:15</div>
-                                <div class="time-duration">30min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">👑</span>
-                                    Buckingham Palace (Exterior)
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Quick photo stop - changing of guard only if timing works</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-info-circle"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Reddit consensus</div>
-                                    <div class="detail-value">"Don't waste time on Changing of Guard - crowded, can't see much"</div>
-                                    <div class="detail-note">Just grab a quick photo and move on</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Buckingham+Palace+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LUNCH -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Tube to Tower area</div>
-                        <div class="transport-details">For lunch + Tower Bridge</div>
-                    </div>
-                    <div class="transport-time">~15 min</div>
-                </div>
-
-                <div class="timeline-item meal">
-                    <div class="schedule-card meal-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);">
-                                <div class="time-start">12:45</div>
-                                <div class="time-end">13:45</div>
-                                <div class="time-duration">Almuerzo</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🍽️</span>
-                                    Lunch near Tower Bridge
-                                </div>
-                                <div class="schedule-subtitle">Pubs or cafés near Tower Hill</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~£15-25 p/p</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-utensils"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Options</div>
-                                    <div class="detail-value">Coppa Club (igloo pods!), local pubs, St Katharine Docks area</div>
-                                    <div class="detail-note">WARM indoor seating essential</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TOWER BRIDGE & TOWER OF LONDON -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Short walk</div>
-                        <div class="transport-details">From lunch to Tower Bridge</div>
-                    </div>
-                    <div class="transport-time">5 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card outdoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">14:00</div>
-                                <div class="time-end">15:00</div>
-                                <div class="time-duration">1h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🌉</span>
-                                    Tower Bridge + Tower of London (Exterior)
-                                </div>
-                                <div class="schedule-subtitle">Reddit: THE iconic London photo - exterior is enough</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE walk</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Must-photo</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-camera"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Best photo spots</div>
-                                    <div class="detail-value">South side of Thames (Butler's Wharf), walk across bridge itself</div>
-                                    <div class="detail-note">THE Instagram London shot!</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-info-circle"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Reddit tip</div>
-                                    <div class="detail-value">Skip Tower of London interior (£33) - exterior + Beefeaters visible from outside</div>
-                                    <div class="detail-note">Save money & time for other things</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Tower+Bridge+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SKY GARDEN -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Walk along Thames</div>
-                        <div class="transport-details">Tower Bridge → Sky Garden</div>
-                    </div>
-                    <div class="transport-time">10 min walk</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">15:15</div>
-                                <div class="time-end">16:15</div>
-                                <div class="time-duration">1h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🌆</span>
-                                    SKY GARDEN (FREE!)
-                                </div>
-                                <div class="schedule-subtitle">Reddit #1: Best FREE views in London - beats London Eye!</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE! (book online)</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> #1 Views</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Reddit LOVES it</div>
-                                    <div class="detail-value">"Why pay £35 for London Eye when Sky Garden is FREE?!"</div>
-                                    <div class="detail-note">360° views from 35th floor. Bar & gardens inside. WARM!</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-ticket-alt"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">IMPORTANT: Book ahead!</div>
-                                    <div class="detail-value">FREE but requires timed reservation on skygarden.london</div>
-                                    <div class="detail-note">Books up weeks in advance - DO IT NOW!</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-glass-martini"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">What to do</div>
-                                    <div class="detail-value">Walk around gardens, get drinks at bar, take photos of London skyline</div>
-                                    <div class="detail-note">Can see Tower Bridge, Shard, St Paul's</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://skygarden.london" target="_blank" class="btn-small btn-book-small">
-                                <i class="fas fa-ticket-alt"></i> BOOK NOW
-                            </a>
-                            <a href="https://maps.google.com/?q=Sky+Garden+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LEADENHALL MARKET -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Walk from Sky Garden</div>
-                        <div class="transport-details">Just 5 min away!</div>
-                    </div>
-                    <div class="transport-time">5 min walk</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">16:20</div>
-                                <div class="time-end">16:40</div>
-                                <div class="time-duration">20min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏛️</span>
-                                    Leadenhall Market
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Beautiful Victorian covered market - Harry Potter filming location!</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Hidden gem</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-star"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why Reddit loves it</div>
-                                    <div class="detail-value">Stunning Victorian architecture, COVERED (warm!), used as Diagon Alley in Harry Potter</div>
-                                    <div class="detail-note">Beautiful photo spot, boutique shops, less touristy</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Leadenhall+Market+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- COVENT GARDEN & NEAL'S YARD -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Tube: Monument → Covent Garden</div>
-                        <div class="transport-details">Or walk if energetic (~2km)</div>
-                    </div>
-                    <div class="transport-time">~15 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">16:45</div>
-                                <div class="time-end">18:30</div>
-                                <div class="time-duration">1h 45m</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🎭</span>
-                                    Covent Garden + Neal's Yard
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Charming covered market + colorful hidden alley</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Charming</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-heart"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">What Reddit loves</div>
-                                    <div class="detail-value">Covent Garden: COVERED market, street performers, shops</div>
-                                    <div class="detail-note">WARM inside! Perfect for cold weather</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-camera"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Neal's Yard - HIDDEN GEM</div>
-                                    <div class="detail-value">Tiny colorful alley 5min from Covent Garden - Instagram gold!</div>
-                                    <div class="detail-note">Bright painted buildings, cafés, shops</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-shopping-bag"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">What to do</div>
-                                    <div class="detail-value">Watch street performers, browse Apple Market, explore shops, hot chocolate at Whittard</div>
-                                    <div class="detail-note">Plenty of cafés to warm up</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Covent+Garden+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                            <a href="https://maps.google.com/?q=Neal's+Yard+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Neal's Yard
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DAUNT BOOKS -->
-                <div class="transport-connector">
-                    <i class="fas fa-walking"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚶 Walk from Covent Garden</div>
-                        <div class="transport-details">Through Marylebone</div>
-                    </div>
-                    <div class="transport-time">10 min walk</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">18:00</div>
-                                <div class="time-end">18:20</div>
-                                <div class="time-duration">20min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">📚</span>
-                                    Daunt Books Marylebone
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Most beautiful bookshop in London</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ FREE</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Stunning interior</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-book"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why Reddit loves it</div>
-                                    <div class="detail-value">Edwardian oak galleries, stained glass, cozy reading nooks - architectural gem</div>
-                                    <div class="detail-note">Perfect for Instagram + browsing travel books</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Daunt+Books+Marylebone+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GORDON'S WINE BAR -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Tube back to Embankment</div>
-                        <div class="transport-details">For pre-dinner drinks</div>
-                    </div>
-                    <div class="transport-time">10 min</div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">18:35</div>
-                                <div class="time-end">19:15</div>
-                                <div class="time-duration">40min</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🍷</span>
-                                    Gordon's Wine Bar
-                                </div>
-                                <div class="schedule-subtitle">Reddit: Oldest wine bar in London (1890) - atmospheric candlelit cave</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;"><i class="fab fa-reddit"></i> Historic gem</span>
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~£15-20 p/p drinks</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-wine-glass"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Why Reddit loves it</div>
-                                    <div class="detail-value">Candlelit vaulted cellars, huge wine selection, cheese & charcuterie boards</div>
-                                    <div class="detail-note">Atmospheric, locals' favorite, feels like old London</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-info-circle"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Reddit tip</div>
-                                    <div class="detail-value">Can get crowded - arrive early or try the outdoor terrace</div>
-                                    <div class="detail-note">Under Embankment Gardens, near Charing Cross</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Gordon's+Wine+Bar+London" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DINNER -->
-                <div class="timeline-item meal">
-                    <div class="schedule-card meal-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);">
-                                <div class="time-start">19:30</div>
-                                <div class="time-end">21:00</div>
-                                <div class="time-duration">Cena</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🍽️</span>
-                                    Dinner in Covent Garden / Leicester Square
-                                </div>
-                                <div class="schedule-subtitle">Final London meal - pub or restaurant</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~£25-40 p/p</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-utensils"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Options</div>
-                                    <div class="detail-value">Dishoom (Indian), Flat Iron (steak), The Ivy Market Grill</div>
-                                    <div class="detail-note">Book ahead if possible</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REGRESO AL HOTEL -->
-                <div class="transport-connector">
-                    <i class="fas fa-subway"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚇 Tube back to hotel</div>
-                        <div class="transport-details">Pack bags for tomorrow's flight!</div>
-                    </div>
-                    <div class="transport-time">~15 min</div>
-                </div>
-
+            <div class="activity-block-title">Westminster Walk</div>
+            <div class="activity-block-subtitle">Big Ben, Parliament, Bridge (90 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Classic London - walk along Thames for great views. All exterior, completely free.</p>
             </div>
         </div>
+
+        <!-- ITEM 2: BUCKINGHAM PALACE -->
+        <div class="activity-block" data-id="buckingham-palace" data-duration="30" data-lat="51.5014" data-lng="-0.1419" data-name="Buckingham Palace">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-crown"></i></div>
+            </div>
+            <div class="activity-block-title">Buckingham Palace</div>
+            <div class="activity-block-subtitle">Exterior photo stop (30 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Quick photo stop. Changing of Guard crowds aren't worth it - just exterior views.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 3: LUNCH NEAR TOWER -->
+        <div class="activity-block" data-id="lunch-tower" data-duration="60" data-lat="51.5079" data-lng="-0.0760" data-name="Tower Hill Lunch">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
+            </div>
+            <div class="activity-block-title">Lunch near Tower Bridge</div>
+            <div class="activity-block-subtitle">Pubs or cafés near Tower Hill (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Good options: Coppa Club (igloo pods), local pubs, St Katharine Docks area.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 4: TOWER BRIDGE -->
+        <div class="activity-block" data-id="tower-bridge" data-duration="60" data-lat="51.5055" data-lng="-0.0754" data-name="Tower Bridge">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-bridge"></i></div>
+            </div>
+            <div class="activity-block-title">Tower Bridge & Tower</div>
+            <div class="activity-block-subtitle">Exterior views (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: THE Instagram spot. Walk across bridge. Tower of London interior £33 not worth it.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 5: SKY GARDEN -->
+        <div class="activity-block" data-id="sky-garden" data-duration="60" data-lat="51.5151" data-lng="-0.0817" data-name="Sky Garden">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-cloud"></i></div>
+            </div>
+            <div class="activity-block-title">Sky Garden</div>
+            <div class="activity-block-subtitle">FREE 35th floor views (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit #1: FREE views beat London Eye! 360° views, gardens, bar. Book reservation NOW!</p>
+            </div>
+        </div>
+
+        <!-- ITEM 6: LEADENHALL MARKET -->
+        <div class="activity-block" data-id="leadenhall-market" data-duration="20" data-lat="51.5133" data-lng="-0.0834" data-name="Leadenhall Market">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-store"></i></div>
+            </div>
+            <div class="activity-block-title">Leadenhall Market</div>
+            <div class="activity-block-subtitle">Victorian covered market (20 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Beautiful Victorian architecture. Used as Diagon Alley in Harry Potter films.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 7: COVENT GARDEN -->
+        <div class="activity-block" data-id="covent-garden" data-duration="105" data-lat="51.5129" data-lng="-0.1240" data-name="Covent Garden">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-theater-masks"></i></div>
+            </div>
+            <div class="activity-block-title">Covent Garden & Neal's Yard</div>
+            <div class="activity-block-subtitle">Covered market & colorful alley (105 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Charming covered market, street performers. Neal's Yard = colorful hidden alley.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 8: DAUNT BOOKS -->
+        <div class="activity-block" data-id="daunt-books" data-duration="20" data-lat="51.5195" data-lng="-0.1519" data-name="Daunt Books">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-book"></i></div>
+            </div>
+            <div class="activity-block-title">Daunt Books Marylebone</div>
+            <div class="activity-block-subtitle">Beautiful Edwardian bookstore (20 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Most beautiful bookshop in London. Stained glass, cozy reading nooks.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 9: GORDON'S WINE BAR -->
+        <div class="activity-block" data-id="gordons-wine-bar" data-duration="40" data-lat="51.5071" data-lng="-0.1238" data-name="Gordon's Wine Bar">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-wine-glass"></i></div>
+            </div>
+            <div class="activity-block-title">Gordon's Wine Bar</div>
+            <div class="activity-block-subtitle">Historic 1890 candlelit wine bar (40 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Reddit: Oldest wine bar in London. Atmospheric vaulted cellars, great wine selection.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 10: FINAL DINNER -->
+        <div class="activity-block" data-id="final-dinner" data-duration="90" data-name="Final Dinner">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
+            </div>
+            <div class="activity-block-title">Final London Dinner</div>
+            <div class="activity-block-subtitle">Last meal in London (90 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Good options: Dishoom, Flat Iron steak, The Ivy Market Grill. Last chance for British cuisine!</p>
+            </div>
+        </div>
+
+        <!-- RETURN HOTEL -->
+        <div class="activity-block" data-id="return-hotel" data-duration="30" data-lat="51.5155" data-lng="-0.0922" data-name="Hotel (End)">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-bed"></i></div>
+            </div>
+            <div class="activity-block-title">Regreso al Hotel</div>
+            <div class="activity-block-subtitle">South Kensington</div>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Vuelta al hotel The Z Trafalgar. Pack for tomorrow's flight to Paris.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    (function() {
+        // --- VARIABLES ---
+        let map;
+        let routeControl;
+        const grid = document.getElementById('activityGridDay5');
+        const mapContainer = document.getElementById('mapContainerDay5');
+
+        // --- INIT ---
+        setTimeout(() => {
+            initMap();
+            initSortable();
+            updateScheduleAndRoute();
+        }, 100);
+
+        // --- 1. SCHEDULE LOGIC ---
+        function updateScheduleAndRoute() {
+            const blocks = Array.from(grid.children);
+            let currentTime = 10 * 60; // Start 10:00 AM
+            let waypoints = [];
+            let totalDist = 0; // Approx distance
+
+            blocks.forEach(block => {
+                const duration = parseInt(block.dataset.duration) || 60;
+
+                // Map Point Logic
+                if (block.dataset.lat && block.dataset.lng) {
+                    const lat = parseFloat(block.dataset.lat);
+                    const lng = parseFloat(block.dataset.lng);
+                    const name = block.dataset.name || "Stop";
+                    waypoints.push({ latLng: L.latLng(lat, lng), name: name });
+                }
+
+                // Time Calculation
+                const startH = Math.floor(currentTime / 60);
+                const startM = currentTime % 60;
+
+                currentTime += duration;
+
+                const endH = Math.floor(currentTime / 60);
+                const endM = currentTime % 60;
+
+                const timeStr = `${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')} - ${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
+
+                const badge = block.querySelector('.time-display');
+                if(badge) badge.innerText = timeStr;
+
+                currentTime += 15; // Travel buffer
+            });
+
+            updateRoute(waypoints);
+
+            const endH = Math.floor(currentTime / 60);
+            const totalHours = endH - 10;
+            document.getElementById('total-time').innerText = `~${totalHours}h`;
+        }
+
+        // --- 2. MAP LOGIC ---
+        function initMap() {
+            if (mapContainer && !document.getElementById('map-day5')._leaflet_id) {
+                map = L.map('map-day5').setView([51.5074, -0.1278], 12);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: 'OSM',
+                    maxZoom: 20
+                }).addTo(map);
+            }
+        }
+
+        function updateRoute(points) {
+            if (!map) return;
+            if (routeControl) map.removeControl(routeControl);
+
+            const waypoints = points.map(p => p.latLng);
+
+            routeControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false,
+                show: false,
+                createMarker: function(i, wp, nWps) {
+                    const name = points[i].name;
+                    return L.marker(wp.latLng, {
+                        draggable: false,
+                        icon: L.divIcon({
+                            className: 'custom-map-marker',
+                            html: `<div class="marker-pin"></div><div class="marker-label">${name}</div>`,
+                            iconSize: [30, 42],
+                            iconAnchor: [15, 42]
+                        })
+                    });
+                },
+                lineOptions: {
+                    styles: [{color: '#00D4FF', opacity: 0.8, weight: 6}]
+                },
+                addWaypoints: false,
+                fitSelectedRoutes: true
+            }).addTo(map);
+
+            // Listen for route found to update distance stats
+            routeControl.on('routesfound', function(e) {
+                const routes = e.routes;
+                const summary = routes[0].summary;
+                // Convert meters to km
+                const km = (summary.totalDistance / 1000).toFixed(1);
+                const distEl = document.getElementById('total-dist');
+                if(distEl) distEl.innerText = `${km} km`;
+            });
+        }
+
+        // --- 3. SORTABLE ---
+        function initSortable() {
+            if (grid) {
+                new Sortable(grid, {
+                    animation: 150,
+                    handle: '.activity-block',
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function() { updateScheduleAndRoute(); }
+                });
+            }
+        }
+
+        // --- 4. MAP EXPAND ---
+        window.toggleMapSize = function() {
+            mapContainer.classList.toggle('expanded-map');
+            setTimeout(() => {
+                map.invalidateSize();
+                // Re-fit bounds if expanded
+                if(routeControl) {
+                    // This is a bit hacky to re-center route
+                    const waypoints = routeControl.getWaypoints();
+                    // We just trigger a re-route calculation effectively or just let user zoom
+                }
+            }, 300);
+        };
+
+        window.toggleDetails = function(btn) {
+            const container = btn.nextElementSibling;
+            container.classList.toggle('open');
+            if (container.classList.contains('open')) {
+                btn.innerHTML = 'Ver menos <i class="fas fa-chevron-up"></i>';
+            } else {
+                btn.innerHTML = 'Ver detalles <i class="fas fa-chevron-down"></i>';
+            }
+        };
+    })();
+    </script>
+</div>

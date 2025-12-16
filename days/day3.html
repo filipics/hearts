@@ -4,215 +4,316 @@
                 <p>París → Bruselas → Día en Brujas → Noche en Bruselas</p>
             </div>
 
-            <!-- MAP CARD -->
-            <div class="route-map-card">
-                <div class="route-map-preview">
-                    <a href="https://www.google.com/maps/dir/Gare+du+Nord,+Paris,+France/Gare+de+Bruxelles-Midi,+Avenue+Fonsny,+Saint-Gilles,+Belgium/Station+Brugge,+Bruges,+Belgium/Minnewaterpark,+Bruges,+Belgium/Begijnhof,+Bruges,+Belgium/Markt,+Bruges,+Belgium/Rozenhoedkaai,+Bruges,+Belgium/Grand+Place,+Brussels,+Belgium" target="_blank" class="btn-route-map">
-                        <i class="fas fa-map-marked-alt"></i> Ver Ruta en Google Maps
-                    </a>
-                </div>
-                <div class="route-stats">
-                    <span><i class="fas fa-train"></i> Tren + Caminata</span>
-                    <span><i class="fas fa-city"></i> 3 Ciudades</span>
-                </div>
+    <!-- 1. STATS HEADER -->
+    <div class="day-stats-header">
+        <div class="stat-pill">
+            <i class="fas fa-clock"></i>
+            <span id="total-time">0h</span>
+            <small>Total</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-walking"></i>
+            <span id="total-dist">Calc...</span>
+            <small>Walking</small>
+        </div>
+        <div class="stat-pill">
+            <i class="fas fa-euro-sign"></i>
+            <span>$108</span>
+            <small>Transport + Hotel</small>
+        </div>
+    </div>
+
+    <!-- 2. INTERACTIVE MAP -->
+    <div class="interactive-map-container" id="mapContainerDay3">
+        <div id="map-day3"></div>
+        <button class="map-expand-btn" onclick="toggleMapSize()" title="Expandir mapa">
+            <i class="fas fa-expand-alt"></i>
+        </button>
+    </div>
+
+    <!-- RAIN TOGGLE -->
+    <div class="day-rain-toggle">
+        <label onclick="toggleRainMode()">
+            <i class="fas fa-cloud-rain"></i>
+            <span>¿Llueve hoy? Ver alternativas techadas</span>
+        </label>
+        <div class="rain-switch" id="rainSwitch3" onclick="toggleRainMode()"></div>
+    </div>
+
+    <!-- 3. REORDERABLE ACTIVITY GRID -->
+    <div id="activityGridDay3" class="activity-grid">
+
+        <!-- ITEM 1: EUROSTAR PARIS → BRUSSELS -->
+        <div class="activity-block" data-id="eurostar-paris-brussels" data-duration="77" data-lat="50.8503" data-lng="4.3517" data-name="Brussels Station">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-train"></i></div>
             </div>
-
-            <div class="day-rain-toggle">
-                <label onclick="toggleRainMode()">
-                    <i class="fas fa-cloud-rain"></i>
-                    <span>¿Llueve hoy? Ver alternativas techadas</span>
-                </label>
-                <div class="rain-switch" id="rainSwitch3" onclick="toggleRainMode()"></div>
-            </div>
-
-            <div class="day-summary">
-                <h3>📊 Resumen del Día 3</h3>
-                <div class="day-summary-stats">
-                    <div class="day-stat">
-                        <div class="day-stat-value">~$58</div>
-                        <div class="day-stat-label">Transporte p/p</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">~$50</div>
-                        <div class="day-stat-label">Hotel p/p</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">2</div>
-                        <div class="day-stat-label">Ciudades</div>
-                    </div>
-                    <div class="day-stat">
-                        <div class="day-stat-value">~9h</div>
-                        <div class="day-stat-label">Actividades</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline">
-
-                <!-- EUROSTAR PARIS A BRUSELAS -->
-                <div class="timeline-item transport">
-                    <div class="schedule-card transport-card">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block" style="background: linear-gradient(135deg, #B45309 0%, #92400E 100%);">
-                                <div class="time-start">07:43</div>
-                                <div class="time-end">09:00</div>
-                                <div class="time-duration">Eurostar</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🚄</span>
-                                    Eurostar París → Bruselas
-                                </div>
-                                <div class="schedule-subtitle">Gare du Nord → Bruxelles-Midi</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FEE2E2; color:#DC2626;">⚠️ Llegar 30min antes</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;">~$57.50 p/p</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-clock"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Horario confirmado</div>
-                                    <div class="detail-value">Llegada: 9:00 AM</div>
-                                    <div class="detail-note">~1h 17min viaje</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VIAJE A BRUGES -->
-                <div class="transport-connector">
-                    <i class="fas fa-train"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚆 Tren directo</div>
-                        <div class="transport-details">Bruxelles-Midi → Brugge</div>
-                    </div>
-                    <div class="transport-time">~1h viaje</div>
-                </div>
-
-                <!-- DIA COMPLETO EN BRUGES -->
-                <div class="timeline-item">
-                    <div class="schedule-card outdoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">10:00</div>
-                                <div class="time-end">19:00</div>
-                                <div class="time-duration">9h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏰</span>
-                                    Día Completo en Brujas (Bruges)
-                                </div>
-                                <div class="schedule-subtitle">La "Venecia del Norte" - Canales, plazas medievales y chocolate</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag tag-free-entry">✓ Muchas actividades gratis</span>
-                                    <span class="schedule-tag" style="background:#FEF3C7; color:#92400E;">🌟 Destino principal</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-map-marked-alt"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Actividades recomendadas</div>
-                                    <div class="detail-value">• Markt Square & Belfry (campanario)</div>
-                                    <div class="detail-note">• Minnewater & Begijnhof (lago y monasterio)</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-utensils"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Comida típica</div>
-                                    <div class="detail-value">Moules-frites, waffles, chocolate belga</div>
-                                    <div class="detail-note">Prueba la cerveza local 'Brugse Zot'</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-ship"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Actividad estrella</div>
-                                    <div class="detail-value">Paseo en bote por los canales</div>
-                                    <div class="detail-note">Desde Rozenhoedkaai (~12€ p/p)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-actions">
-                            <a href="https://maps.google.com/?q=Bruges+Belgium" target="_blank" class="btn-small btn-map-small">
-                                <i class="fas fa-map-marker-alt"></i> Mapa de Brujas
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REGRESO A BRUSELAS -->
-                <div class="transport-connector">
-                    <i class="fas fa-train"></i>
-                    <div class="transport-info">
-                        <div class="transport-mode">🚂 Tren de regreso</div>
-                        <div class="transport-details">Brugge → Bruxelles-Midi</div>
-                    </div>
-                    <div class="transport-time">~1h</div>
-                </div>
-
-                <!-- NOCHE EN BRUSELAS -->
-                <div class="timeline-item">
-                    <div class="schedule-card indoor">
-                        <div class="schedule-header">
-                            <div class="schedule-time-block">
-                                <div class="time-start">20:00</div>
-                                <div class="time-end">23:00</div>
-                                <div class="time-duration">3h</div>
-                            </div>
-                            <div class="schedule-main">
-                                <div class="schedule-title">
-                                    <span class="type-icon">🏨</span>
-                                    Noche en Bruselas
-                                </div>
-                                <div class="schedule-subtitle">Check-in en Hotel Van Belle + Grand Place iluminada</div>
-                                <div class="schedule-tags">
-                                    <span class="schedule-tag" style="background:#FCE7F3; color:#BE185D;">~$50 p/p</span>
-                                    <span class="schedule-tag tag-free-entry">✨ Grand Place</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="schedule-details">
-                            <div class="detail-box">
-                                <i class="fas fa-bed"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Hotel</div>
-                                    <div class="detail-value">Hotel Van Belle - Centro de Bruselas</div>
-                                    <div class="detail-note">Cerca de Grand Place</div>
-                                </div>
-                            </div>
-                            <div class="detail-box">
-                                <i class="fas fa-lightbulb"></i>
-                                <div class="detail-content">
-                                    <div class="detail-label">Grand Place iluminada</div>
-                                    <div class="detail-value">Plaza principal medieval - mágica de noche</div>
-                                    <div class="detail-note">Arquitectura gótica impresionante</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="activity-block-title">Eurostar Paris → Brussels</div>
+            <div class="activity-block-subtitle">Arrives 9:00 AM (77 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">High-speed train from Gare du Nord. Arrive 30 min early for check-in.</p>
             </div>
         </div>
-                </div>
 
+        <!-- ITEM 2: TRAIN BRUSSELS → BRUGES -->
+        <div class="activity-block" data-id="train-brussels-bruges" data-duration="60" data-lat="51.1971" data-lng="3.2183" data-name="Bruges Station">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-train"></i></div>
+            </div>
+            <div class="activity-block-title">Train Brussels → Bruges</div>
+            <div class="activity-block-subtitle">Direct regional train (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">From Bruxelles-Midi to Bruges station. Every 20 minutes.</p>
             </div>
         </div>
+
+        <!-- ITEM 3: MARKT SQUARE & BELFRY -->
+        <div class="activity-block" data-id="markt-belfry" data-duration="90" data-lat="51.2086" data-lng="3.2242" data-name="Markt Square">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-landmark"></i></div>
+            </div>
+            <div class="activity-block-title">Markt Square & Belfry</div>
+            <div class="activity-block-subtitle">Medieval heart of Bruges (90 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">366 steps to the top for best views. Belfry ticket ~14€, square is free.</p>
             </div>
         </div>
+
+        <!-- ITEM 4: MINNEWATER & BEGIJNHOF -->
+        <div class="activity-block" data-id="minnewater-begijnhof" data-duration="60" data-lat="51.2044" data-lng="3.2194" data-name="Minnewater">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-swimmer"></i></div>
+            </div>
+            <div class="activity-block-title">Minnewater & Begijnhof</div>
+            <div class="activity-block-subtitle">"Lake of Love" & monastery (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Peaceful lake with swans and 13th-century monastery. Complete silence required.</p>
             </div>
         </div>
+
+        <!-- ITEM 5: CANAL BOAT CRUISE -->
+        <div class="activity-block" data-id="canal-cruise" data-duration="45" data-lat="51.2081" data-lng="3.2237" data-name="Rozenhoedkaai">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-ship"></i></div>
+            </div>
+            <div class="activity-block-title">Canal Boat Cruise</div>
+            <div class="activity-block-subtitle">Bruges canals tour (45 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">From Rozenhoedkaai. Most famous view of the city. ~12€ per person.</p>
             </div>
         </div>
+
+        <!-- ITEM 6: BELGIAN LUNCH -->
+        <div class="activity-block" data-id="belgian-lunch" data-duration="90" data-name="Lunch">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-utensils"></i></div>
+            </div>
+            <div class="activity-block-title">Belgian Lunch</div>
+            <div class="activity-block-subtitle">Moules-frites & local beer (90 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Try moules-frites, carbonnade, or waffles. Brugse Zot beer is local favorite.</p>
             </div>
         </div>
+
+        <!-- ITEM 7: CHOCOLATE & FREE TIME -->
+        <div class="activity-block" data-id="chocolate-free" data-duration="120" data-name="Chocolate Shops">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-cookie-bite"></i></div>
+            </div>
+            <div class="activity-block-title">Chocolate Route & Souvenirs</div>
+            <div class="activity-block-subtitle">Free time exploring shops (120 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Best chocolates at The Chocolate Line. Try crazy flavors like bacon or wasabi!</p>
             </div>
         </div>
+
+        <!-- ITEM 8: TRAIN BACK TO BRUSSELS -->
+        <div class="activity-block" data-id="train-bruges-brussels" data-duration="60" data-lat="50.8503" data-lng="4.3517" data-name="Brussels">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-train"></i></div>
+            </div>
+            <div class="activity-block-title">Train Bruges → Brussels</div>
+            <div class="activity-block-subtitle">Return to Brussels (60 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Back to Bruxelles-Midi station for hotel check-in.</p>
+            </div>
+        </div>
+
+        <!-- ITEM 9: HOTEL CHECK-IN & GRAND PLACE -->
+        <div class="activity-block" data-id="grand-place" data-duration="180" data-lat="50.8466" data-lng="4.3525" data-name="Grand Place">
+            <div class="activity-block-header">
+                <span class="activity-time-badge time-display">--:--</span>
+                <div class="activity-icon-badge"><i class="fas fa-building"></i></div>
+            </div>
+            <div class="activity-block-title">Hotel Check-in & Grand Place</div>
+            <div class="activity-block-subtitle">Hotel Van Belle & illuminated square (180 min)</div>
+            <button class="expand-btn" onclick="toggleDetails(this)">Ver detalles <i class="fas fa-chevron-down"></i></button>
+            <div class="activity-details-container">
+                <p style="font-size:0.85rem;">Gothic architecture at its finest. Magical when illuminated at night.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    (function() {
+        // --- VARIABLES ---
+        let map;
+        let routeControl;
+        const grid = document.getElementById('activityGridDay3');
+        const mapContainer = document.getElementById('mapContainerDay3');
+
+        // --- INIT ---
+        setTimeout(() => {
+            initMap();
+            initSortable();
+            updateScheduleAndRoute();
+        }, 100);
+
+        // --- 1. SCHEDULE LOGIC ---
+        function updateScheduleAndRoute() {
+            const blocks = Array.from(grid.children);
+            let currentTime = 7.5 * 60; // Start 07:30 (7:30 AM)
+            let waypoints = [];
+            let totalDist = 0; // Approx distance
+
+            blocks.forEach(block => {
+                const duration = parseInt(block.dataset.duration) || 60;
+
+                // Map Point Logic
+                if (block.dataset.lat && block.dataset.lng) {
+                    const lat = parseFloat(block.dataset.lat);
+                    const lng = parseFloat(block.dataset.lng);
+                    const name = block.dataset.name || "Stop";
+                    waypoints.push({ latLng: L.latLng(lat, lng), name: name });
+                }
+
+                // Time Calculation
+                const startH = Math.floor(currentTime / 60);
+                const startM = currentTime % 60;
+
+                currentTime += duration;
+
+                const endH = Math.floor(currentTime / 60);
+                const endM = currentTime % 60;
+
+                const timeStr = `${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')} - ${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
+
+                const badge = block.querySelector('.time-display');
+                if(badge) badge.innerText = timeStr;
+
+                currentTime += 15; // Travel buffer
+            });
+
+            updateRoute(waypoints);
+
+            const endH = Math.floor(currentTime / 60);
+            const totalHours = endH - 7.5;
+            document.getElementById('total-time').innerText = `~${totalHours.toFixed(1)}h`;
+        }
+
+        // --- 2. MAP LOGIC ---
+        function initMap() {
+            if (mapContainer && !document.getElementById('map-day3')._leaflet_id) {
+                map = L.map('map-day3').setView([50.8503, 4.3517], 10);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: 'OSM',
+                    maxZoom: 20
+                }).addTo(map);
+            }
+        }
+
+        function updateRoute(points) {
+            if (!map) return;
+            if (routeControl) map.removeControl(routeControl);
+
+            const waypoints = points.map(p => p.latLng);
+
+            routeControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: false,
+                show: false,
+                createMarker: function(i, wp, nWps) {
+                    const name = points[i].name;
+                    return L.marker(wp.latLng, {
+                        draggable: false,
+                        icon: L.divIcon({
+                            className: 'custom-map-marker',
+                            html: `<div class="marker-pin"></div><div class="marker-label">${name}</div>`,
+                            iconSize: [30, 42],
+                            iconAnchor: [15, 42]
+                        })
+                    });
+                },
+                lineOptions: {
+                    styles: [{color: '#00D4FF', opacity: 0.8, weight: 6}]
+                },
+                addWaypoints: false,
+                fitSelectedRoutes: true
+            }).addTo(map);
+
+            // Listen for route found to update distance stats
+            routeControl.on('routesfound', function(e) {
+                const routes = e.routes;
+                const summary = routes[0].summary;
+                // Convert meters to km
+                const km = (summary.totalDistance / 1000).toFixed(1);
+                const distEl = document.getElementById('total-dist');
+                if(distEl) distEl.innerText = `${km} km`;
+            });
+        }
+
+        // --- 3. SORTABLE ---
+        function initSortable() {
+            if (grid) {
+                new Sortable(grid, {
+                    animation: 150,
+                    handle: '.activity-block',
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function() { updateScheduleAndRoute(); }
+                });
+            }
+        }
+
+        // --- 4. MAP EXPAND ---
+        window.toggleMapSize = function() {
+            mapContainer.classList.toggle('expanded-map');
+            setTimeout(() => {
+                map.invalidateSize();
+                // Re-fit bounds if expanded
+                if(routeControl) {
+                    // This is a bit hacky to re-center route
+                    const waypoints = routeControl.getWaypoints();
+                    // We just trigger a re-route calculation effectively or just let user zoom
+                }
+            }, 300);
+        };
+
+        window.toggleDetails = function(btn) {
+            const container = btn.nextElementSibling;
+            container.classList.toggle('open');
+            if (container.classList.contains('open')) {
+                btn.innerHTML = 'Ver menos <i class="fas fa-chevron-up"></i>';
+            } else {
+                btn.innerHTML = 'Ver detalles <i class="fas fa-chevron-down"></i>';
+            }
+        };
+    })();
+    </script>
+</div>
