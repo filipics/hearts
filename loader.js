@@ -237,6 +237,23 @@ function toggleRainMode() {
 }
 
 
+// Toggle cost item details
+function toggleCostItem(element) {
+    element.classList.toggle('expanded');
+    const details = element.querySelector('.cost-item-details');
+    const icon = element.querySelector('.expand-icon');
+
+    if (details) {
+        if (element.classList.contains('expanded')) {
+            details.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(180deg)';
+        } else {
+            details.style.display = 'none';
+            if (icon) icon.style.transform = 'rotate(0deg)';
+        }
+    }
+}
+
 
 // Load home on page load
 
