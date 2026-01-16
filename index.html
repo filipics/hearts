@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Estratégico: Checkpoint Select</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.net.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'neutral',
+            securityLevel: 'loose',
+            flowchart: { curve: 'basis' }
+        });
     </script>
+
     <style>
         :root {
             --primary: #2c3e50;
@@ -17,46 +24,106 @@
             --danger: #c0392b;
             --warning: #f39c12;
             --light: #ecf0f1;
-            --dark: #2c3e50;
         }
-        body { font-family: 'Roboto', sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f4f7f6; 
+            color: #333; 
+            margin: 0; 
+            padding: 15px; /* Menos padding en móvil */
+            font-size: 16px; /* Letra base más grande */
+        }
         
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
         
-        header { background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        header h1 { margin: 0; font-size: 1.8rem; }
-        header p { margin: 5px 0 0; opacity: 0.8; }
+        header { background: var(--primary); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        header h1 { margin: 0; font-size: 1.5rem; line-height: 1.2; }
+        header p { margin: 10px 0 0; opacity: 0.9; font-size: 0.9rem; }
 
-        /* Grid Layout */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        /* Grid Layout Optimizado para Móvil */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Una sola columna en móvil por defecto */
+            gap: 15px; 
+            margin-bottom: 20px; 
+        }
+        
+        /* En pantallas grandes, usar 2 columnas */
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
         
         /* Cards */
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-top: 4px solid var(--accent); }
-        .card h2 { margin-top: 0; color: var(--primary); font-size: 1.2rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .card { 
+            background: white; 
+            padding: 15px 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            border-top: 5px solid var(--accent); 
+        }
+        .card h2 { 
+            margin-top: 0; 
+            color: var(--primary); 
+            font-size: 1.2rem; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 10px; 
+            margin-bottom: 15px;
+        }
         
-        /* Specific Card Styles */
         .card.pad-comparison { border-top-color: var(--success); }
         .card.politics { border-top-color: var(--warning); }
         .card.gas-lift { border-top-color: var(--accent); }
 
-        /* Tables & Lists */
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; line-height: 1.4; }
-        .highlight { font-weight: bold; color: var(--accent); }
-        .metric { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 5px 0; }
-        .metric span:last-child { font-weight: bold; }
+        ul { padding-left: 20px; margin-bottom: 0; }
+        li { margin-bottom: 10px; line-height: 1.5; }
+        
+        .metric { 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #f0f0f0; 
+            padding: 8px 0; 
+            font-size: 0.95rem;
+        }
+        .metric span:last-child { font-weight: bold; text-align: right; }
+        .highlight { color: var(--success); font-weight: bold; }
 
-        /* Badges */
-        .badge { padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; color: white; }
+        .badge { 
+            padding: 3px 8px; 
+            border-radius: 4px; 
+            font-size: 0.8rem; 
+            color: white; 
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
         .bg-green { background-color: var(--success); }
         .bg-red { background-color: var(--danger); }
 
-        /* Relationship Graph Container */
-        .graph-container { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; overflow-x: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* Graph Container */
+        .graph-container { 
+            background: white; 
+            padding: 10px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            overflow-x: hidden; /* Evita scroll horizontal feo */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            text-align: center;
+        }
         
-        .source-ref { font-size: 0.75rem; color: #7f8c8d; margin-left: 5px; }
+        /* Ajuste para que el diagrama no se salga en pantallas chicas */
+        .mermaid { margin-top: 10px; }
 
-        footer { text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 0.9rem; }
+        footer { text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.8rem; padding-bottom: 20px; }
+        
+        .alert-box {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            border-left: 4px solid #ffeeba;
+        }
     </style>
 </head>
 <body>
@@ -64,137 +131,139 @@
 <div class="container">
 
     <header>
-        <h1>Estrategia Checkpoint Select - Fausto & Equipo</h1>
-        <p>Objetivo: Aprobar D1 (Diseño) y D2 (Pads) + Validar Gas Lift. Enfoque: Creación de Valor (NPV).</p>
+        <h1>Checkpoint Select<br><span style="font-weight:300; font-size: 0.8em">Fausto & Equipo</span></h1>
+        <p><strong>Meta:</strong> Aprobar D1/D2 y Validar Gas Lift.<br><strong>Foco:</strong> Creación de Valor (NPV).</p>
     </header>
 
     <div class="graph-container">
-        <h2>Mapa Lógico de Decisiones (Causa - Efecto)</h2>
-        <p><em>Este diagrama conecta los problemas técnicos con los resultados económicos para explicar el "Por qué".</em></p>
+        <h2 style="font-size: 1.1rem; color: #2c3e50; margin: 10px 0;">Mapa Lógico (Causa-Efecto)</h2>
         <div class="mermaid">
             graph TD
-                subgraph Problema_Actual
-                    A[Pad de 4 Pozos] -->|Frac Hit Temprano Mes 5| B(Daño Producción Pozo Padre)
-                    C[Espaciamiento 300m] -->|Interferencia Vertical| D(Conexión Cocina-Orgánico)
-                end
+                A[Pad 4 Pozos] -->|Frac Hit Mes 5| B(Daño Prod.)
+                C[Espaciamiento 300m] -->|Interferencia| D(Conexión Vert.)
+                
+                style A fill:#ffcccc,stroke:#c0392b
+                style B fill:#ffcccc,stroke:#c0392b
 
-                subgraph Solución_Propuesta
-                    E[Pad de 6 Pozos] -->|Frac Hit Tardío Mes 12| F(Menor Daño Producción)
-                    G[Espaciamiento 350m] -->|Menor Interferencia| H(Optimización Recurso)
-                    I[Secuencia Norte-Sur] -->|Barrido Ordenado| F
-                end
-
-                subgraph Resultado_Económico
-                    F --> J{Mejor NPV & TIR}
-                    H --> J
-                    E -->|Ahorro Capex ~1MM| K(Eficiencia Costos)
-                    L[Gas Lift] -->|Inicia Mes 12| M(Sostiene Producción)
-                    M --> J
-                end
-
-                style E fill:#d5f5e3,stroke:#27ae60,stroke-width:2px
-                style J fill:#d5f5e3,stroke:#27ae60,stroke-width:4px
-                style A fill:#fadbd8,stroke:#c0392b,stroke-width:2px
+                E[Pad 6 Pozos] -->|Frac Hit Mes 12| F(Menos Daño)
+                G[Espaciamiento 350m] -->|Menos Interferencia| H(Optimización)
+                
+                style E fill:#d5f5e3,stroke:#27ae60
+                style F fill:#d5f5e3,stroke:#27ae60
+                
+                F --> J{Mejor NPV}
+                H --> J
+                
+                L[Gas Lift] -->|Inicia Mes 12| J
+                style J fill:#f9e79f,stroke:#f39c12,stroke-width:2px
         </div>
+        <p style="font-size: 0.8rem; color: #7f8c8d;">Pad 6 + 350m + Gas Lift = Mejor Valor Presente</p>
     </div>
 
     <div class="grid">
         
         <div class="card pad-comparison">
-            <h2>🏆 La Gran Batalla: Pad 6 vs Pad 4</h2>
-            <p><strong>Recomendación:</strong> Wellpad 6 con Secuencia Norte-Sur.</p>
+            <h2>🏆 Pad 6 vs Pad 4</h2>
+            <p style="margin-top:0"><strong>Recomendación:</strong> Wellpad 6 (Secuencia Norte-Sur).</p>
             
             <div class="metric">
                 <span>NPV & TIR</span>
-                [span_0](start_span)<span class="highlight">Mayor en Pad 6[span_0](end_span)</span>
+                <span class="highlight">Gana Pad 6</span>
             </div>
             <div class="metric">
-                <span>CAPEX (Ahorro)</span>
-                [span_1](start_span)<span>~$1 MM USD[span_1](end_span)</span>
+                <span>Ahorro CAPEX</span>
+                <span>~$1 MM USD</span>
             </div>
             <div class="metric">
-                <span>Momento Frac Hit</span>
-                [span_2](start_span)[span_3](start_span)<span class="highlight">Mes 12 (Pad 6) vs Mes 5 (Pad 4)[span_2](end_span)[span_3](end_span)</span>
+                <span>Frac Hit</span>
+                <span class="highlight">Mes 12 (Tardío)</span>
+            </div>
+            <div class="metric" style="color: #c0392b;">
+                <span>Frac Hit (Pad 4)</span>
+                <span>Mes 5 (Temprano)</span>
             </div>
             
-            <p style="font-size: 0.9rem; margin-top: 15px; background: #fff3cd; padding: 10px; border-radius: 4px;">
-                ⚠️ <strong>El detalle clave:</strong> En el Pad 4, el golpe de fractura llega cuando el pozo padre está en su pico. [span_4](start_span)En el Pad 6 llega cuando ya declinó, minimizando el daño.[span_4](end_span)
-            </p>
-            [span_5](start_span)<p style="font-size: 0.9rem;"><strong>Slide Clave:</strong> #43 (Verificar hipervínculo)[span_5](end_span).</p>
+            <div class="alert-box">
+                ⚠️ <strong>Clave:</strong> El Pad 6 recibe el golpe cuando ya declinó (Mes 12), minimizando el daño. El Pad 4 lo recibe en pleno pico (Mes 5).<br><br>
+                🔗 <strong>Slide 43:</strong> Tener lista.
+            </div>
         </div>
 
         <div class="card">
-            <h2>📏 D1: Diseño y Espaciamiento</h2>
+            <h2>📏 D1: Espaciamiento</h2>
             <ul>
-                [span_6](start_span)<li><strong>Monolanding:</strong> Actualmente a 300m[span_6](end_span).</li>
-                [span_7](start_span)<li><strong>Doble Landing (Estándar):</strong> Apuntamos a <strong>350m</strong>[span_7](end_span).</li>
-                <li><strong>¿Por qué subir a 350m?</strong> 
-                    <br>1. Evidencia de interferencia en pozos 107/106 a 300m.
-                    <br>2. [span_8](start_span)[span_9](start_span)Trazadores mostraron conexión vertical Cocina-Orgánico[span_8](end_span)[span_9](end_span).
+                <li><strong>Actual:</strong> 300m.</li>
+                <li><strong>Objetivo:</strong> 350m (Doble Landing).</li>
+                <li><strong>¿Por qué?</strong>
+                    <ul>
+                        <li>Interferencia probada en pozos 107/106 a 300m.</li>
+                        <li>Trazadores confirmaron conexión vertical.</li>
+                    </ul>
                 </li>
-                <li><strong>Diseño Pozo:</strong> 3 Tramos "Slim" es la estrategia. 
-                    [span_10](start_span)[span_11](start_span)<br><em>Riesgo:</em> Primer pozo se hace "Full" para testear, luego se pasa a Slim[span_10](end_span)[span_11](end_span).
-                </li>
+                <li><strong>Diseño Pozo:</strong> 3 Tramos "Slim". (Se inicia con Full por seguridad, luego Slim).</li>
             </ul>
         </div>
 
         <div class="card gas-lift">
-            <h2>⛽ Proyecto Gas Lift</h2>
-            <p><strong>Status:</strong> "Proyectazo". [span_12](start_span)Cierra económicamente sin optimizaciones[span_12](end_span).</p>
+            <h2>⛽ Gas Lift</h2>
+            <p style="margin-top:0">Status: <strong>"Proyectazo"</strong>. Rentable sin optimizar.</p>
             
             <div class="metric">
                 <span>Instalación</span>
-                [span_13](start_span)<span>~Mes 12[span_13](end_span)</span>
+                <span>~Mes 12</span>
             </div>
             <div class="metric">
                 <span>Restricción</span>
-                [span_14](start_span)<span>Presión boca < 1000 PSI[span_14](end_span)</span>
+                <span>Presión < 1000 PSI</span>
             </div>
             <div class="metric">
-                <span>Incremental</span>
-                [span_15](start_span)<span>~20-22k Barriles[span_15](end_span)</span>
+                <span>Producción Extra</span>
+                <span>~20k Barriles</span>
             </div>
 
-            <p style="font-size: 0.9rem; margin-top: 10px;">
-                <strong>Piloto:</strong> Pad 8 (2026). [span_16](start_span)[span_17](start_span)<br>No es Go/No-Go, es para optimizar y bajar incertidumbre[span_16](end_span)[span_17](end_span).
+            <p style="font-size: 0.9rem; margin-top: 10px; border-left: 3px solid var(--accent); padding-left: 10px;">
+                <strong>Piloto Pad 8 (2026):</strong> No es para decidir (ya decidimos que sí), es para optimizar.
             </p>
-            <p style="font-size: 0.9rem;">
-                [span_18](start_span)<strong>Backup:</strong> Tener mapas de Asdrúbal a mano[span_18](end_span).
-            </p>
+            <p style="font-size: 0.85rem;">📂 <strong>Backup:</strong> Mapas de Asdrúbal.</p>
         </div>
 
         <div class="card">
-            <h2>⚙️ Operaciones (Novedades)</h2>
+            <h2>⚙️ Operaciones</h2>
             <ul>
-                <li><strong>Arena Wet (Húmeda):</strong> Se usará 100% a partir del próximo Pad (WP 5). [span_19](start_span)[span_20](start_span)Nunca se hizo en este campo antes[span_19](end_span)[span_20](end_span).</li>
-                <li><strong>Costos (CAPEX):</strong> Calidad "Clase 4" (Estimados). [span_21](start_span)[span_22](start_span)Se calculó usando +12% por profundidad extra[span_21](end_span)[span_22](end_span).</li>
-                [span_23](start_span)<li><strong>Parent-Child:</strong> Se aplica un descuento del 7% en producción[span_23](end_span).</li>
+                <li><strong>Arena Wet (Húmeda):</strong> 100% desde el próximo Pad (WP 5). Novedad total en el campo.</li>
+                <li><strong>Costos (CAPEX):</strong> Clase 4 (Estimados). Validados por Ceraso.</li>
+                <li><strong>Interferencia:</strong> Se calcula un descuento del 7% por efecto "Parent-Child".</li>
             </ul>
         </div>
 
         <div class="card politics">
-            <h2>🎭 Radar Político (Do's & Don'ts)</h2>
-            <ul>
-                <li>
-                    <span class="badge bg-red">Gerardo</span> <strong>NO mencionar:</strong> "Estrategia para minimizar Frac Hits". Le pone de mal humor.
-                    [span_24](start_span)[span_25](start_span)<br>👉 <strong>Decir:</strong> "Estrategia operativa Pad 6 alternado Norte-Sur" (él ya sabe que minimiza el golpe)[span_24](end_span)[span_25](end_span).
-                </li>
-                <li>
-                    [span_26](start_span)<span class="badge bg-green">Fausto</span> <strong>Foco:</strong> Creación de Valor (NPV) y Retorno de Inversión[span_26](end_span).
-                </li>
-                <li>
-                    <span class="badge bg-green">Doria</span> Odiaba el Gas Lift, ahora le preocupan los costos de automatización. [span_27](start_span)Defender la automatización como "Campo del Futuro"[span_27](end_span).
-                </li>
-            </ul>
-            <p style="font-size: 0.9rem; background: #ffebee; padding: 5px;">
-                [span_28](start_span)[span_29](start_span)🔴 <strong>Urgente:</strong> Arreglar Slide 43 (Link roto) y typos en conclusiones ("Quinto bulla")[span_28](end_span)[span_29](end_span).
-            </p>
+            <h2>🎭 Radar Político</h2>
+            
+            <div style="margin-bottom: 15px;">
+                <span class="badge bg-red">Gerardo</span><br>
+                ⛔ <strong>NO DECIR:</strong> "Estrategia para minimizar Frac Hits" (lo odia).<br>
+                ✅ <strong>DECIR:</strong> "Estrategia operativa Pad 6 alternado" (él ya entiende la ventaja).
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <span class="badge bg-green">Fausto</span><br>
+                ✅ <strong>FOCO:</strong> NPV y Retorno de Inversión.
+            </div>
+
+            <div>
+                <span class="badge bg-green">Doria</span><br>
+                ✅ <strong>DEFENDER:</strong> Automatización = Campo del Futuro (aunque cueste más).
+            </div>
+            
+            <div class="alert-box" style="background-color: #ffcccc; color: #922b21; border-left-color: #c0392b;">
+                🚨 <strong>TAREA URGENTE:</strong> Arreglar Slide 43 (Link roto) y corregir "Quinto bulla".
+            </div>
         </div>
 
     </div>
 
     <footer>
-        <p>Resumen generado basado en transcripción del 29 Dic. | Fuentes citadas en corchetes.</p>
+        <p>Resumen Estratégico | 29 Dic.</p>
     </footer>
 
 </div>
